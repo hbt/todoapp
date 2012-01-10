@@ -1,0 +1,40 @@
+Homepage:
+## colors
+I want darkish colors. Nothing that blinds you. Minimal amount of white. Although I love how clean the white looks. I want to explore a darker theme
+
+## elements
+* top bar should be simple. Logo, Product Name on the left, and login button/link on the right.
+I will limit the support to google for now and keep the direct login. No signup bullshit or forms
+
+* The hero unit should emphasize three things:
+	* the product name
+	* a very short description. A one-liner that doesn't sound like business bullshit or marketing buzzwords. Just a mantra or a principle we stand for and that defines the whole philosophy/vision behind the product
+	* a demo link with _maybe_ a screenshot of the actual app or a video. The problem with videos is making a new one every time we add a new feature. So, video needs to be around problem->solution, or concepts (GTD, prioritizing, time management, workflow etc.)
+	* maybe consider a "Screenshots" link to explore the software. The Demo I have in mind is too interactive and could take longer to build
+
+* Marketing table
+	* Should cover one or two common features and emphasize what's different about the product
+		* Tagging + Projects
+		* Calendar (ical, GCal) syncing
+		* Offline access
+		* Cloud storage
+		* Mobile + Tablet support (touch)
+		* Chrome + Firefox extensions
+		* Keyboard shortcuts
+		* App feel (no page reloads)
+		* Open-Source
+		* Import/Export
+		* API
+
+	* Do the research once and add a link at the bottom. "Is the data incorrect? Let us know" Link should redirect to support page with a specific template
+
+* Footer
+	* Footer should be similar
+		* Report a problem -- redirects to support page (consider specific templates + make it easy to report feedback and most importantly do followups + try to make it public)
+		* FAQ (a guess on most common questions based on support)
+		* Blog (blog strictly related to this product)
+		* About us (should mostly emphasize other products)
+
+Quick Notes:
+* consider TodoApp, or TaskTree (check with Jason), or TMS (TaskManagementSoftware). Definitely liking TaskTree. It sounds less techy and less common
+* Take the time to research the competion for the marketing table
