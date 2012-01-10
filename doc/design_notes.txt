@@ -1,4 +1,10 @@
-Homepage:
+# UI Guidelines
+
+* whenever a button is pressed, it should be visible and the text should change. Text should start by "..." or ">"
+* Limit actions and information to what is visible and needed. e.g if we have no urgent tasks do not display "urgent(0)". Same thing applies to actions. If we are reordering and the user is not supposed to be editing or tagging, hide the components
+
+-------------------------
+#Homepage:
 ## colors
 I want darkish colors. Nothing that blinds you. Minimal amount of white. Although I love how clean the white looks. I want to explore a darker theme
 
@@ -38,3 +44,118 @@ I will limit the support to google for now and keep the direct login. No signup 
 Quick Notes:
 * consider TodoApp, or TaskTree (check with Jason), or TMS (TaskManagementSoftware). Definitely liking TaskTree. It sounds less techy and less common
 * Take the time to research the competion for the marketing table
+
+
+
+----------------
+
+# main page
+
+* top bar 
+	* overview
+	* capture
+	* process
+	* organize
+	* review 
+	* do
+	* sync icon (green line or thunder line)
+	* network icon (green or red if offline)
+
+* second bar
+	* display current tag filters at the top and allow user to toggle them -- __maybe__
+	
+	* on the far left
+	* Select
+		Multiple select.
+		Allows a user to select multiple tasks. 
+		Looks like a button
+		When pressed, it should clear all items on the second bar and button becomes. "Clear Selection"
+		It should also display a count of selected items e.g Selected(2)
+		Selected items should have a specific background or border and all actions on those items should be limited to avoid conflicts or confusion
+		After selecting items, you can apply multiple tags to them
+		Applying Tags:
+			select items
+			check the tags
+			Hit "Apply"
+			Action is completed and a notice appears with an "Undo" action and a 30 secs timeout
+			If "Undo" is pressed, it will cancel the previous action
+
+		
+	* Reorder
+		Allows a user to order multiple tasks
+		Same thing as select. Hide/disable everything and only keep what is necessary
+		The whole task item becomes a drag-and-drop handle and you can reorder them (sort) or move them _into_ a parent
+		When pressed, button should transform to "...Done Reordering"
+
+* side component: should follow the scroll like the top bar but on the left side
+	* search
+	* tags
+		* current/selected tags (acting as filters)
+			If any filters are available
+			Consider putting them at the top(second bar) to keep the sidebar light. 
+			Maybe use a smaller font and keep them strictly informational -- no checkboxes to toggle
+		* current tags associated to selected item
+			This should be a fixed block and clearly separated from the rest of the tags.
+			It should be dynamic and change whenever a new task item is selected
+			If I hit escape (i.e no item is selected), it should be empty.
+			It shouldn't be moving around and become distracting
+			Ideally, the space should be custom. i.e on average, how many tags are associated to an item. Than, we reserve that space. This way the component looks fixed.
+
+		* list of all tags
+			* have a quick search box to look for tags for quick filtering
+			* have a little option for sorting
+				* alphabetical
+				* priority
+			* a tag should have a checkbox and a disabled text input you can double click on
+			* same concept applies in term of navigation (up/down, enter for edit)
+
+
+
+---------------
+# Model
+
+Tag:
+* id
+* is_project
+* color
+* subsort
+* aliases
+* visible
+* special/default -- cannot be deleted. Maybe special tags shouldn't be visible to user e.g #a or #dd  
+* name
+* parent_id
+* category
+* expanded/collapsed
+* priority
+* todo_ids
+* user_id
+* privacy
+	* private (default)
+	* public -- is visible using /username/tag
+
+Todo:
+* id
+* priority
+* tag_ids
+* subsort
+* title
+* description
+* notes
+* due date
+* is_recurring
+* next_date
+* reminders
+* parent_id
+* status 
+	* done
+	* in progress -- timer started
+	* missed
+	* overdue
+	* logged
+* expanded/collapsed
+* history/log
+* user_id
+* estimated_time
+* postponed_count/snooze_count
+* points for habits
+* metadata -- url, images, names, phone numbers etc.
