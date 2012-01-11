@@ -2,6 +2,8 @@
 
 * whenever a button is pressed, it should be visible and the text should change. Text should start by "..." or ">"
 * Limit actions and information to what is visible and needed. e.g if we have no urgent tasks do not display "urgent(0)". Same thing applies to actions. If we are reordering and the user is not supposed to be editing or tagging, hide the components
+* Introduce concepts + actions gradually based on collected data. i.e there shouldn't be a link for reports or analytics or stats/graphs until we have X items in the db
+Or we shouldn't see objectives/goals until we have X tags etc.
 
 -------------------------
 #Homepage:
@@ -41,9 +43,10 @@ I will limit the support to google for now and keep the direct login. No signup 
 		* Blog (blog strictly related to this product)
 		* About us (should mostly emphasize other products)
 
-Quick Notes:
-* consider TodoApp, or TaskTree (check with Jason), or TMS (TaskManagementSoftware). Definitely liking TaskTree. It sounds less techy and less common
-* Take the time to research the competion for the marketing table
+__note__
+* Name: 
+	consider TodoApp, or TaskTree (check with Jason), or TMS (TaskManagementSoftware). Definitely liking TaskTree. It sounds less techy and less common
+* __research__ Take the time to research the competion for the marketing table
 
 
 
@@ -106,29 +109,60 @@ Quick Notes:
 			* have a little option for sorting
 				* alphabetical
 				* priority
-			* a tag should have a checkbox and a disabled text input you can double click on
+			* a tag should have a checkbox and a text input you can double click for editing
 			* same concept applies in term of navigation (up/down, enter for edit)
+			* when you go in edit mode. The main container for tasks becomes a form for the current tag. After save or cancel, tasks are back
 
 
 
+* task item
+	* navigation
+		keyboard shortcuts
+			* up
+			* down: should create a little border + show all actions of selected task
+			* left: collapse if it is a parent. Two lefts to collapse if a child is selected
+			* right: expand if it is a parent
+			* enter: edit mode
+			* d: to toggle between done/undone
+
+	* modes
+		* default
+			text is displayed but not editable. You need to click on it or hit enter
+		* edit mode
+			text is editable. Actions are available on the side
+		* ordering
+			a little handle (check 37signals version) is displayed next to item
+			
 ---------------
 # Model
 
 Tag:
 * id
-* is_project
+* is_project -- later for collaborative version
 * color
-* subsort
+	tag's background color 
+	__maybe__ a little bar in front of the task
+* subsort __maybe__
 * aliases
+	shortcuts and other ways to refer to the same tag e.g `#dd for #due_date`
 * visible
-* special/default -- cannot be deleted. Maybe special tags shouldn't be visible to user e.g #a or #dd  
+	by default, always visible. However, if a project is over and a tag is no longer needed, user should be able to mark it as invisible and have an option to show all invisible tags when needed
+* special/default 
+	-- cannot be deleted. Maybe special tags shouldn't be visible to user e.g #a or #dd  
+	special tags are associated to specific actions in the app. e.g #due_date would be associated to any task with a due_date
 * name
 * parent_id
+	necessary: User should be able to created nested tags. __maybe__ to level 3? Depends on space and how it looks
 * category
+	__maybe__ I don't think it is a good idea. If we can combine tags and give them a parent. A Category is just an extra level of information that would confuse users and created messy architectures
 * expanded/collapsed
+	needed for parents with a lot of children. This way, they don't take the whole page
 * priority
+	will be used to sort the tasks when no context is given
+	If I have two tasks marked as emergencies in two different projects (tags). That's where this comes in to determine which project is more important
 * todo_ids
 * user_id
+	mostly for backend.
 * privacy
 	* private (default)
 	* public -- is visible using /username/tag
@@ -136,26 +170,110 @@ Tag:
 Todo:
 * id
 * priority
+	People have no fucking clue how to prioritize. Using words like urgent/need/want instead of hight/medium/low or 1,2,3 gives actual meaning to the task
+	* urgent
+		this will be displayed at the top.
+		Send reminders to users when a task was marked urgent for too long. 
+		Urgent means it should be done as soon as possible.
+		System should keep track of dates and if the task is marked urgent for X days, send a notification or ask the user if it shouldn't be a lower priority? Even better, maybe the system can push this stuff as something to process again
+	* need
+		Something you need to do e.g buy groceries
+	* want
+		Read a book
+		other word to consider: "wish"
 * tag_ids
 * subsort
+	order amongst the tags
+	__note__: it doesn't matter what the order is.
+	You can't move urgent tasks at the bottom. We will sort by priority first
 * title
+	Pure title. Free of all inline tagging and other actionable information (due dates, alarms etc.)
 * description
 * notes
+	you can associate multiple notes to a todo. They are hidden unless the todo is selected
 * due date
+	features associated to due date:
+		* calendar
+			tasks with a due date will appear in the calendar (internal)
+		* ical push/pull
+			we should produce an ical feed for google calendars (review PMR code)
+			__maybe__ offer the option to pull the data from the calendar into the task system
+		* alarms/reminders/notifications
+			email notifications + __maybe__ sms will be sent based on alarms.
+			by default if a task is due, offer the option to send a midnight email notification listing all the tasks that are due for that day
+		* snooze
+			this is in case the task is not marked done and is overdue. You can snooze and postpone it.
+			Display a warning e.g Maybe you don't need a due_date. (__note__: think of habits or routine tasks)
+		* light date parsing
+			It should parse dates like "tomorrow" etc. I know Ruby libraries for this but not JS. __research__
 * is_recurring
+	this is for habits / recurring tasks e.g wash shirts every sunday
+	It is important to log this stuff properly and keep track of which ones have been missed. The idea is to offer a followup on habits. Consider the famous Seinfield post on writing daily and the annual calendar. I want a similar system to keep track of certain habits, remind me of things but whithout the whole thing being an overkill and a pain in the ass to manage
+
 * next_date
+	If the task is recurring, we calculate the next time we have to do it
 * reminders
+	Multiple reminders can be set ala google calendar. 
 * parent_id
 * status 
 	* done
+	* undone
 	* in progress -- timer started
 	* missed
 	* overdue
 	* logged
 * expanded/collapsed
 * history/log
+	this would be necessary in the collaborative version but __maybe__ in the single version
 * user_id
 * estimated_time
 * postponed_count/snooze_count
 * points for habits
 * metadata -- url, images, names, phone numbers etc.
+
+
+------
+Analytics
+
+I want the system to help the user organize his shit and break bad habits.
+For example, if I mark a task urgent and it stays urgent for two weeks, the system should display a message and move it to "process"
+Same thing with overdue. If it was overdue for the past month, chances are it doesn't need a due date
+
+Two parts:
+	* the system will notify the user and move this stuff to be processed again.
+	* when the user is doing his review, the system will indicate such patterns
+		Things you do that you don't need to do:
+		87% of urgent tasks aren't -- [explanation]
+		33% of the time, when a task has a due date, it shouldn't
+		44% of tasks with a due date have been postponed
+		21% of tasks with a due date have been marked as overdue
+
+For habits
+	You will receive a reminder and you can mark the task as done but if you don't the task is moved th "process" where you will have to indicate to the system if it was "done" or "missed"
+	As long as the day isn't over, habits don't have the option to be marked as "missed"
+	So, habits are associated to a day not a time
+	In the analytics, I want a graph + stats on how many times I missed/completed X task and see a clear progression in a calendar ala Seinfield somehow.
+	
+	When you have a recurring task, it should be associated to points.
+
+__think__
+have counters for a bunch of things e.g
+	fromNeedToUrgent = 23 # 23 tasks have been moved from need to urgent
+	completedWithinXdays etc.
+
+points
+	associate points based on priority and recurring tasks
+	recurring have a 100 points
+	urgent have 50
+	overdue have 40
+	due have 30
+	need have 20
+	want have 10
+	give points to process stuff
+	display minimum/average number of points you have to reach for the day
+
+	you can have a graph in analytics where you display the points + dates with filters for "all", "urgent", "habit" etc.
+	
+
+
+
