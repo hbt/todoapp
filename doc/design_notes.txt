@@ -10,6 +10,8 @@ Or we shouldn't see objectives/goals until we have X tags etc.
 ## colors
 I want darkish colors. Nothing that blinds you. Minimal amount of white. Although I love how clean the white looks. I want to explore a darker theme
 
+Use a template called dark.css. It should only contain color changes for my theme. Offer the option to go Light or Dark
+
 ## elements
 * top bar should be simple. Logo, Product Name on the left, and login button/link on the right.
 I will limit the support to google for now and keep the direct login. No signup bullshit or forms
@@ -18,7 +20,7 @@ I will limit the support to google for now and keep the direct login. No signup 
 	* the product name
 	* a very short description. A one-liner that doesn't sound like business bullshit or marketing buzzwords. Just a mantra or a principle we stand for and that defines the whole philosophy/vision behind the product
 	* a demo link with _maybe_ a screenshot of the actual app or a video. The problem with videos is making a new one every time we add a new feature. So, video needs to be around problem->solution, or concepts (GTD, prioritizing, time management, workflow etc.)
-	* maybe consider a "Screenshots" link to explore the software. The Demo I have in mind is too interactive and could take longer to build
+	* maybe consider a "Screenshots" link to explore the software. 
 
 * Marketing table
 	* Should cover one or two common features and emphasize what's different about the product
@@ -49,6 +51,16 @@ __note__
 * __research__ Take the time to research the competion for the marketing table
 
 
+--------------------
+# Demo:
+
+After further consideration, I've decided the demo link should be the app with data in it.
+
+The app should be a long tutorial, only showing you the features you need, reminding you of shortcuts, sending notices and the workflow shouldn't require any explanations, the app should guide you.
+
+Therefore, having a demo where we guide the user is not necessary if the app itself will.
+The demo should contain enough relevant data to explore most of the features but simply make a youtube video instead or maybe something animated to cover the concepts
+
 
 ----------------
 
@@ -57,8 +69,17 @@ __note__
 * top bar 
 	* overview
 	* capture
+		Goal is to have a clean page. No tags. Just an input and I can type away with no distractions and process the stuff later
 	* process
+		multiples views: 
+		1-1
+			process tasks one at the time
+			clear buttons for "not actionable" and "Next"
+		all
+			process all tasks. Equivalent of organize interface but with unprocessed tasks
+		
 	* organize
+		Not sure I need this one if we have the overview
 	* review 
 	* do
 	* sync icon (green line or thunder line)
@@ -89,6 +110,8 @@ __note__
 		Same thing as select. Hide/disable everything and only keep what is necessary
 		The whole task item becomes a drag-and-drop handle and you can reorder them (sort) or move them _into_ a parent
 		When pressed, button should transform to "...Done Reordering"
+	* Undo
+		Should appear to undo the latest action and then disappear. It is a temporary button
 
 * side component: should follow the scroll like the top bar but on the left side
 	* search
@@ -229,11 +252,15 @@ Todo:
 * estimated_time
 * postponed_count/snooze_count
 * points for habits
-* metadata -- url, images, names, phone numbers etc.
+* metadata -- url, images, names, phone numbers etc. (extracted in the back)
 
 
 ------
 Analytics
+
+
+__note__
+This section requires a rewrite. There is a lot of brainstorming and it is hard to re-re-read
 
 I want the system to help the user organize his shit and break bad habits.
 For example, if I mark a task urgent and it stays urgent for two weeks, the system should display a message and move it to "process"
@@ -249,9 +276,8 @@ Two parts:
 		21% of tasks with a due date have been marked as overdue
 
 For habits
-	You will receive a reminder and you can mark the task as done but if you don't the task is moved th "process" where you will have to indicate to the system if it was "done" or "missed"
-	As long as the day isn't over, habits don't have the option to be marked as "missed"
-	So, habits are associated to a day not a time
+	You will receive a reminder and you can mark the task as done but if you don't the task is moved to "process" where you will have to indicate to the system if it was "done" or "missed"
+	As long as the day isn't over, habits don't have the option to be marked as "missed" -- unless they have a timestamp
 	In the analytics, I want a graph + stats on how many times I missed/completed X task and see a clear progression in a calendar ala Seinfield somehow.
 	
 	When you have a recurring task, it should be associated to points.
@@ -273,6 +299,10 @@ points
 	display minimum/average number of points you have to reach for the day
 
 	you can have a graph in analytics where you display the points + dates with filters for "all", "urgent", "habit" etc.
+
+
+	__think__
+	Make sure the concepts of gamification are polished. I don't want meaningless motivational bullshit getting in the way
 	
 
 
@@ -280,3 +310,60 @@ points
 --------
 colors
 http://razorjack.net/quicksand/
+
+
+------
+Architecture:
+
+The architecture I have in mind is a full blown JS app.
+
+A few things to consider:
+	* integration with API
+	* chrome extension can integrate task system into a web page
+		For example if I want tasks in github issues or PMR
+	* native feel to it
+
+I'm thinking the whole thing would be in JS (coffee) including the backend.
+
+So, static html or dynamic page is rendered
+Data is saved locally in localstorage for offline support
+Most features should work offline or at least designed to work offline
+Syncing ala Gmail
+Sync with the backend via websockets and use nodejs + mongodb to save the data + retrieve the new stuff
+Make sure the code can be written in a fashion that I don't to duplicate stuff.
+
+__note__
+I have a lot of experimenting to do in terms of technologies and making sure they are going to be a good fit
+
+------------
+Technologies
+
+- the touch interface in the browser is a must.
+- a native app feel to it is necessary if used on tablets or mobile
+- offline support
+- auto-sync
+
+
+
+------------- 
+Workflows 
+
+Case 1:
+- data is captured. Tags are typed inline i.e "#asd" 
+
+Case 2:
+- data is captured but no tags are provided and tasks are moved for processing
+- you can process them 1 by 1 or all at the time
+
+Case 3:
+- overdue tasks, feedback on recurring ones, urgent tasks are moved for processing when they reach a certain condition
+
+Case 4:
+- 
+
+
+
+-----
+Think about:
+__think__
+- how to handle notes efficiently i.e non-actionable tasks
