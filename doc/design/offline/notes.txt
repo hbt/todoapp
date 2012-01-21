@@ -1,0 +1,6 @@
+- change manifest version on update -- don't use random numbers
+- disable caching during dev
+
+http://www.bennadel.com/blog/1944-Experimenting-With-HTML5-s-Cache-Manifest-For-Offline-Web-Applications.htm
+http://www.catswhocode.com/blog/how-to-create-offline-html5-web-apps-in-5-easy-steps
+www.w3.org/TR/html5/offline.html#downloading-or-updating-an-application-cache

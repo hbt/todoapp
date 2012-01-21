@@ -1,0 +1,17 @@
+CACHE MANIFEST
+#This is a comment
+
+# Cache Manifest Version: 1.6
+
+CACHE:
+index.html
+page1.html
+page2.html
+jquery.js
+jquery.mobile.css
+jquery.mobile.js
+
+NETWORK:
+
+FALLBACK:
+/api offline.html
