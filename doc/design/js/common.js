@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(window).load(function() {
     // load nav
     $.ajax({
         url: "nav.html",
         context: document.body,
         success: function(data){
             $(".mynav").html(data);
-            $( $.mobile.navbar.prototype.options.initSelector, $(".mynav") ).navbar();
+            $("#mobile").attr('src', 'js/jquery.mobile.js');
         }
     });
 });

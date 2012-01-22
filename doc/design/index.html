@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="css/jquery.mobile.css" />
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery.mobile.js"></script>
-        <script type="text/javascript" src="js/common.js"></script>
     </head>
 
     <body class="ui-mobile-viewport" style="zoom: 100%; ">
@@ -17,9 +16,126 @@
         <div data-role="page" data-theme="a">
 
             <div class="mynav">
+                <div data-role="header">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#" data-icon="grid">Summary</a></li>
+                            <li><a href="#" data-icon="star" class="ui-btn-active">Favs</a></li>
+                            <li><a href="#" data-icon="gear">Setup</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div data-role="content" class="ui-content" role="main">
+
+                <div class="ui-grid-a">
+                    <div class="ui-block-a" style="width: 30%">
+                        <br/>
+
+                        <ul data-role="listview" class="ui-listview" style="width: 90%"></ul>
+                    </div>
+
+                    <div class="ui-block-b">
+                        <br/>
+
+
+                        <div class="content-primary">
+                            <input type="text" placeholder="What's next? Type it here" autocomplete="off" data-theme="c"/>
+                            <br/>
+                            <ul data-role="listview" class="ui-listview">
+                                <li style="background-color: #C43C35; background-image: none; font-size: 16px;" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-b ui-li-has-count">Urgent<span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span></li>
+
+                                <li style="background-color: #FDDFDE; background-image: none;">
+                                    <div>
+                                        <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                        <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <br/>
+
+
+                        <div data-role="collapsible-set" class="ui-collapsible-set">
+                            <div data-role="collapsible" class="ui-collapsible">
+                                <h3 class="ui-collapsible-heading">
+                                    Urgent (2)
+                                </h3>
+                                <div>
+                                    <input type="text" value="buy milk" autocomplete="off" readonly/>
+                                    <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <div data-role="collapsible" class="ui-collapsible">
+                                <h3 class="ui-collapsible-heading">
+                                    Overdue (5)
+                                </h3>
+                                <div>
+                                    <input type="text" value="buy milk" autocomplete="off" readonly/>
+                                    <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+
+                            <div data-role="collapsible" class="ui-collapsible">
+                                <h3 class="ui-collapsible-heading">
+                                    Due today (1)
+                                </h3>
+                                <div>
+                                    <input type="text" value="buy milk" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div data-role="collapsible-set">
+                            <div data-role="collapsible" data-collapsed="false">
+                                asd
+                                <div>
+                                    content
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul data-role="listview" class="ui-listview">
+                            <li class="ui-li ui-li-static ui-body-c ui-li-has-count">Inbox <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">12</span></li>
+                        </ul>
+
+                        <br/>
+                        <div>
+                            <input type="text" placeholder="What's next? Type it here" autocomplete="off"/>
+
+                        </div>
+
+                        <div>
+                            <input type="text" value="buy groceries" autocomplete="off" readonly/>
+                            <div style="margin-left: 10px">
+                                <input type="text" value="buy milk" autocomplete="off" readonly/>
+                                <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                <input type="text" value="buy bread" autocomplete="off" readonly/>
+                                <div style="margin-left: 10px">
+                                    <input type="text" value="get croissants" autocomplete="off" readonly/>
+                                </div>
+                            </div>
+                            <input type="text" value="check mail" autocomplete="off" readonly/>
+                            <input type="text" value="call phone company" autocomplete="off"/>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
             </div>
 
         </div>
+
 
 
 
