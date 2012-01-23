@@ -86,7 +86,7 @@ The demo should contain enough relevant data to explore most of the features but
 	* network icon (green or red if offline)
 
 * second bar
-	* display current tag filters at the top and allow user to toggle them -- __maybe__
+	* display current tag filters at the top  -- and allow user to toggle them -- __maybe__
 	
 	* on the far left
 	* Select
