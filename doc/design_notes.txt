@@ -367,3 +367,18 @@ Case 4:
 Think about:
 __think__
 - how to handle notes efficiently i.e non-actionable tasks
+- points + estimation + priority
+- progress bar 
+- directly load the software. no homepage. login optional
+- have achievements based on things they have to do to explore the software
+	maybe some tag named discover with a list of tasks and the software would automatically detect
+	stuff like adding new tasks, checking the review, marking things as urgent etc.
+	Basically, discover the software
+
+- in terms of messages + tone. make a list of personality traits you want the software to have and not to have
+
+iconset:super-mono-reflection home
+http://www.iconfinder.com/search/?q=iconset%3Asuper-mono-reflection+home
+
+
+
