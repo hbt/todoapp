@@ -56,7 +56,6 @@
                 </div>
             </div>
 
-
             <div data-role="content" class="ui-content" role="main" style="background-color: #150517; background-image: none;">
 
                 <div class="ui-grid-a">
@@ -70,7 +69,8 @@
 
 
                         <div class="content-primary" data-content-theme="c">
-                            <input type="text" placeholder="What's next? Type it here" autocomplete="off" data-theme="c"/>
+                            <input type="text" placeholder="What's on your mind?" autocomplete="off" data-theme="c"/>
+
                             <br/>
                             <br/>
                             <ul data-role="listview" class="ui-listview">
@@ -84,13 +84,18 @@
                                                     <img src="css/images/box.png" width="20px"/>
                                                 </td>
 
-                                                <td>
+                                                <td style="width: 80%">
                                                     <input type="text" value="buy eggs" autocomplete="off" readonly/>
                                                 </td>
 
                                                 <td>
                                                     <a href="#" data-role="button" data-inline="true" data-theme="b">Snooze</a>
                                                 </td>
+
+                                                <td>
+                                                    <a href="#" data-role="button" data-inline="true" data-theme="b">Missed</a>
+                                                </td>
+
                                             </tr>
                                         </table>
 
@@ -100,18 +105,52 @@
                                                     <img src="css/images/done1.png" width="20px"/>
                                                 </td>
 
-                                                <td>
+                                                <td style="width: 80%">
                                                     <input type="text" value="buy eggs" autocomplete="off" readonly/>
                                                 </td>
 
                                                 <td>
                                                     <a href="#" data-role="button" data-inline="true" data-theme="b">Snooze</a>
                                                 </td>
+
+                                                <td>
+                                                    <a href="#" data-role="button" data-inline="true" data-theme="b">Missed</a>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    new sub-entry
+                                                    new entry
+                                                </td>
+
+                                                <td style="width: 70%">
+                                                    <input type="text" value="buy eggs" autocomplete="off" readonly/>
+                                                </td>
+                                                <td style="display: inline-block; width: 180px; font-size: 11px; padding: .6em 5px">
+
+                                                    <fieldset data-role="controlgroup" data-type="horizontal" class="ui-corner-all ui-controlgroup ui-controlgroup-horizontal"><div class="ui-controlgroup-controls">
+
+                                                            <div class="ui-radio"><input type="radio" name="radio-view" id="radio-view-a" value="list"><label for="radio-view-a" data-theme="c" class="ui-btn ui-corner-left ui-btn-up-c ui-radio-off"><span class="ui-corner-left"><span class="ui-btn-text">Urgent</span></span></label></div>
+
+                                                            <div class="ui-radio"><input type="radio" name="radio-view" id="radio-view-b" value="grid"><label for="radio-view-b" data-theme="c" class="ui-btn ui-radio-off ui-btn-up-c"><span class=""><span class="ui-btn-text">Needed</span></span></label></div>
+
+                                                            <div class="ui-radio"><input type="radio" name="radio-view" id="radio-view-c" value="gallery"><label for="radio-view-c" data-theme="c" class="ui-btn ui-corner-right ui-controlgroup-last ui-radio-on ui-btn-active ui-btn-up-c"><span class="ui-corner-right ui-controlgroup-last"><span class="ui-btn-text">Wanted</span></span></label></div>
+
+                                                        </div></fieldset>
+                                                </td>
+                                                
+                                                <td>
+                                                    rec
+                                                    <input value="2012"/>
+                                                </td>
                                             </tr>
                                         </table>
 
                                         <input type="text" value="buy eggs" autocomplete="off" readonly/>
-                                        </span>
                                         <input type="text" value="buy eggs" autocomplete="off" readonly/>
                                     </div>
 

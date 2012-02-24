@@ -376,6 +376,7 @@ __think__
 	Basically, discover the software
 
 - in terms of messages + tone. make a list of personality traits you want the software to have and not to have
+- awards for breaking bad habits + sticking to a routine (e.g checking your todo list on a daily basis when they have tasks pending), moving stuff forward, making progress etc.
 
 iconset:super-mono-reflection home
 http://www.iconfinder.com/search/?q=iconset%3Asuper-mono-reflection+home

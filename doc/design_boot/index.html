@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Bootswatch: Cyborg</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Le styles -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+        <style type="text/css">
+            .img-action {
+                margin-left: 1em;
+                cursor: pointer;
+            }
+            .bubble-number {
+                left: 20%;
+                position: absolute;
+                font-size: 11px;
+                font-weight: bold;
+                padding: .2em .4em;
+                -webkit-background-clip: padding-box;
+                -webkit-border-radius: 1em /*{global-radii-buttons}*/;
+                border: 1px solid #CCC /*{c-bup-border}*/;
+                background: #EEE /*{c-bup-background-color}*/;
+                color: #444 /*{c-bup-color}*/;
+            }
+
+            .active-icon {
+                border: 2px;
+                border-width: 0px;
+                border-style: solid;
+                border-bottom-width: 3px;
+                border-color: white;
+            }
+
+            .big-label {
+                font-size: 18px;
+            }
+
+            .section-title {
+                background-image: none;
+                padding: .5em 15px;
+                display: block;
+                margin: 0;
+                position: relative;
+                overflow: visible;
+                text-align: left;
+                border-width: 0;
+                border-top-width: 1px;
+                font-family: Helvetica, Arial, sans-serif;
+                text-shadow: 0;
+                color: white;
+                font-weight: bold;
+                font-size: 18px;
+                width: 90%;
+            }
+
+            .section-title > .bubble-number {
+                font-size: 14px;
+            }
+
+            .section-container {
+                margin-left: 10px;
+                width: 100%;
+            }
+
+            .section-urgent {
+                background-color: #C43C35;
+            }
+
+            .section-overdue {
+                background-color: #FF961F;
+            }
+
+            .section-today {
+                background-color: teal;
+            }
+
+            .task-input {
+                padding: .4em;
+                line-height: 1.4;
+                font-size: 18px;
+                height: 22px;
+                display: block;
+                width: 70%;
+                font-family: Helvetica, Arial, sans-serif;
+                -webkit-border-radius: .6em;
+                text-shadow: 0;
+                background: #F0F0F0;
+                border: 2px inset;
+                -webkit-rtl-ordering: logical;
+                -webkit-user-select: text;
+                cursor: auto;
+                margin: 0em;
+                letter-spacing: normal;
+                word-spacing: normal;
+                line-height: normal;
+                text-transform: none;
+                text-indent: 2px;
+                margin-bottom: 5px;
+                margin-top: 5px;
+                background-color: #222;
+                color: white;
+            }
+
+            .task-container > .task-done-icon {
+                content: url('assets/images/done1.png');
+                width: 20px;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+
+            .task-container > .task-notdone-icon {
+                content: url('assets/images/box.png');
+                width: 20px;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+            .task-container > .task-due {
+                font-size: 10px;
+            }
+
+            .task-container > .task-input {
+                display: inline-block;
+            }
+        </style>
+
+        <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-dropdown.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-fixed-top">
+        </div>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">
+                        TaskTree
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <input type="text" class="input-medium search-query" placeholder="Search...">
+                    <br/>
+                    <br/>
+                    <div>
+                        <span class="label label-info big-label">#Tags</span>
+                        <span style="margin-left: 45%">
+                            <img src="assets/images/priority_asc.png" width="23" class="active-icon img-action"/>
+                            <img src="assets/images/alpha_asc.png" width="23" class="img-action"/>
+                        </span>
+                    </div>
+                    <br/>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="#">Errands <span class="bubble-number">23</span></a>
+
+                        </li>
+                        <li><a href="#">Projects <span class="bubble-number">5</span></a>
+
+                            <div style="margin-left: 20px">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="active"><a href="#">Todo <span class="bubble-number">2</span></a></li>
+
+                                    <li class="active"><a href="#">Vrome <span class="bubble-number">3</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Read <span class="bubble-number">45</span></a></li>
+                    </ul>
+
+                    <div style="margin-left: 65%">
+                        <a class="btn btn-danger btn-large" href="#">Reset</a>
+                    </div>
+                </div>
+
+                <div class="span9">
+                    <div class="first-input">
+                        <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input"/>
+                    </div>
+
+                    <br/>
+                    <div>
+                        <div class="section-title section-urgent">
+                            Urgent
+                            <span class="bubble-number">5</span>
+                        </div>
+                        <div>
+
+                            <div class="section-container">
+                                <div class="task-container">
+                                    <img src="" class="task-done-icon"/>
+                                    <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+                                </div>
+                                <div class="task-container">
+                                    <img src="" class="task-notdone-icon"/>
+                                    <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="call Jeni back"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title section-overdue">
+                            Overdue
+                            <span class="bubble-number">8</span>
+                        </div>
+                        <div class="section-container">
+                            <div class="task-container">
+                                <img src="" class="task-done-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+                                <span class="task-due">due 6 days ago</span>
+                            </div>
+                            <div class="task-container">
+                                <img src="" class="task-notdone-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="call Jeni back"/>
+                                <span class="task-due">due 2 days ago</span>
+
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="#">Missed</a>
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Snooze</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="task-container">
+                                <img src="" class="task-undone-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+                                <a class="btn btn-primary btn-large" href="#">Snooze</a>
+                                <a class="btn btn-warning btn-large" href="#">Missed</a>
+                            </div>
+                        </div>
+
+                        <div class="section-title section-today">
+                            Today
+                            <span class="bubble-number">12</span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
