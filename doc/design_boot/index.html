@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Bootswatch: Cyborg</title>
+        <title>TaskTree</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -10,130 +10,22 @@
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="assets/css/jquery-ui.css" rel="stylesheet">
+        <link href="assets/css/custom.css" rel="stylesheet">
 
-        <style type="text/css">
-            .img-action {
-                margin-left: 1em;
-                cursor: pointer;
-            }
-            .bubble-number {
-                left: 20%;
-                position: absolute;
-                font-size: 11px;
-                font-weight: bold;
-                padding: .2em .4em;
-                -webkit-background-clip: padding-box;
-                -webkit-border-radius: 1em /*{global-radii-buttons}*/;
-                border: 1px solid #CCC /*{c-bup-border}*/;
-                background: #EEE /*{c-bup-background-color}*/;
-                color: #444 /*{c-bup-color}*/;
-            }
-
-            .active-icon {
-                border: 2px;
-                border-width: 0px;
-                border-style: solid;
-                border-bottom-width: 3px;
-                border-color: white;
-            }
-
-            .big-label {
-                font-size: 18px;
-            }
-
-            .section-title {
-                background-image: none;
-                padding: .5em 15px;
-                display: block;
-                margin: 0;
-                position: relative;
-                overflow: visible;
-                text-align: left;
-                border-width: 0;
-                border-top-width: 1px;
-                font-family: Helvetica, Arial, sans-serif;
-                text-shadow: 0;
-                color: white;
-                font-weight: bold;
-                font-size: 18px;
-                width: 90%;
-            }
-
-            .section-title > .bubble-number {
-                font-size: 14px;
-            }
-
-            .section-container {
-                margin-left: 10px;
-                width: 100%;
-            }
-
-            .section-urgent {
-                background-color: #C43C35;
-            }
-
-            .section-overdue {
-                background-color: #FF961F;
-            }
-
-            .section-today {
-                background-color: teal;
-            }
-
-            .task-input {
-                padding: .4em;
-                line-height: 1.4;
-                font-size: 18px;
-                height: 22px;
-                display: block;
-                width: 70%;
-                font-family: Helvetica, Arial, sans-serif;
-                -webkit-border-radius: .6em;
-                text-shadow: 0;
-                background: #F0F0F0;
-                border: 2px inset;
-                -webkit-rtl-ordering: logical;
-                -webkit-user-select: text;
-                cursor: auto;
-                margin: 0em;
-                letter-spacing: normal;
-                word-spacing: normal;
-                line-height: normal;
-                text-transform: none;
-                text-indent: 2px;
-                margin-bottom: 5px;
-                margin-top: 5px;
-                background-color: #222;
-                color: white;
-            }
-
-            .task-container > .task-done-icon {
-                content: url('assets/images/done1.png');
-                width: 20px;
-                margin-right: 5px;
-                cursor: pointer;
-            }
-
-
-            .task-container > .task-notdone-icon {
-                content: url('assets/images/box.png');
-                width: 20px;
-                margin-right: 5px;
-                cursor: pointer;
-            }
-
-            .task-container > .task-due {
-                font-size: 10px;
-            }
-
-            .task-container > .task-input {
-                display: inline-block;
-            }
-        </style>
 
         <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/js/jquery-ui.js"></script>
         <script type="text/javascript" src="assets/js/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-button.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-tooltip.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-popover.js"></script>
 
+        <script>
+            $(function() {
+                $( ".datepicker" ).datepicker();
+            });
+        </script>
     </head>
 
     <body>
@@ -188,12 +80,13 @@
 
                 <div class="span9">
                     <div class="first-input">
-                        <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input"/>
+                        <input type="text" placeholder="What's on your mind? Capture it here ... // What's next?" autocomplete="off" class="task-input"/>
                     </div>
 
                     <br/>
                     <div>
                         <div class="section-title section-urgent">
+                            <img src="assets/images/urgent.png" width="20"/>
                             Urgent
                             <span class="bubble-number">5</span>
                         </div>
@@ -201,50 +94,148 @@
 
                             <div class="section-container">
                                 <div class="task-container">
-                                    <img src="" class="task-done-icon"/>
+                                    <img src="assets/images/box.png" class="action-icon"/>
                                     <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
-                                </div>
-                                <div class="task-container">
-                                    <img src="" class="task-notdone-icon"/>
-                                    <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="call Jeni back"/>
                                 </div>
                             </div>
                         </div>
 
                         <div class="section-title section-overdue">
+                            <img src="assets/images/overdue.png" width="20"/>
                             Overdue
                             <span class="bubble-number">8</span>
                         </div>
                         <div class="section-container">
-                            <div class="task-container">
-                                <img src="" class="task-done-icon"/>
+                            <div class="task-container" style="background-color: #339BB9;">
+                                <img src="assets/images/done.png" class="action-icon"/>
                                 <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
                                 <span class="task-due">due 6 days ago</span>
+                                <img src="assets/images/wish.png" width="20"/>
                             </div>
                             <div class="task-container">
-                                <img src="" class="task-notdone-icon"/>
+                                <img src="assets/images/box.png" class="action-icon"/>
                                 <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="call Jeni back"/>
                                 <span class="task-due">due 2 days ago</span>
-
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" href="#">Missed</a>
-                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Snooze</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
+                                <img src="assets/images/need.png" width="20"/>
                             </div>
-                            <div class="task-container">
-                                <img src="" class="task-undone-icon"/>
+                            <div class="task-container" style="border: 0px solid; border-bottom: 1px solid; border-top: 1px solid; border-color: #33B5E5;">
+                                <img src="assets/images/add.png" class="action-icon"/>
                                 <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+
                                 <a class="btn btn-primary btn-large" href="#">Snooze</a>
                                 <a class="btn btn-warning btn-large" href="#">Missed</a>
+
+                                <br/>
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Priority:
+                                        </td>
+                                        <td>
+                                            Tags
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <ul class="nav nav-pills">
+                                                <li><a href="#"><img src="assets/images/urgent.png" width="15"/> Urgent</a></li>
+                                                <li class="active"><a href="#"><img src="assets/images/need.png" width="15"/> Need</a></li>
+                                                <li><a href="#"><img src="assets/images/wish.png" width="15"/> Wish</a></li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="nav nav-pills">
+                                                <li><img src="assets/images/tag.png" width="20"/></li>
+                                                <li class="active"><a href="#">Todo</a></li>
+                                                <li class="active"><a href="#">Vrome</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <a class="btn dropdown-toggle" href="#">More Actions&nbsp;<span class="caret"></span></a>
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Due Date
+                                        </td>
+                                        <td>
+                                            Repeat every X
+                                        </td>
+                                        <td>
+                                            Reminders
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/images/calendar.png" width="20"/>
+                                            <input type="text" class="datepicker" style="width: 60%;">
+                                        </td>
+                                        <td>
+                                            <img src="assets/images/repeat.png" width="20"/>
+                                            <input type="text" style="width: 60%;">
+                                        </td>
+                                        <td>
+                                            <a href="#"> Add Reminder </a>
+                                            <br/>
+
+                                            <select style="width: 20%">
+                                                <option>Email</option>
+                                                <option>Popup</option>
+                                            </select>
+                                            <input type="text" style="width: 9%;"/>
+                                            <select style="width: 25%">
+                                                <option>Minutes</option>
+                                                <option>Hours</option>
+                                                <option>Days</option>
+                                                <option>Weeks</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+
+                                <!--                                <div class="btn-group">
+                                                                    <a class="btn btn-primary" href="#">Missed</a>
+                                                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Need</a></li>
+                                                                        <li class="divider"></li>
+                                                                        <li><a href="#">Separated link</a></li>
+                                                                    </ul>
+                                                                </div>
+
+                                                                <ul class="nav nav-pills">
+                                                                    <li class="active"><a href="#">Home</a></li>
+                                                                    <li><a href="#">Profile</a></li>
+                                                                    <li><a href="#">Messages</a></li>
+                                                                </ul>
+
+                                                                <img src="assets/images/remove.png" class="action-icon"/>
+
+                                                                <div class="btn-group" data-toggle="buttons-radio">
+                                                                    <button class="btn btn-danger active">Urgent</button>
+
+                                                                    <button class="btn btn-warning">Need</button>
+                                                                    <button class="btn btn-primary">Want</button>
+                                                                </div>
+                                -->
+                            </div>
+                            <div class="task-container">
+                                <img src="assets/images/done.png" class="action-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+                                <span class="task-due">due 2 days ago</span>
                             </div>
                         </div>
 
                         <div class="section-title section-today">
+                            <img src="assets/images/today.png" width="20"/>
                             Today
                             <span class="bubble-number">12</span>
                         </div>
@@ -254,6 +245,13 @@
                 </div>
             </div>
         </div>
+
+        <a href="#" rel="tooltip" title="first tooltip">hover over me</a>
+        <a href="#" class="btn btn-danger" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">hover for popover</a>
+        <script>
+            $('#element').popover('show')
+        </script>
+
 
     </body>
 </html>

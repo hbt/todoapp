@@ -1,0 +1,110 @@
+.img-action {
+    margin-left: 1em;
+    cursor: pointer;
+}
+.bubble-number {
+    left: 20%;
+    position: absolute;
+    font-size: 11px;
+    font-weight: bold;
+    padding: .2em .4em;
+    -webkit-background-clip: padding-box;
+    -webkit-border-radius: 1em /*{global-radii-buttons}*/;
+    border: 1px solid #CCC /*{c-bup-border}*/;
+    background: #EEE /*{c-bup-background-color}*/;
+    color: #444 /*{c-bup-color}*/;
+}
+
+.active-icon {
+    border: 2px;
+    border-width: 0px;
+    padding: .2em .5em;
+    border-style: dotted;
+    border-bottom-width: 2px;
+    border-color: #33B5E5;
+}
+
+.big-label {
+    font-size: 18px;
+}
+
+.section-title {
+    background-image: none;
+    padding: .5em 15px;
+    display: block;
+    margin: 0;
+    position: relative;
+    overflow: visible;
+    text-align: left;
+    border-width: 0;
+    border-top-width: 1px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-shadow: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    width: 90%;
+}
+
+.section-title > .bubble-number {
+    font-size: 14px;
+}
+
+.section-container {
+    margin-left: 10px;
+    width: 100%;
+}
+
+.section-urgent {
+    background-color: #C43C35;
+}
+
+.section-overdue {
+    background-color: #FF961F;
+}
+
+.section-today {
+    background-color: teal;
+}
+
+.task-input {
+    padding: .4em;
+    line-height: 1.4;
+    font-size: 18px;
+    height: 22px;
+    display: block;
+    width: 70%;
+    font-family: Helvetica, Arial, sans-serif;
+    -webkit-border-radius: .6em;
+    text-shadow: 0;
+    background: #F0F0F0;
+    border: 2px inset;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+    margin: 0em;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 2px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    background-color: #222;
+    color: white;
+}
+
+.task-container > .action-icon {
+    width: 30px;
+    margin-bottom: -10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.task-container > .task-due {
+    font-size: 10px;
+}
+
+.task-container > .task-input {
+    display: inline-block;
+}
