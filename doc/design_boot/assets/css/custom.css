@@ -44,6 +44,9 @@
     font-weight: bold;
     font-size: 18px;
     width: 90%;
+    -webkit-background-clip: padding-box;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
 }
 
 .section-title > .bubble-number {
@@ -107,4 +110,14 @@
 
 .task-container > .task-input {
     display: inline-block;
+}
+
+.selected-task {
+    border: 0px solid;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: #33B5E5;
+    -webkit-background-clip: padding-box;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
 }
