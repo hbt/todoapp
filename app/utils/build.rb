@@ -49,6 +49,7 @@ def build_web_index
 end
 
 def update_version
+    Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../web/')
     filename = Dir.pwd + '/version.txt'
 
     version = 0
@@ -63,4 +64,6 @@ def update_version
 
     puts version
 end
-build_web_index
+
+update_version
+#build_web_index
