@@ -1,31 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <title>Todos</title>
-    <link href="assets/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css"/>
-    <script src="assets/javascripts/jq.js"></script>
-    <!--    <script language="javascript" src="assets/javascripts/mootools.js" type="text/javascript">
+    <head>
+        <title>Todos</title>
+        <script src="assets/javascripts/deps/jq.js"></script>
+        <script language="javascript" src="assets/javascripts/deps/underscore.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/deps/backbone.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/deps/backbone.localStorage.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/utils/utils.js" type="text/javascript"></script>
+
+        <script type="text/html" id="tmpl-task-edit">
+            <div id="<%= id %>" class="contact">
+                Edit <input type="text" size="40" class="task-title" value="<%= title %>"/>
+            </div>
         </script>
-        <script language="javascript" src="assets/javascripts/mootools-more.js" type="text/javascript"></script>-->
-    <script language="javascript" src="assets/javascripts/underscore.js" type="text/javascript"></script>
-    <script language="javascript" src="assets/javascripts/backbone.js" type="text/javascript"></script>
-    <script language="javascript" src="assets/javascripts/backbone.localStorage.js" type="text/javascript"></script>
-    <!--    <script language="javascript" src="assets/javascripts/todos.js" type="text/javascript"></script>-->
-    <script language="javascript" src="assets/javascripts/main.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <div id="main-container">
-      <div class="new-task">
-        New <input type="text" size="40" class="task-title"/>
-      </div>
-      <div id="results">
-      </div>
-      <div class="task">
-        Edit <input type="text" size="40" class="task-title"/>
-      </div>
-    </div>
-    <!--    <div id="tmpl">
-          hello: <%= title %>
-        </div>-->
-  </body>
+
+        <script language="javascript" src="assets/javascripts/models/task.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/views/task/list.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/views/task/edit.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/app.js" type="text/javascript"></script>
+        
+    </head>
+    <body>
+        <div id="main-container">
+            <div class="new-task">
+                New <input type="text" size="40" class="task-title"/>
+            </div>
+            <div id="results">
+            </div>
+<!--            <div class="task">
+                Edit <input type="text" size="40" class="task-title"/>
+            </div>-->
+        </div>
+        <!--    <div id="tmpl">
+              hello: <%= title %>
+            </div>-->
+
+        
+    </body>
 </html>
