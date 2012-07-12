@@ -2,13 +2,15 @@ window.TaskTree = window.TaskTree || {}
 TaskTree.getVersion = function getVersion(prefix)
 {
     var ret = ""
-    if(document) {
+    if (document)
+    {
         ret = prefix + (new Date().getTime())
     }
     return ret
 }
 
-require.config({
+require.config(
+{
     paths: {
         jquery: 'deps/jq',
         underscore: 'deps/underscore',
@@ -20,15 +22,17 @@ require.config({
 });
 
 // r.js hack for minification
-if(document)
+if (document)
 {
     // TODO: abstract this with Utils.getVersion
-    requireConfiguration['urlArgs'] =  TaskTree.getVersion("bust=v")
+    requireConfiguration['urlArgs'] = TaskTree.getVersion("bust=v")
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'backbone', 'underscore', 'store', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, Utils, TaskListView){
-    $(function(){
+require(['jquery', 'backbone', 'underscore', 'store', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, Utils, TaskListView)
+{
+    $(function()
+    {
         new TaskListView()
     })
 });

@@ -1,5 +1,7 @@
-define(['text!templates/task/edit.html'], function(tmpltxt){
-    var TaskEditView = Backbone.View.extend({
+define(['text!templates/task/edit.html'], function(tmpltxt)
+{
+    var TaskEditView = Backbone.View.extend(
+    {
         model: null,
 
         tmpl: _.template(tmpltxt),
@@ -10,24 +12,28 @@ define(['text!templates/task/edit.html'], function(tmpltxt){
             this.model.bind('sync', this.render, this)
         },
 
-        render: function() {
-            var html = this.tmpl({
+        render: function()
+        {
+            var html = this.tmpl(
+            {
                 id: this.model.get('id'),
                 title: this.model.get('title')
             })
 
             var el = document.getElementById('task-' + this.model.id)
-            if(el)
+            if (el)
             {
                 el.innerHTML = html
-            } else {
+            }
+            else
+            {
                 $('#results').append(html)
             }
             return this
         },
 
-        submit: function() {
-        }
+        submit: function()
+        {}
     })
 
     return TaskEditView

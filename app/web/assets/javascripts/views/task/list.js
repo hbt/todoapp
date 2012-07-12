@@ -1,6 +1,8 @@
-define(['jquery', 'collections/tasks', 'views/task/edit'], function($, Tasks, TaskEdit){
-    var TaskListView = Backbone.View.extend({
-       el : $('#results'),
+define(['jquery', 'collections/tasks', 'views/task/edit'], function($, Tasks, TaskEdit)
+{
+    var TaskListView = Backbone.View.extend(
+    {
+        el: $('#results'),
 
         initialize: function()
         {

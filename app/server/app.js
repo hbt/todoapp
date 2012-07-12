@@ -1,6 +1,5 @@
 //
 // start using nodemon -d 0.5 app.js
-
 var db = require('./db.js')
 
 db.testM()
@@ -9,9 +8,6 @@ db.testM()
 
 //var doc = { author : 'joe', created : new Date('03/28/2009') }
 //db.w.save(doc)
-
-
-
 var express = require('express')
 var app = express.createServer();
 
@@ -28,14 +24,15 @@ var app = express.createServer();
 //  app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 //  app.use(express.errorHandler());
 //});
-
-app.get('/', function(req, res){
-  var task = db.testM()
-  res.send(task.createdAt)
+app.get('/', function(req, res)
+{
+    var task = db.testM()
+    res.send(task.createdAt)
 });
 
-app.get('/main/gg', function(req, res){
-  res.send('main');
+app.get('/main/gg', function(req, res)
+{
+    res.send('main');
 });
 
 app.listen(3000);
