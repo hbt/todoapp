@@ -1737,6 +1737,8 @@ var requirejs, require, define;
         }
 
         if (config) {
+            if(window)
+                window.requireConfiguration = config
             context.configure(config);
         }
 
