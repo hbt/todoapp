@@ -1,21 +1,21 @@
-install 
+## Install
 
 * place app/web under apache public directory
-* cd app/server and run `npm install`
-* install mongodb and make sure mongod is running (http://localhost:28017/)
-* install nodemon to reload app.js during development  `npm install nodemon`
+* run `bundle` -- will install dependencies defined in Gemfile
+* cd app/server and run `npm install` -- will install dependencies defined in package.json
+* install mongodb `apt-get install mongodb` and make sure mongod (server) is running (http://localhost:28017/)
 * launch the node server `node app.js`
 
 
-In dev mode
+## Dev
 
+### To avoid restarting the node.js server
 
-To avoid restarting the node.js server
-
+* install nodemon to reload app.js during development  `npm install nodemon`
 * use nodemon `nodemon -d 0.5 app.js` to reload node server after making changes
 
 
-To avoid reloading the page manually 
+### To avoid reloading the page manually
 
 * enable DEBUG flag in web/assets/javascripts/app.js 
 * use watch_and_do scripts to reload web page after making changes to any css,json,html,js file 
@@ -24,7 +24,12 @@ To avoid reloading the page manually
 
 
 
-To build the minified version (all files in one)
+###  Before committing code
+
+* run `rake format_js`
+
+
+### To build the minified version (all files in one)
 
 * cd app/build
 * node r.js -o build.js
