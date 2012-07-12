@@ -1,28 +1,27 @@
-define([], function(){
-    return Backbone.View.extend({
+define(['text!templates/task/edit.html'], function(tmpltxt){
+    var TaskEditView = Backbone.View.extend({
         model: null,
 
-        tmpl: _.template($('#tmpl-task-edit').html()),
+        tmpl: _.template(tmpltxt),
 
         initialize: function(model)
         {
             this.model = model
             this.model.bind('sync', this.render, this)
-        
         },
 
         render: function() {
-            if(document.getElementById(this.model.id))
+            var html = this.tmpl({
+                id: this.model.get('id'),
+                title: this.model.get('title')
+            })
+
+            var el = document.getElementById('task-' + this.model.id)
+            if(el)
             {
-                document.getElementById(this.model.id).innerHTML = this.tmpl({
-                    id: this.model.get('id'),
-                    title: this.model.get('title')
-                })
+                el.innerHTML = html
             } else {
-                $('#results').append(this.tmpl({
-                    id: this.model.get('id'),
-                    title: this.model.get('title')
-                }))
+                $('#results').append(html)
             }
             return this
         },
@@ -30,4 +29,6 @@ define([], function(){
         submit: function() {
         }
     })
+
+    return TaskEditView
 })

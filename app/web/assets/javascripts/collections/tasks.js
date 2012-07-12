@@ -1,23 +1,17 @@
 define(['store', 'models/task'], function(Store, Task){
-    var TasksCollection = Backbone.Collection.extend({
+    var TaskCollection = Backbone.Collection.extend({
         model: Task,
-        localStorage: new Store("tasks"),
-            
-        instance: 'gg',
-
-        getInstance: function() {
-            c.l(this.instance)
-        }
+        localStorage: new Store("tasks")
     });
 
-    TasksCollection.instance = null
-    TasksCollection.getInstance  = function() {
-        if(TasksCollection.instance == null)
-            TasksCollection.instance = new TasksCollection()
+    TaskCollection.instance = null
+    TaskCollection.getInstance  = function() {
+        if(TaskCollection.instance == null)
+            TaskCollection.instance = new TaskCollection()
 
-        return TasksCollection.instance
+        return TaskCollection.instance
     }
         
-    return TasksCollection.getInstance()
+    return TaskCollection.getInstance()
 })
 

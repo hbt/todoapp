@@ -1,7 +1,5 @@
-// http://backbonetutorials.com/organizing-backbone-using-modules/
-// https://github.com/thomasdavis/backboneboilerplate/tree/gh-pages/js/libs/backbone
-
-function getVersion(prefix)
+window.TaskTree = window.TaskTree || {}
+TaskTree.getVersion = function getVersion(prefix)
 {
     var ret = ""
     if(document) {
@@ -16,17 +14,18 @@ require.config({
         underscore: 'deps/underscore',
         store: 'deps/backbone.localStorage',
         backbone: 'deps/backbone',
-        text: 'deps/require/text'
+        text: 'deps/require/text',
+        templates: '../templates'
     }
 });
 
+// r.js hack for minification
 if(document)
 {
     // TODO: abstract this with Utils.getVersion
-    requireConfiguration['urlArgs'] =  getVersion("bust=v")
+    requireConfiguration['urlArgs'] =  TaskTree.getVersion("bust=v")
     require.config(requireConfiguration)
 }
-
 
 require(['jquery', 'backbone', 'underscore', 'store', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, Utils, TaskListView){
     $(function(){

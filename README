@@ -1,0 +1,30 @@
+install 
+
+* place app/web under apache public directory
+* cd app/server and run `npm install`
+* install mongodb and make sure mongod is running (http://localhost:28017/)
+* install nodemon to reload app.js during development  `npm install nodemon`
+* launch the node server `node app.js`
+
+
+In dev mode
+
+
+To avoid restarting the node.js server
+
+* use nodemon `nodemon -d 0.5 app.js` to reload node server after making changes
+
+
+To avoid reloading the page manually 
+
+* enable DEBUG flag in web/assets/javascripts/app.js 
+* use watch_and_do scripts to reload web page after making changes to any css,json,html,js file 
+* gem install watch_and_do
+* watch_and_do . js,css,json,html utils/build.rb
+
+
+
+To build the minified version (all files in one)
+
+* cd app/build
+* node r.js -o build.js

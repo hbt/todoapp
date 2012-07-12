@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# deprecated -- now using requirejs
+# generate index.html based on index.template.html
+# replaces placeholders by scripts
 def build_web_index
     def transform(filename, key)
         case key
@@ -48,6 +51,8 @@ def build_web_index
     update_version
 end
 
+# update version file and triggers a page reload when in debug mode
+# watch_and_do . js,css,json,html utils/build.rb
 def update_version
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../web/')
     filename = Dir.pwd + '/version.txt'

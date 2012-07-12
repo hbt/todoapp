@@ -1,12 +1,12 @@
-define(['jquery', 'collections/tasks', 'views/task/new', 'views/task/edit'], function($, Tasks, TaskNew, TaskEdit){
-    return Backbone.View.extend({
+define(['jquery', 'collections/tasks', 'views/task/edit'], function($, Tasks, TaskEdit){
+    var TaskListView = Backbone.View.extend({
+       el : $('#results'),
+
         initialize: function()
         {
-            new TaskNew()
             Tasks.bind('reset', this.addAll, this)
             Tasks.fetch()
         },
-
 
         addAll: function()
         {
@@ -19,4 +19,6 @@ define(['jquery', 'collections/tasks', 'views/task/new', 'views/task/edit'], fun
             view.render()
         }
     })
+
+    return TaskListView
 })

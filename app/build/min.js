@@ -12127,7 +12127,7 @@ define('utils/utils',[
 // Backbone.Model.prototype.save.call(this);
 
 define('models/task',['store'], function(Store){
-    return Backbone.Model.extend({
+    var Task = Backbone.Model.extend({
         localStorage: new Store("tasks"),
         defaults: {
             title: "",
@@ -12137,28 +12137,24 @@ define('models/task',['store'], function(Store){
         initialize: function(){
         }
     });
+
+    return Task
 });
 define('collections/tasks',['store', 'models/task'], function(Store, Task){
-    var TasksCollection = Backbone.Collection.extend({
+    var TaskCollection = Backbone.Collection.extend({
         model: Task,
-        localStorage: new Store("tasks"),
-            
-        instance: 'gg',
-
-        getInstance: function() {
-            c.l(this.instance)
-        }
+        localStorage: new Store("tasks")
     });
 
-    TasksCollection.instance = null
-    TasksCollection.getInstance  = function() {
-        if(TasksCollection.instance == null)
-            TasksCollection.instance = new TasksCollection()
+    TaskCollection.instance = null
+    TaskCollection.getInstance  = function() {
+        if(TaskCollection.instance == null)
+            TaskCollection.instance = new TaskCollection()
 
-        return TasksCollection.instance
+        return TaskCollection.instance
     }
         
-    return TasksCollection.getInstance()
+    return TaskCollection.getInstance()
 })
 
 ;
@@ -12182,7 +12178,7 @@ define('views/task/new',[], function(){
     })
 });
 define('views/task/edit',[], function(){
-    return Backbone.View.extend({
+    var TaskEditView = Backbone.View.extend({
         model: null,
 
         tmpl: _.template($('#tmpl-task-edit').html()),
@@ -12191,21 +12187,20 @@ define('views/task/edit',[], function(){
         {
             this.model = model
             this.model.bind('sync', this.render, this)
-        
         },
 
         render: function() {
-            if(document.getElementById(this.model.id))
+            var html = this.tmpl({
+                id: this.model.get('id'),
+                title: this.model.get('title')
+            })
+
+            var el = document.getElementById(this.model.id)
+            if(el)
             {
-                document.getElementById(this.model.id).innerHTML = this.tmpl({
-                    id: this.model.get('id'),
-                    title: this.model.get('title')
-                })
+                el.innerHTML = html
             } else {
-                $('#results').append(this.tmpl({
-                    id: this.model.get('id'),
-                    title: this.model.get('title')
-                }))
+                $('#results').append(html)
             }
             return this
         },
@@ -12213,9 +12208,22 @@ define('views/task/edit',[], function(){
         submit: function() {
         }
     })
+
+    return TaskEditView
 });
 define('views/task/list',['jquery', 'collections/tasks', 'views/task/new', 'views/task/edit'], function($, Tasks, TaskNew, TaskEdit){
-    return Backbone.View.extend({
+    var TaskListView = Backbone.View.extend({
+       el : $('#results'),
+
+        events: {
+            'keypress': 'tt'
+        },
+
+        tt: function(e)
+        {
+            c.l(e)
+        },
+
         initialize: function()
         {
             new TaskNew()
@@ -12232,9 +12240,15 @@ define('views/task/list',['jquery', 'collections/tasks', 'views/task/new', 'view
         addOne: function(model)
         {
             var view = new TaskEdit(model)
-            view.render()
+            c.l(view)
+            var gg = view.render()
+
+            c.l(gg)
+            view.remove()
         }
     })
+
+    return TaskListView
 })
 ;
 // http://backbonetutorials.com/organizing-backbone-using-modules/
@@ -12265,7 +12279,6 @@ if(document)
     requireConfiguration['urlArgs'] =  getVersion("bust=v")
     require.config(requireConfiguration)
 }
-
 
 require(['jquery', 'backbone', 'underscore', 'store', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, Utils, TaskListView){
     $(function(){

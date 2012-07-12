@@ -10,11 +10,6 @@ define([
             // turn this off on production
             var DEBUG = 1
 
-//            window.TaskTree = {}
-//            TaskTree.Views = TaskTree.Views || {}
-//            TaskTree.Collections = TaskTree.Collections || {}
-//            TaskTree.Models = TaskTree.Models || {}
-
             function initializeDebugMode() {
                 if(DEBUG) {
                     var version = -1
@@ -40,21 +35,9 @@ define([
                 }
             }
             
-            function getVersion() 
-            {
-                if(DEBUG)
-                    return new Date().getTime();
-                else
-                    // TODO add version 
-                    return 'v1'
-            }
-
-
-
             return {
                 initDebug: initializeDebugMode,
-                isDebugOn: DEBUG,
-                getVersion: getVersion
+                isDebugOn: DEBUG
             }
         }()
 
