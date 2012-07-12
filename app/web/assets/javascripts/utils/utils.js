@@ -3,7 +3,7 @@ c.l = console.log
 c.d = console.dir
 
 
-define(['jquery', ], function($)
+define(['jquery'], function($)
 {
     var Utils = function()
         {

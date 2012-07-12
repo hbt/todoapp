@@ -1,4 +1,4 @@
-define(['jquery', 'collections/tasks', 'views/task/edit'], function($, Tasks, TaskEdit)
+define(['jquery', 'collections/tasks', 'views/task/edit', 'views/task/new'], function($, Tasks, TaskEdit, TaskNew)
 {
     var TaskListView = Backbone.View.extend(
     {
@@ -6,6 +6,8 @@ define(['jquery', 'collections/tasks', 'views/task/edit'], function($, Tasks, Ta
 
         initialize: function()
         {
+            new TaskNew()
+            Tasks.bind('add', this.addOne, this)
             Tasks.bind('reset', this.addAll, this)
             Tasks.fetch()
         },
