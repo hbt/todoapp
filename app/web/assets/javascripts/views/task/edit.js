@@ -1,10 +1,10 @@
-define(['text!templates/task/edit.html'], function(tmpltxt)
+define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt)
 {
     var TaskEditView = Backbone.View.extend(
     {
         model: null,
 
-        tmpl: _.template(tmpltxt),
+        tmpl: HB.compile(tmpltxt),
 
         initialize: function(model)
         {
@@ -14,6 +14,8 @@ define(['text!templates/task/edit.html'], function(tmpltxt)
 
         render: function()
         {
+
+
             var html = this.tmpl(
             {
                 id: this.model.get('id'),

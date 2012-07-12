@@ -17,7 +17,8 @@ require.config(
         store: 'deps/backbone.localStorage',
         backbone: 'deps/backbone',
         text: 'deps/require/text',
-        templates: '../templates'
+        templates: '../templates',
+        handlebars: 'deps/handlebars'
     }
 });
 
@@ -29,7 +30,7 @@ if (document)
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'backbone', 'underscore', 'store', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, Utils, TaskListView)
+require(['jquery', 'backbone', 'underscore', 'store', 'handlebars', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, HB, Utils, TaskListView)
 {
     $(function()
     {
