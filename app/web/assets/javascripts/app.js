@@ -14,6 +14,7 @@ require.config(
     paths: {
         jquery: 'deps/jq',
         underscore: 'deps/underscore',
+        socket: 'deps/socket.io',
         store: 'deps/backbone.localStorage',
         backbone: 'deps/backbone',
         text: 'deps/require/text',
@@ -30,10 +31,18 @@ if (document)
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'backbone', 'underscore', 'store', 'handlebars', 'utils/utils', 'views/task/list'], function($, Backbone, _, Store, HB, Utils, TaskListView)
+require(['jquery', 'backbone', 'underscore', 'socket', 'store', 'handlebars', 'utils/utils'], function($, Backbone, _, WS, Store, HB, Utils)
 {
-    $(function()
+    var socket = WS.connect('http://localhost:3000')
+    socket.on('e', function(data)
     {
-        new TaskListView()
+        socket.send('wasssaa')
+    })
+    $(document).ready(function()
+    {
+        require(['views/task/list'], function(TaskListView)
+        {
+            new TaskListView()
+        })
     })
 });

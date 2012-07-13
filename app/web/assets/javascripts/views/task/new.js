@@ -19,7 +19,10 @@ define(['collections/tasks'], function(Tasks)
                 })
                 e.target.value = ''
             }
-        }
+        },
+
+        initialize: function()
+        {}
     })
 
     return TaskNewView

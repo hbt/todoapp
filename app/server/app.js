@@ -2,7 +2,7 @@
 // start using nodemon -d 0.5 app.js
 var db = require('./db.js')
 
-db.testM()
+//db.testM()
 
 
 
@@ -10,6 +10,7 @@ db.testM()
 //db.w.save(doc)
 var express = require('express')
 var app = express.createServer();
+var io = require('socket.io')
 
 // configuration
 //http://expressjs.com/guide.html
@@ -26,8 +27,8 @@ var app = express.createServer();
 //});
 app.get('/', function(req, res)
 {
-    var task = db.testM()
-    res.send(task.createdAt)
+    //    var task = db.testM()
+    res.send('hello')
 });
 
 app.get('/main/gg', function(req, res)
@@ -36,6 +37,23 @@ app.get('/main/gg', function(req, res)
 });
 
 app.listen(3000);
+
+var socket = io.listen(app)
+
+socket.on('connection', function(client)
+{
+    //    console.log(client)
+    client.on('message', function(msg)
+    {
+        console.log(client.id)
+
+    });
+
+    client.on('disconnect', function()
+    {});
+
+    client.emit('e', 'yep, this shit works')
+})
 
 
 // TODO:

@@ -27,3 +27,40 @@ task :format_js do
     exit
 end
 
+
+task :switch_env do
+    index_file = File.dirname(File.expand_path(__FILE__)) + '/app/web/index.html'
+    exit unless File.exists?(index_file)
+
+    envs = ['dev', 'prod']
+    if ARGV.size != 2 || (ARGV & envs).empty?
+        p "invalid environment name.  try #{envs.join(' or ')}"
+        exit
+    end
+  
+    mode = ARGV[1]
+
+    dev_str = <<-eos
+<script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+eos
+
+    prod_str = <<-eos
+<script language="javascript" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+<script language="javascript" src="assets/javascripts/min.js"></script>
+eos
+
+    content = File.read(index_file)
+
+    content.gsub!(dev_str, prod_str) if mode == 'prod'
+    content.gsub!(prod_str, dev_str) if mode == 'dev'
+
+
+    File.open(index_file, 'w'){|f| f.write(content)}
+    Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/app/build')
+
+    print %x[node r.js -o build.js] if mode == 'prod'
+
+    p "switching to #{mode}"
+
+    exit
+end
