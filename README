@@ -9,6 +9,10 @@
 
 ## Dev
 
+### switch to dev mode
+
+* `rake switch_env dev` will load javascript files asynchronously
+
 ### To avoid restarting the node.js server
 
 * install nodemon to reload app.js during development  `npm install nodemon`
@@ -31,5 +35,4 @@
 
 ### To build the minified version (all files in one)
 
-* cd app/build
-* node r.js -o build.js
+* `rake switch_env prod` will compress all files into one
