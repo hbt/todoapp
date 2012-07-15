@@ -1,22 +1,20 @@
 window.TaskTree = window.TaskTree || {}
-TaskTree.getVersion = function getVersion(prefix)
-{
+TaskTree.getVersion = function getVersion(prefix) {
     var ret = ""
-    if (document)
-    {
+    if (document) {
         ret = prefix + (new Date().getTime())
     }
     return ret
 }
 
-require.config(
-{
+require.config({
     paths: {
         jquery: 'deps/jq',
         underscore: 'deps/underscore',
         socket: 'deps/socket.io',
         store: 'deps/backbone.localStorage',
         backbone: 'deps/backbone',
+        mixins: 'utils/mixins',
         text: 'deps/require/text',
         templates: '../templates',
         handlebars: 'deps/handlebars'
@@ -24,24 +22,18 @@ require.config(
 });
 
 // r.js hack for minification
-if (document)
-{
+if (document) {
     // TODO: abstract this with Utils.getVersion
     requireConfiguration['urlArgs'] = TaskTree.getVersion("bust=v")
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'backbone', 'underscore', 'socket', 'store', 'handlebars', 'utils/utils'], function($, Backbone, _, WS, Store, HB, Utils)
-{
-    var socket = WS.connect('http://localhost:3000')
-    socket.on('e', function(data)
-    {
-        socket.send('wasssaa')
-    })
-    $(document).ready(function()
-    {
-        require(['views/task/list'], function(TaskListView)
-        {
+require(['jquery', 'backbone', 'underscore', 'socket', 'store', 'handlebars', 'utils/utils', 'utils/sync'], function($, Backbone, _, WS, Store, HB, Utils, Sync) {
+    Utils.initDebug()
+    Sync.init()
+
+    $(document).ready(function() {
+        require(['views/task/list'], function(TaskListView) {
             new TaskListView()
         })
     })

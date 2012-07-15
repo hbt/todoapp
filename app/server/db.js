@@ -1,43 +1,25 @@
 ////http://www.mongodb.org/display/DOCS/Inserting
 //http://mongoosejs.com/
+var _ = require('underscore')
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todo');
+require('./utils')
 
-//var Db = require('./node_modules/mongodb').Db,
-//Connection = require('./node_modules/mongodb').Connection,
-//Server = require('./node_modules/mongodb').Server;
-//
-//var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ?
-//process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
-//var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ?
-//process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
-exports.testM = function(str)
-{
-    //  var conn = mongoose.createConnection('your connection string');
-    //  var MyModel = conn.model('ModelName', schema);
-    //  var m = new MyModel;
-    //  m.save() // works
-    var taskSchema = new mongoose.Schema(
-    {
+exports.init = function() {
+    initDb()
+    initSchema()
+}
+
+// TODO: abstract variables into config file
+
+function initDb() {
+    mongoose.connect('mongodb://localhost/todo');
+}
+
+function initSchema() {
+    exports.Task = mongoose.model('Task', new mongoose.Schema({
+        id: String,
         title: String,
-        createdAt: Date
-    });
-
-    var Task = mongoose.model('Task', taskSchema);
-    var t = new Task()
-    t.title = str
-    t.createdAt = new Date()
-    t.save()
-
-    Task.find(
-    {}, function(err, tasks)
-    {
-        for (var t in tasks)
-        {
-            console.log(tasks[t].remove())
-        }
-    })
-
-    return t
-
+        createdAt: Number,
+        updatedAt: Number
+    }));
 }

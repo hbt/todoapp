@@ -21,7 +21,8 @@ task :format_js do
 
     javascript_files.map do |file|
         p "formatting #{file}"
-        formated_content = `js-beautify --brace-style=expand -s 4 #{file}`
+#        formated_content = `js-beautify --brace-style=expand -s 4 #{file}`
+        formated_content = `js-beautify -s 4 #{file}`
         File.open(file, 'w') {|f| f.write(formated_content) }
     end
     exit

@@ -1,49 +1,42 @@
-define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt)
-{
-    var TaskEditView = Backbone.View.extend(
-    {
+define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
+    var TaskEditView = Backbone.View.extend({
         tmpl: HB.compile(tmpltxt),
 
         events: {
             'keyup': 'save'
         },
 
-        save: function(e)
-        {
-            if (this.model.get('title') !== e.target.value)
-            {
-                this.model.save(
-                {
+        save: function(e) {
+            if (this.model.get('title') !== e.target.value) {
+                // TODO: add enter save vs keypress option
+                this.model.save({
                     title: e.target.value
                 })
             }
         },
 
-        initialize: function(model)
-        {
+        initialize: function(model) {
             this.model = model
+            this.model.bind('render', this.render, this)
         },
 
-        render: function()
-        {
-            var html = this.tmpl(
-            {
-                id: this.model.get('id'),
+        render: function() {
+            var html = this.tmpl({
                 title: this.model.get('title')
             })
 
-            var el = document.getElementById('task-' + this.model.id)
-            if (el)
-            {
-                el.innerHTML = html
-            }
+            // by default, view has model attributes embedded
+            if (this.el.getAttribute('id') == this.model.id)
+            // create
+            this.el = $(html)
             else
-            {
-                $('#results').prepend(html)
-                this.el = $('#task-' + this.model.id)
-                this._ensureElement();
-                this.delegateEvents();
-            }
+            // update
+            this.el.innerHTML = html
+
+            // sync events to new this.el
+            // TODO: check if this is needed on update
+            this._ensureElement();
+            this.delegateEvents();
 
             return this
         }
