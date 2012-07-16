@@ -13,8 +13,9 @@ define(['jquery', 'backbone', 'socket', 'collections/tasks'], function($, Backbo
                     })
                 }
 
-                // sync data with backend when a save is triggered
-
+                /**
+                 sync data with backend when a save is triggered
+                */
 
             function syncRemote(method, model, options, error) {
                 // TODO: review reconnect vs WS.connect
@@ -25,8 +26,9 @@ define(['jquery', 'backbone', 'socket', 'collections/tasks'], function($, Backbo
                 })
             }
 
-            // fetch data from backend when loading the page
-
+            /**
+             * fetch data from backend when loading the page
+             */
 
             function fetchRemote(method, model, options, error) {
                 var socket = WS.connect('http://localhost:3000')
@@ -49,8 +51,9 @@ define(['jquery', 'backbone', 'socket', 'collections/tasks'], function($, Backbo
         var Sync = function() {
             var localSync = Backbone.sync
 
-            // store in local storage
-
+            /**
+             * store in local storage
+             */
 
             function syncLocal(method, model, options, error) {
                 localSync.apply(this, [method, model, options, error])
@@ -58,8 +61,9 @@ define(['jquery', 'backbone', 'socket', 'collections/tasks'], function($, Backbo
             }
 
 
-            // dirty list of ids to be cleared by syncRemote
-
+            /*
+             * dirty list of ids to be cleared by syncRemote
+             */
 
             function addModelToDirtyList(model) {
                 var dirtyList = localStorage.getItem('dirty-tasks')
@@ -72,7 +76,6 @@ define(['jquery', 'backbone', 'socket', 'collections/tasks'], function($, Backbo
             }
 
             // override default backbone sync to use local storage + remote sync
-
 
             function overrideBackboneSync() {
                 Backbone.sync = function(method, model, options, error) {

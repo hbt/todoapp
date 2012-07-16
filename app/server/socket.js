@@ -11,9 +11,7 @@ exports.init = function(app) {
     }
 
 function handleConnection(client) {
-    //    c.l(client.id)
     client.join('room');
-    //    client.manager.sockets['in']('room').emit('update', data)
     client.on('save', Handlers.save);
     client.on('update', Handlers.update)
 }
@@ -35,16 +33,14 @@ var Handlers = {
             doc.save()
 
             callback(doc)
-            c.l('hh')
             client.manager.sockets['in']('room').emit('update_one', client.id, doc)
         })
     },
 
     update: function(modelName, callback) {
         var client = this
-        db[modelName].find({}, function(err, tasks) {
-            callback(client.id, tasks)
-            //    client.emit('update_res', client.id, tasks)
+        db[modelName].find({}, function(err, docs) {
+            callback(client.id, docs)
         })
     }
 }

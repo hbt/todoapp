@@ -2,7 +2,7 @@
     <head>
         <title>TaskTree</title>
 
-<script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+        <script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
 
     </head>
     <body>
@@ -10,10 +10,14 @@
             'Dirt'
         </div>
         <a href="" onclick="resetStorage();">Reset</a>
-        <div id="task-new">
-            <input type="text" size="40"/>
-        </div>
-        <div id="results">
+
+        <div style="position: absolute; margin-left: 500px">
+            Tasks
+            <div id="task-new">
+                <input type="text" size="40"/>
+            </div>
+            <div id="tasks">
+            </div>
         </div>
     </body>
 </html>

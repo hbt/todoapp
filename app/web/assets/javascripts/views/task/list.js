@@ -9,36 +9,6 @@ define(['jquery', 'collections/tasks', 'views/task/edit', 'views/task/new', 'soc
                 'skip_remote': true,
                 'fetch_remote': true
             })
-
-            //            c.l(Utils.fetchRemote)
-
-            //                var socket = WS.connect('http://localhost:3000')
-            //                socket.on('update_res', function(clientId, tasks) {
-            //                    if(socket.socket.sessionid == clientId)
-            //                        return;
-            //
-            //console.log(clientId, socket.socket.sessionid)
-            //                    c.l('ok')
-            //                    c.l(tasks)
-            //                    Tasks.at(0).save({title: 'mom3'}, {skip_remote: true})
-            //                    Tasks.get(tasks.id).save(tasks, {skip_remote: true})
-            //
-            //                    Tasks.add(tasks)
-            //                    if(!_.isArray(tasks)) {
-            //                        if(Tasks.get(tasks.id).get('updatedAt') != tasks.updatedAt) {
-            ////                            Tasks.at(0).save({title: '++', silent: true})
-            ////                            Tasks.get(tasks.id).save(tasks)
-            //                            c.l('ok')
-            //                        }
-            //                    }
-            //                })
-            //                socket.emit('update', 'Task', function(clientId, tasks) {
-            ////                    console.log(clientId, socket.socket.sessionid)
-            ////                    c.l(tasks)
-            //                    //    c.l(Tasks)
-            //                    Tasks.add(tasks)
-            //                });
-            //                    Tasks.at(0).save({title: 'nn'})
         },
 
         addAll: function() {
@@ -47,7 +17,7 @@ define(['jquery', 'collections/tasks', 'views/task/edit', 'views/task/new', 'soc
 
         addOne: function(model) {
             var view = new TaskEdit(model)
-            $('#results').prepend(view.render().el)
+            $('#tasks').prepend(view.render().el)
         }
     })
 
