@@ -8,6 +8,7 @@ define(['jquery'], function($) {
             var DEBUG = 1
 
             function initializeDebugMode() {
+                $('#debug').show()
                 if (DEBUG) {
                     var version = -1
                     $(function() {

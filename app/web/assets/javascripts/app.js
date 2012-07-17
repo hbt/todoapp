@@ -1,12 +1,3 @@
-window.TaskTree = window.TaskTree || {}
-TaskTree.getVersion = function getVersion(prefix) {
-    var ret = ""
-    if (document) {
-        ret = prefix + (new Date().getTime())
-    }
-    return ret
-}
-
 require.config({
     paths: {
         jquery: 'deps/jq',
@@ -23,12 +14,12 @@ require.config({
 
 // r.js hack for minification
 if (document) {
-    // TODO: abstract this with Utils.getVersion
-    requireConfiguration['urlArgs'] = TaskTree.getVersion("bust=v")
+    // force cache reload when in dev (has no effect when in prod)
+    requireConfiguration['urlArgs'] = "bust=v" + (new Date().getTime())
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'backbone', 'underscore', 'socket', 'store', 'handlebars', 'utils/utils', 'utils/sync'], function($, Backbone, _, WS, Store, HB, Utils, Sync) {
+require(['jquery', 'utils/utils', 'utils/sync'], function($, Utils, Sync) {
     Utils.initDebug()
     Sync.init()
 
