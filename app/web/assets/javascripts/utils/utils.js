@@ -15,10 +15,10 @@ define(['jquery'], function($) {
                                 complete: function(data) {
                                     if (data.status == 304) console.log('not working -- caching issue');
 
-                                    data = data.responseText
-                                    if (version == -1) version = eval(data)
+                                    data = parseInt(data.responseText, 10)
 
-                                    if (version < eval(data)) {
+                                    if (version === -1) version = data
+                                    if (version < data) {
                                         window.location.reload()
                                     }
                                 }

@@ -8,7 +8,8 @@ require.config({
         mixins: 'utils/mixins',
         text: 'deps/require/text',
         templates: '../templates',
-        handlebars: 'deps/handlebars'
+        handlebars: 'deps/handlebars',
+        jasmine: 'deps/jasmine/jasmine'
     }
 });
 
@@ -23,9 +24,9 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync'], function(
     Utils.initDebug()
     Sync.init()
 
-    $(document).ready(function() {
-        require(['views/task/list'], function(TaskListView) {
-            new TaskListView()
+    if(Utils.isDebugOn) {
+        require(['tests/boot'], function(tests){
+            tests.exec()
         })
-    })
+    }
 });
