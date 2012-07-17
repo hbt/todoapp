@@ -1,7 +1,3 @@
-var c = console
-c.l = console.log
-c.d = console.dir
-
 define(['jquery'], function($) {
     var Utils = function() {
             // turn this off on production

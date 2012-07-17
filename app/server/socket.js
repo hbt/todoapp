@@ -1,7 +1,7 @@
 var db = require('./db.js')
 var io = require('socket.io')
 var _ = require('underscore')
-require('./utils')
+require('./common_utils')
 
 var socket = null
 

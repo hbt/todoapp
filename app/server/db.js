@@ -2,7 +2,7 @@
 //http://mongoosejs.com/
 var _ = require('underscore')
 var mongoose = require('mongoose');
-require('./utils')
+require('./common_utils')
 
 exports.init = function() {
     initDb()

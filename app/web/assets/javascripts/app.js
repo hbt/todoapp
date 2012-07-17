@@ -19,7 +19,7 @@ if (document) {
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'utils/utils', 'utils/sync'], function($, Utils, Sync) {
+require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync'], function($, CUtils, Utils, Sync) {
     Utils.initDebug()
     Sync.init()
 

@@ -1,5 +1,5 @@
 // start using nodemon -d 0.5 app.js
-require('./utils')
+require('./common_utils')
 
 var db = require('./db.js')
 db.init()
