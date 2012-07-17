@@ -5,11 +5,11 @@ c.d = console.dir
 define(['jquery'], function($) {
     var Utils = function() {
             // turn this off on production
-            var DEBUG = 1
+            var DEBUG = window.DEBUG
 
             function initializeDebugMode() {
-                $('#debug').show()
                 if (DEBUG) {
+                $('#debug').show()
                     var version = -1
                     $(function() {
                         setInterval(function() {
