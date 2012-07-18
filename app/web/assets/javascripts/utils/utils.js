@@ -1,6 +1,5 @@
 define(['jquery'], function($) {
     var Utils = function() {
-            // turn this off on production
             var DEBUG = window.DEBUG
 
             function initializeDebugMode() {
@@ -15,7 +14,7 @@ define(['jquery'], function($) {
                                 complete: function(data) {
                                     if (data.status == 304) console.log('not working -- caching issue');
 
-                                    data = parseInt(data.responseText, 10)
+                                    data = +data.responseText
 
                                     if (version === -1) version = data
                                     if (version < data) {
