@@ -70,5 +70,16 @@ def update_version
     puts version
 end
 
+# starts server
+def start_node
+    Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../server/')
+
+    %x[killall -v node]
+
+    pid = Process.spawn("node app.js",
+        :out => File.dirname(File.expand_path(__FILE__)) + '/../logs/ss.txt', :err => File.dirname(File.expand_path(__FILE__)) + '/../logs/sse.txt')
+    Process.detach pid
+end
+
 update_version
-#build_web_index
+start_node

@@ -1,6 +1,11 @@
 // start using nodemon -d 0.5 app.js
-require('./common_utils')
+var logging = require('./logging')
+logging.init()
 
+require('./common_utils')
+var config = require('./config').getConfig()
+
+// connect to db
 var db = require('./db.js')
 db.init()
 
@@ -11,7 +16,7 @@ var app = express.createServer();
 app.get('/', function(req, res) {
     res.send('main page')
 });
-app.listen(3000);
+app.listen(config.server.port);
 
 // web sockets
 var socket = require('./socket')

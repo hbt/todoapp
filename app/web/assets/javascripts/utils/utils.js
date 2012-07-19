@@ -4,7 +4,7 @@ define(['jquery'], function($) {
 
             function initializeDebugMode() {
                 if (DEBUG) {
-                $('#debug').show()
+                    $('#debug').show()
                     var version = -1
                     $(function() {
                         setInterval(function() {
@@ -27,9 +27,36 @@ define(['jquery'], function($) {
                 }
             }
 
+            /**
+             * same algorithm as backbone local storage
+             * */
+
+            function generateUniqueId() {
+                function S4() {
+                    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+                }
+
+                function guid() {
+                    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+                }
+
+                return guid()
+            }
+
+            /**
+             * returns if we can run automated tests
+             * mainly triggered by Test link in index.html or browser URL
+             */
+
+            function isTestModeOn() {
+                return DEBUG && window.location.hash === "#runTests"
+            }
+
             return {
                 initDebug: initializeDebugMode,
-                isDebugOn: DEBUG
+                inTestMode: isTestModeOn,
+                inDebugMode: DEBUG,
+                genUniqId: generateUniqueId
             }
         }()
 

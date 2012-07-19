@@ -3,44 +3,50 @@ var io = require('socket.io')
 var _ = require('underscore')
 require('./common_utils')
 
+var fs = require('fs');
+
+var walk = function(dir, done) {
+        var results = [];
+        fs.readdir(dir, function(err, list) {
+            if (err) return done(err);
+            var pending = list.length;
+            if (!pending) return done(null, results);
+            list.forEach(function(file) {
+                file = dir + '/' + file;
+                fs.stat(file, function(err, stat) {
+                    if (stat && stat.isDirectory()) {
+                        walk(file, function(err, res) {
+                            results = results.concat(res);
+                            if (!--pending) done(null, results);
+                        });
+                    } else {
+                        results.push(file);
+                        if (!--pending) done(null, results);
+                    }
+                });
+            });
+        });
+    };
+
+
 var socket = null
-
 exports.init = function(app) {
-        socket = io.listen(app)
-        socket.on('connection', handleConnection)
-    }
+        // get modules recursively
+        walk('./modules', function(err, res) {
+            if (err) throw err
 
-function handleConnection(client) {
-    client.join('room');
-    client.on('save', Handlers.save);
-    client.on('update', Handlers.update)
-}
+            // require modules
+            var socketHandlers = res
+            socketHandlers = _.map(socketHandlers, function(v) {
+                return require(v)
+            })
 
+            // boot socket
+            socket = io.listen(app)
 
-var Handlers = {
-
-    save: function(modelName, data, callback) {
-        data = JSON.parse(data)
-        var client = this
-        db[modelName].findOne({
-            id: data.id
-        }, function(err, doc) {
-            if (!doc) {
-                doc = new db[modelName]()
-            }
-
-            doc = _.extend(doc, data)
-            doc.save()
-
-            callback(doc)
-            client.manager.sockets['in']('room').emit('update_one', client.id, doc)
-        })
-    },
-
-    update: function(modelName, callback) {
-        var client = this
-        db[modelName].find({}, function(err, docs) {
-            callback(client.id, docs)
+            // loop through modules and add listeners
+            _.each(socketHandlers, function(v) {
+                socket.on('connection', v.handleConnection)
+            })
         })
     }
-}

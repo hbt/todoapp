@@ -15,8 +15,7 @@
 
 ### To avoid restarting the node.js server
 
-* install nodemon to reload app.js during development  `npm install nodemon`
-* use nodemon `nodemon -d 0.5 app.js` to reload node server after making changes
+* use `watch_and_do . js,css,json,html utils/build.rb` to reload node server + web app after making changes
 
 
 ### To avoid reloading the page manually
@@ -36,3 +35,10 @@
 ### To build the minified version (all files in one)
 
 * `rake switch_env prod` will compress all files into one
+
+
+### to run the tests
+
+* switch to dev
+* click on "Test"
+* reload page and jasmine tests will run

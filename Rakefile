@@ -48,6 +48,7 @@ task :switch_env do
 
     dev_str = <<-eos
 <!-- do not edit (generated) begin -->
+<link rel="stylesheet" type="text/css" href="/assets/stylesheets/deps/jasmine.css">
 <script type="text/javascript">
 window.DEBUG = 1;
 </script>

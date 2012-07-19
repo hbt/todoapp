@@ -2,15 +2,15 @@
 // use for both app & web
 exports.getConfig = function() {
     return {
-        "database": {
-            "name": "tasktree",
+        "db": {
+            "name": "todo",
             "user": "admin",
             "pwd": "admin",
-            "port": "2244",
+            "port": "27017",
             "host": "localhost"
         },
         "server": {
-            "port": "3000"
+            "port": 3000
         }
     }
 }

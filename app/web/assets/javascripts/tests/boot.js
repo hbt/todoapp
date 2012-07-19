@@ -1,7 +1,8 @@
-var tests = [
-    'deps/jasmine/jasmine-html',
-    'tests/example'
-]
+var tests = ['deps/jasmine/jasmine-html',
+// check basics are working
+'tests/checkSpecs',
+// authentication
+'tests/auth/register', ]
 define(tests, function(jasmine) {
     jasmine = jasmine.jasmine
     var boot = (function() {
@@ -25,6 +26,6 @@ define(tests, function(jasmine) {
         }
 
     })();
-    
+
     return boot
 })

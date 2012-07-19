@@ -20,13 +20,14 @@ if (document) {
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync'], function($, CUtils, Utils, Sync) {
+require(['jquery', 'config', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication'], function($, Config, CUtils, Utils, Sync, Auth) {
     Utils.initDebug()
-    Sync.init()
 
-    if(Utils.isDebugOn) {
-        require(['tests/boot'], function(tests){
+    if (Utils.inTestMode()) {
+        require(['tests/boot'], function(tests) {
             tests.exec()
         })
+    } else {
+        Auth.login()
     }
 });
