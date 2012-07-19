@@ -4,7 +4,10 @@ define(['socket'], function(WS) {
                 return Sync.socket = WS.connect(AppConfig.server)
             }
             return {
-                connect: connect
+                connect: connect,
+                disconnect: function() {
+                    Sync.socket.disconnect()
+                }
             }
         }()
 

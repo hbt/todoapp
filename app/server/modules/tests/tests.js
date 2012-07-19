@@ -2,10 +2,17 @@ var db = require('../../db')
 var _ = require('underscore')
 
 var events = {
+
+    /**
+     * checks if socket is alive
+     */
     isAlive: function(callback) {
         callback('alive')
     },
 
+    /**
+     * checks if we can connect to the database
+     */
     isDatabaseAlive: function(callback) {
         db.Task.find({}, function(err, docs) {
             callback('alive')
@@ -14,7 +21,7 @@ var events = {
 }
 
 function handleConnection(client) {
-    _.each(events, function(v,k) {
+    _.each(events, function(v, k) {
         client.on('tests/' + k, events[k])
     })
 }
