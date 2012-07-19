@@ -23,6 +23,9 @@ define(tests, function(jasmine) {
 
         function execJasmine() {
             jasmineEnv.execute();
+            var html = (document.getElementById('HTMLReporter'))
+            document.body.innerHTML = ''
+            document.body.appendChild(html)
         }
 
         return {

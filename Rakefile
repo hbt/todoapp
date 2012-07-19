@@ -47,20 +47,20 @@ task :switch_env do
     mode = ARGV[1]
 
     dev_str = <<-eos
-<!-- do not edit (generated) begin -->
-<link rel="stylesheet" type="text/css" href="/assets/stylesheets/deps/jasmine.css">
-<script type="text/javascript">
-window.DEBUG = 1;
-</script>
-<script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
-<!--  end -->
+        <!-- do not edit (generated) begin -->
+        <link rel="stylesheet" type="text/css" href="/assets/stylesheets/deps/jasmine.css">
+        <script type="text/javascript">
+            window.DEBUG = 1;
+        </script>
+        <script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+        <!--  end -->
 eos
 
     prod_str = <<-eos
-<!-- do not edit (generated) begin -->
-<script language="javascript" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
-<script language="javascript" src="assets/javascripts/min.js"></script>
-<!--  end -->
+        <!-- do not edit (generated) begin -->
+        <script language="javascript" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+        <script language="javascript" src="assets/javascripts/min.js"></script>
+        <!--  end -->
 eos
 
     content = File.read(index_file)

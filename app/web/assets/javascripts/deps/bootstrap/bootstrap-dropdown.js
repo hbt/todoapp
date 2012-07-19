@@ -19,7 +19,8 @@
 
 
 !
-function($) {
+function($)
+{
 
     "use strict"
 
@@ -27,9 +28,11 @@ function($) {
      * ========================= */
 
     var toggle = '[data-toggle="dropdown"]',
-        Dropdown = function(element) {
+        Dropdown = function(element)
+        {
             var $el = $(element).on('click.dropdown.data-api', this.toggle)
-            $('html').on('click.dropdown.data-api', function() {
+            $('html').on('click.dropdown.data-api', function()
+            {
                 $el.parent().removeClass('open')
             })
         }
@@ -39,12 +42,14 @@ function($) {
         constructor: Dropdown
 
         ,
-        toggle: function(e) {
+        toggle: function(e)
+        {
             var $this = $(this),
                 selector = $this.attr('data-target'),
                 $parent, isActive
 
-            if (!selector) {
+            if (!selector)
+            {
                 selector = $this.attr('href')
                 selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
             }
@@ -54,14 +59,16 @@ function($) {
 
             isActive = $parent.hasClass('open')
 
-            if (!isActive && $parent.toggleClass('open')) clearMenus()
+            if(!isActive && $parent.toggleClass('open'))
+                clearMenus()
 
             return false
         }
 
     }
 
-    function clearMenus() {
+    function clearMenus()
+    {
         $(toggle).parent().removeClass('open')
     }
 
@@ -69,8 +76,10 @@ function($) {
     /* DROPDOWN PLUGIN DEFINITION
      * ========================== */
 
-    $.fn.dropdown = function(option) {
-        return this.each(function() {
+    $.fn.dropdown = function(option)
+    {
+        return this.each(function()
+        {
             var $this = $(this),
                 data = $this.data('dropdown')
                 if (!data) $this.data('dropdown', (data = new Dropdown(this)))
@@ -84,7 +93,8 @@ function($) {
     /* APPLY TO STANDARD DROPDOWN ELEMENTS
      * =================================== */
 
-    $(function() {
+    $(function()
+    {
         $('html').on('click.dropdown.data-api', clearMenus)
         $('body').on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
     })

@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        jquery: 'deps/jq',
+        jquery: 'deps/jquery/jq',
         underscore: 'deps/underscore',
         socket: 'deps/socket.io',
         store: 'deps/backbone.localStorage',
@@ -9,7 +9,8 @@ require.config({
         text: 'deps/require/text',
         templates: '../templates',
         handlebars: 'deps/handlebars',
-        jasmine: 'deps/jasmine/jasmine'
+        jasmine: 'deps/jasmine/jasmine',
+        extendjs: 'utils/extend'
     }
 });
 
@@ -20,7 +21,7 @@ if (document) {
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'config', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication'], function($, Config, CUtils, Utils, Sync, Auth) {
+require(['jquery', 'config', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication', 'extendjs'], function($, Config, CUtils, Utils, Sync, Auth) {
     Utils.initDebug()
 
     if (Utils.inTestMode()) {

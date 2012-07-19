@@ -52,14 +52,39 @@ define(['jquery'], function($) {
                 return DEBUG && window.location.hash === "#runTests"
             }
 
+            /**
+             * clear storage if it starts by our prefix
+             */
+
+            function clearLocalStorage() {
+                _.each(_.keys(localStorage), function(key) {
+                    if (key.startsWith(AppConfig.prefix)) {
+                        localStorage.removeItem(key)
+                    }
+                })
+            }
+
+            function getLocalStorageSize() {
+                var ret = 0
+                _.each(_.keys(localStorage), function(key) {
+                    if (key.startsWith(AppConfig.prefix)) {
+                        ret++
+                    }
+                })
+
+                return ret
+            }
+
             return {
                 initDebug: initializeDebugMode,
                 inTestMode: isTestModeOn,
                 inDebugMode: DEBUG,
-                genUniqId: generateUniqueId
+                genUniqId: generateUniqueId,
+                clearLocalStorage: clearLocalStorage,
+                getLocalStorageSize: getLocalStorageSize
             }
         }()
-
+        
         return Utils
 });
 

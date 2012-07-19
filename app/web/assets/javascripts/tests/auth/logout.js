@@ -1,4 +1,4 @@
-define(['deps/jasmine/jasmine-html', 'modules/authentication'], function(jasmine, Auth) {
+define(['deps/jasmine/jasmine-html', 'modules/authentication', 'utils/utils'], function(jasmine, Auth, Utils) {
     var flag, value
 
 
@@ -19,7 +19,7 @@ define(['deps/jasmine/jasmine-html', 'modules/authentication'], function(jasmine
                 }, 1000)
 
                 runs(function() {
-                    expect(localStorage.length).toEqual(0)
+                    expect(Utils.getLocalStorageSize()).toEqual(0)
                 })
             })
         })

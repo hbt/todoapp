@@ -1,22 +1,334 @@
 <html>
     <head>
+        <meta charset="utf-8">
         <title>TaskTree</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Task Management">
+        <meta name="author" content="hbt">
 
-    
+        <link href="assets/stylesheets/deps/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/stylesheets/deps/bootstrap/bootstrap-responsive.css" rel="stylesheet">
+        <link href="assets/stylesheets/deps/jquery/jquery-ui.css" rel="stylesheet">
+
+        <script type="text/javascript" src="assets/javascripts/deps/jquery/jq.js"></script>
+        <script type="text/javascript" src="assets/javascripts/deps/jquery/jquery-ui.js"></script>
+        <script type="text/javascript" src="assets/javascripts/deps/bootstrap/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="assets/javascripts/deps/bootstrap/bootstrap-button.js"></script>
+        <script type="text/javascript" src="assets/javascripts/deps/bootstrap/bootstrap-tooltip.js"></script>
+        <script type="text/javascript" src="assets/javascripts/deps/bootstrap/bootstrap-popover.js"></script>
+
         <!-- do not edit (generated) begin -->
-<link rel="stylesheet" type="text/css" href="/assets/stylesheets/deps/jasmine.css">
-<script type="text/javascript">
-window.DEBUG = 1;
-</script>
-<script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
-<!--  end -->
+        <link rel="stylesheet" type="text/css" href="/assets/stylesheets/deps/jasmine.css">
+        <script type="text/javascript">
+            window.DEBUG = 1;
+        </script>
+        <script language="javascript" data-main="/assets/javascripts/app.js" src="assets/javascripts/deps/require/requirejs.js" type="text/javascript"></script>
+        <!--  end -->
 
+        <link href="assets/stylesheets/main.css" rel="stylesheet">
     </head>
     <body>
         <div id="debug" style="display:none;">
             <a href="" onclick="localStorage.clear()">Reset</a>
             <br/>
             <a href="#runTests">Test</a>
+        </div>
+
+        <div class="navbar navbar-fixed-top">
+        </div>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">
+                        TaskTree
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <input type="text" class="input-medium search-query" placeholder="Search...">
+                    <br/>
+                    <br/>
+                    <div>
+                        <span class="label label-info big-label">#Tags</span>
+                        <span style="margin-left: 45%">
+                            <img src="assets/images/priority_asc.png" width="23" class="active-icon img-action"/>
+                            <img src="assets/images/alpha_asc.png" width="23" class="img-action"/>
+                        </span>
+                    </div>
+                    <br/>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="#">Errands <span class="bubble-number">23</span></a>
+
+                        </li>
+                        <li><a href="#">Projects <span class="bubble-number">5</span></a>
+
+                            <div style="margin-left: 20px">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="active"><a href="#">Todo <span class="bubble-number">2</span></a></li>
+
+                                    <li class="active"><a href="#">Vrome <span class="bubble-number">3</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Read <span class="bubble-number">45</span></a></li>
+                    </ul>
+
+                    <div style="margin-left: 65%">
+                        <a class="btn btn-danger btn-large" href="#">Reset</a>
+                    </div>
+                </div>
+
+                <div class="span9">
+                    <div class="first-input">
+                        <input type="text" placeholder="What's on your mind? Capture it here ... // What's next?" autocomplete="off" class="task-input"/>
+                    </div>
+
+                    <br/>
+                    <div>
+                        <div class="section-title section-urgent">
+                            <img src="assets/images/urgent.png" width="20"/>
+                            Urgent
+                            <span class="bubble-number">5</span>
+                        </div>
+                        <div>
+
+                            <div class="section-container">
+                                <div class="task-container">
+                                    <img src="assets/images/box.png" class="action-icon"/>
+                                    <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs" style="color: red;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title section-overdue">
+                            <img src="assets/images/overdue.png" width="20"/>
+                            Overdue
+                            <span class="bubble-number">8</span>
+                        </div>
+                        <div class="section-container">
+                            <div class="task-container" style="">
+                                <img src="assets/images/done.png" class="action-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs" style="color: cyan;"/>
+                                <span class="task-due">due 6 days ago</span>
+                            </div>
+                            <div class="task-container">
+                                <img src="assets/images/box.png" class="action-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="call Jeni back" style="color: pink;"/>
+                                <span class="task-due">due 2 days ago</span>
+                            </div>
+                            <div class="task-container selected-task">
+                                <img src="assets/images/add.png" class="action-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+
+                                <a class="btn btn-primary btn-large" href="#">Snooze</a>
+                                <a class="btn btn-warning btn-large" href="#">Missed</a>
+
+                                <br/>
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Priority:
+                                        </td>
+                                        <td>
+                                            Tags
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <ul class="nav nav-pills">
+                                                <li><a href="#"><img src="assets/images/urgent.png" width="15"/> Urgent</a></li>
+                                                <li class="active"><a href="#"><img src="assets/images/need.png" width="15"/> Need</a></li>
+                                                <li><a href="#"><img src="assets/images/wish.png" width="15"/> Wish</a></li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="nav nav-pills">
+                                                <li><img src="assets/images/tag.png" width="20"/></li>
+                                                <li class="active"><a href="#">Todo</a></li>
+                                                <li class="active"><a href="#">Vrome</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <a class="btn dropdown-toggle" href="#">More Actions&nbsp;<span class="caret"></span></a>
+
+                                <table>
+                                    <tr>
+                                        <td style="font-weight: bold;">
+                                            Due Date
+                                        </td>
+                                        <td style="font-weight: bold;">
+                                            Repeat every X
+                                        </td>
+                                        <td style="font-weight: bold;">
+                                            Reminders
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/images/calendar.png" width="20"/>
+                                            <input type="text" class="datepicker" style="width: 60%;">
+                                        </td>
+                                        <td>
+                                            <img src="assets/images/repeat.png" width="20"/>
+                                            <input type="text" style="width: 60%;">
+                                        </td>
+                                        <td>
+                                            <a href="#"> Add Reminder </a>
+                                            <br/>
+
+                                            <select style="width: 20%">
+                                                <option>Email</option>
+                                                <option>Popup</option>
+                                            </select>
+                                            <input type="text" style="width: 9%;"/>
+                                            <select style="width: 25%">
+                                                <option>Minutes</option>
+                                                <option>Hours</option>
+                                                <option>Days</option>
+                                                <option>Weeks</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <img src="assets/images/add_note.png" width="30"/>
+                                <span style="font-size: 20px; font-weight: bold;">Notes (3)</span>
+
+                                <br/>
+                                <br/>
+                                <div style="margin-left: 20px;">
+                                    <img src="assets/images/notes.png" width="30"/>
+                                    <textarea cols="60" rows="2" style="width: 80%;"></textarea>
+                                </div>
+                                <div style="margin-left: 20px;">
+                                    <img src="assets/images/notes.png" width="30"/>
+                                    <textarea cols="60" rows="2" style="width: 80%;">something very interesting and related to this task. or not</textarea>
+                                    <img src="assets/images/delete_note.png" width="30"/>
+                                </div>
+                            </div>
+                            <div class="task-container">
+                                <img src="assets/images/done.png" class="action-icon"/>
+                                <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+                                <span class="task-due">due 2 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="section-title section-today">
+                            <img src="assets/images/today.png" width="20"/>
+                            Today
+                            <span class="bubble-number">12</span>
+                        </div>
+                        <div class="task-container selected-task">
+                            <img src="assets/images/add.png" class="action-icon"/>
+                            <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="buy eggs"/>
+
+                            <a class="btn btn-primary btn-large" href="#">Snooze</a>
+                            <a class="btn btn-warning btn-large" href="#">Missed</a>
+
+                            <br/>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        Priority:
+                                    </td>
+                                    <td>
+                                        Tags
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="nav nav-pills">
+                                            <li><a href="#"><img src="assets/images/urgent.png" width="15"/> Urgent</a></li>
+                                            <li class="active"><a href="#"><img src="assets/images/need.png" width="15"/> Need</a></li>
+                                            <li><a href="#"><img src="assets/images/wish.png" width="15"/> Wish</a></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul class="nav nav-pills">
+                                            <li><img src="assets/images/tag.png" width="20"/></li>
+                                            <li class="active"><a href="#">Todo</a></li>
+                                            <li class="active"><a href="#">Vrome</a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <a class="btn dropdown-toggle" href="#">More Actions&nbsp;<span class="caret"></span></a>
+
+                            <table>
+                                <tr>
+                                    <td style="font-weight: bold;">
+                                        Due Date
+                                    </td>
+                                    <td style="font-weight: bold;">
+                                        Repeat every X
+                                    </td>
+                                    <td style="font-weight: bold;">
+                                        Reminders
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="assets/images/calendar.png" width="20"/>
+                                        <input type="text" class="datepicker" style="width: 60%;">
+                                    </td>
+                                    <td>
+                                        <img src="assets/images/repeat.png" width="20"/>
+                                        <input type="text" style="width: 60%;">
+                                    </td>
+                                    <td>
+                                        <a href="#"> Add Reminder </a>
+                                        <br/>
+
+                                        <select style="width: 20%">
+                                            <option>Email</option>
+                                            <option>Popup</option>
+                                        </select>
+                                        <input type="text" style="width: 9%;"/>
+                                        <select style="width: 25%">
+                                            <option>Minutes</option>
+                                            <option>Hours</option>
+                                            <option>Days</option>
+                                            <option>Weeks</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <img src="assets/images/add_note.png" width="30"/>
+                            <span style="font-size: 20px; font-weight: bold;">Notes (3)</span>
+
+                            <br/>
+                            <br/>
+                            <div style="margin-left: 20px;">
+                                <img src="assets/images/notes.png" width="30"/>
+                                <textarea cols="60" rows="2" style="width: 80%;"></textarea>
+                            </div>
+                            <div style="margin-left: 20px;">
+                                <img src="assets/images/notes.png" width="30"/>
+                                <textarea cols="60" rows="2" style="width: 80%;">something very interesting and related to this task. or not</textarea>
+                                <img src="assets/images/delete_note.png" width="30"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
 
     </body>

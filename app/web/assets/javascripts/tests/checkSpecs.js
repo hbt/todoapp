@@ -1,4 +1,4 @@
-define(['deps/jasmine/jasmine-html', 'utils/sync'], function(jasmine, WS) {
+define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasmine, WS, Utils) {
     // used by jasmine for asynchronous calls
     var flag, value
 
@@ -44,8 +44,8 @@ define(['deps/jasmine/jasmine-html', 'utils/sync'], function(jasmine, WS) {
             })
 
             it("localstorage is reset/empty", function() {
-                localStorage.clear()
-                expect(localStorage.length).toEqual(0)
+                Utils.clearLocalStorage()
+                expect(Utils.getLocalStorageSize()).toEqual(0)
             })
         })
     }

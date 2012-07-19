@@ -63,7 +63,7 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
             function logout(callback) {
                 WS.connect().emit('auth/logout', Utils.inTestMode(), function(info) {
                     WS.disconnect()
-                    localStorage.clear()
+                    Utils.clearLocalStorage()
                     if (callback) callback(info)
                 })
             }
