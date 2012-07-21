@@ -3,11 +3,11 @@
  */
 define(['collections/tasks'], function(Tasks) {
     var TaskNewView = Backbone.View.extend({
-        el: $('.first-input'),
+        el: $('.first-input .task-input'),
         events: {
             // add new task on enter
-            'keypress': 'addNew'
-            // TODO:(hbt) clear field on blur
+            'keypress': 'addNew',
+            'blur': 'clear'
         },
 
         addNew: function(e) {
@@ -21,6 +21,10 @@ define(['collections/tasks'], function(Tasks) {
 
                 e.target.value = ''
             }
+        },
+
+        clear: function(e) {
+            e.target.value = ''
         },
 
         initialize: function() {}

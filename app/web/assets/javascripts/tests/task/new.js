@@ -1,8 +1,8 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], function(jasmine, Utils, Tasks) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, Tasks, Auth) {
     with(jasmine) {
-        describe("Tasks", function() {
+        describe("New Tasks", function() {
 
-            it("creates new task", function() {
+            it("creates new task and saves locally and remotely", function() {
                 var title = 'first task'
 
                 // type something and press enter
@@ -10,9 +10,9 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], functi
                 el.focus()
                 Utils.keyboard.simulateTyping(title)
                 Utils.keyboard.simulateKey('Enter')
-                
+
                 // data is saved
-                var timestamp = +new Date()+5
+                var timestamp = +new Date() + 5
                 var task = Tasks.at(0)
                 var oldtask = _.clone(task.toJSON())
                 expect(task.get('title')).toEqual(title)
@@ -23,29 +23,47 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], functi
                 // data is synced remotely
                 task.bind('remote_update', function() {
                     var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
-                    // only difference is the new remote ID
-                    expect(diff.length).toEqual(1)
+                    // only difference is the new remote ID + userId
+                    expect(diff.length).toEqual(2)
                     expect(task.get('_id').length).toEqual(24)
+                    expect(task.get('userId')).toEqual(Auth.getUserId())
                 }, task)
 
 
                 // input is cleared
                 expect(el.val().length).toEqual(0)
-
-                // type something and leave input
-
-                // input is cleared on blur
-                
-                // nothing then press enter
-                
-                // no data is created
-                
-                // test title validation
-                // add space to display error messages when stuff is invalid. One spot for the whole app
+            })
 
 
+            it("doesn't create a task if title is empty", function() {
+                var el = $('.first-input .task-input')
+                el.focus()
+                Utils.keyboard.simulateTyping('')
+                Utils.keyboard.simulateKey('Enter')
+
+                expect(Tasks.length).toEqual(1)
+
+                el.focus()
+                Utils.keyboard.simulateTyping('   ')
+                Utils.keyboard.simulateKey('Enter')
+
+                expect(Tasks.length).toEqual(1)
+
+            })
+
+
+            // input is cleared on blur
+            it("clears the input when focus is removed", function() {
                 // TODO(hbt): wait 5000 then clear the input and make sure input has no changed. if clicked, it cancels the timer
+                var el = $('.first-input .task-input')
+                el.focus()
+                Utils.keyboard.simulateTyping('something random')
+                el.blur()
+
+
+                expect(Tasks.length).toEqual(1)
+                expect(el.val()).toEqual('')
             })
         })
-        }
+    }
 })

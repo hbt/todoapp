@@ -3,19 +3,24 @@ var _ = require('underscore')
 
 var events = {
     save: function(modelName, model, callback) {
-       db[modelName].findOne({id: model.id}, function(err, doc) {
-           if(err) throw err
+        var client = this
 
-           if(!doc) {
-               doc = new db[modelName]()
-           }
+        db[modelName].findOne({
+            id: model.id
+        }, function(err, doc) {
+            if (err) throw err
 
-           doc = _.extend(doc, model)
+            if (!doc) {
+                doc = new db[modelName]()
+                doc.userId = client.userId
+            }
 
-           doc.save(function() {
-               callback(doc)
-           })
-       })
+            doc = _.extend(doc, model)
+
+            doc.save(function() {
+                callback(doc)
+            })
+        })
     }
 }
 
