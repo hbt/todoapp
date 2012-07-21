@@ -1,13 +1,81 @@
-define(['socket'], function(WS) {
+define(['socket', 'backbone', 'store'], function(WS, Backbone) {
     var Sync = function() {
+            var backboneLocalStorageSync = Backbone.localSync
+
+            /**
+             * returns socket
+             * */
+
             function connect() {
+                // TODO(hbt) initialize socket events
+
                 return Sync.socket = WS.connect(AppConfig.server)
             }
-            return {
-                connect: connect,
-                disconnect: function() {
-                    Sync.socket.disconnect()
+
+            /**
+             * disconnects current socket
+             * */
+
+            function disconnect() {
+                return Sync.socket.disconnect()
+            }
+
+            var RemoteSync = {
+                save: function(method, model, options, error) {
+                    c.l(model.toJSON())
+                   Sync.connect().emit('model/save', model.modelName, model.toJSON(), function(res) {
+                    model.save(res, {
+                        silent: true,
+                        skip_remote: true
+                    })
+                    model.trigger('remote_update')
+//                    model.collection._byId[res.id]
+                });
                 }
+            }
+
+            /**
+             * handle remote sync operations
+             */
+            function remoteSync(method, model, options, error) {
+                switch (method)
+            {
+            case "read":
+                break;
+            case "create":
+            case "update":
+                RemoteSync.save.apply(this, arguments)
+                break;
+            case "delete":
+                break;
+            }
+            }
+
+            function syncLocalAndRemote(method, model, options, error) {
+                // save locally
+                backboneLocalStorageSync.apply(this, arguments)
+
+                // save remotely
+                if(!options.skip_remote)
+                    remoteSync.apply(this, arguments)
+            }
+
+            /**
+             * initialize backbone localstorage + remote syncing
+             */
+
+            function initialize() {
+                // create socket
+                Sync.connect()
+
+                // overwrite backbone sync
+                Backbone.sync = syncLocalAndRemote
+            }
+
+            return {
+                init: initialize,
+                connect: connect,
+                disconnect: disconnect
             }
         }()
 

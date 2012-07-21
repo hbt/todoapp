@@ -41,6 +41,7 @@ var events = {
             if (err) throw err
 
             if (remove) {
+                // TODO(hbt): remove tasks
                 doc.remove()
                 callback('removed')
             }

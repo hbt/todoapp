@@ -9,8 +9,7 @@ require.config({
         text: 'deps/require/text',
         templates: '../templates',
         handlebars: 'deps/handlebars',
-        jasmine: 'deps/jasmine/jasmine',
-        extendjs: 'utils/extend'
+        jasmine: 'deps/jasmine/jasmine'
     }
 });
 
@@ -21,14 +20,19 @@ if (document) {
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'config', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication', 'extendjs'], function($, Config, CUtils, Utils, Sync, Auth) {
+require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication', 'views/app',
+// global stuff
+'utils/extend', 'config'], function($, CUtils, Utils, Sync, Auth, AppView) {
     Utils.initDebug()
+    Sync.init()
+    Auth.login()
 
+    new AppView()
+
+            c.l(window.location.hash)
     if (Utils.inTestMode()) {
         require(['tests/boot'], function(tests) {
-            tests.exec()
+            tests.exec(window.location.hash === "#tests")
         })
-    } else {
-        Auth.login()
     }
 });

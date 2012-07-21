@@ -3,6 +3,8 @@ var tests = ['deps/jasmine/jasmine-html',
 'tests/checkSpecs',
 // authentication
 'tests/auth/register',
+// tasks
+'tests/task/new',
 // take down
 'tests/auth/logout'
 // next here
@@ -21,11 +23,18 @@ define(tests, function(jasmine) {
             return htmlReporter.specFilter(spec);
         };
 
-        function execJasmine() {
+        function execJasmine(replace) {
             jasmineEnv.execute();
-            var html = (document.getElementById('HTMLReporter'))
-            document.body.innerHTML = ''
-            document.body.appendChild(html)
+
+            function replaceBodyWithResults() {
+                if (replace) {
+                    var html = (document.getElementById('HTMLReporter'))
+                    document.body.innerHTML = ''
+                    document.body.appendChild(html)
+                }
+            }
+
+            setTimeout(replaceBodyWithResults, 1500)
         }
 
         return {

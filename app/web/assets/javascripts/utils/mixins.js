@@ -9,10 +9,10 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 this.set('createdAt', new Date().getTime())
             }
 
-            if (value && value.skip_remote) {} else {
+            if (!(value && value.silent)) {
                 this.set('updatedAt', new Date().getTime())
             }
-            //            c.l('hh', options.skip_remote)
+
             Backbone.Model.prototype.save.apply(this, [key, value, options])
         }
     }

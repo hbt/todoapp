@@ -5,6 +5,7 @@ define(['store', 'models/task'], function(Store, Task) {
         localStorage: new Store("tasks")
     });
 
+    //TODO(hbt): abstract and use mixins
     TaskCollection.instance = null
     TaskCollection.getInstance = function() {
         if (TaskCollection.instance == null) TaskCollection.instance = new TaskCollection()

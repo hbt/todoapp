@@ -10,7 +10,7 @@ exports.getConfig = function() {
             "host": "localhost"
         },
         "server": {
-            "port": 3000
+            "port": 9099
         }
     }
 }
