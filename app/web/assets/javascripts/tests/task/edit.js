@@ -54,8 +54,15 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
                 expect(el.val()).toEqual('u2')
             })
 
-            it("editing in window A, displays it in window B", function() {
+            it("doesn't save empty when using backspace", function() {
 
+            })
+
+            it("editing in window A, displays it in window B", function() {
+                // create iframe
+                // Note: works on chrome and I don't have to write code to handle recursivity. Could be an issue elsewhere
+                //                var href = window.location.href
+                //                $('<iframe src="' + href + '" id="clone" width="1200" height="800"/>').appendTo('body');
             })
 
             it("creating in window A, creates it in window B", function() {})

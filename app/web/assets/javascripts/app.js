@@ -29,7 +29,7 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/a
 
     new AppView()
 
-    if (Utils.inTestMode()) {
+    if (AppConfig.inTestMode()) {
         require(['tests/boot'], function(tests) {
             tests.exec(window.location.hash === "#tests")
         })

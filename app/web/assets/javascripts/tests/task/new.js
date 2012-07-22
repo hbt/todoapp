@@ -1,5 +1,5 @@
 define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, Tasks, Auth) {
-    var task, oldtask
+    var task, oldtask, flag
 
     with(jasmine) {
         describe("New Tasks", function() {
@@ -29,14 +29,26 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
 
             it("saves remotely", function() {
                 // data is synced remotely
-                task.bind('remote_update', function() {
-                    var diff = _.difference(_.values(this.toJSON()), _.values(oldtask))
+                runs(function() {
+                    flag = false
+                    task.bind('remote_update', function() {
+                        flag = true
+                    }, task)
+                })
+
+                waitsFor(function() {
+                    return flag
+                }, 1000)
+
+                runs(function() {
+                    var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
                     // only difference is the new remote ID + userId
                     expect(diff.length).toEqual(2)
-                    expect(this.get('_id').length).toEqual(24)
-                    expect(this.get('userId')).toEqual(Auth.getUserId())
-                    this.unbind('remote_update')
-                }, task)
+                    expect(task.get('_id').length).toEqual(24)
+                    expect(task.get('userId')).toEqual(Auth.getUserId())
+                    task.unbind('remote_update')
+                })
+
             })
 
 

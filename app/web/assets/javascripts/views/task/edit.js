@@ -33,7 +33,6 @@ define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
 
         render: function() {
             var html = this.tmpl(this.model.toFormattedJSON())
-
             // by default, view has model attributes embedded
             if (this.el.getAttribute('id') == this.model.id) {
                 // create

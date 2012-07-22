@@ -1,4 +1,13 @@
-define(['socket', 'backbone', 'store'], function(WS, Backbone) {
+define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbone, Tasks) {
+
+    // TODO(hbt): consider using namespace when defining collections for easy referencing
+    var collections = {}
+    _.each(arguments, function(v) {
+        if (v.modelName) {
+            collections[v.modelName] = v
+        }
+    })
+
     var Sync = function() {
             var backboneLocalStorageSync = Backbone.localSync
 
@@ -20,14 +29,19 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
             }
 
             var RemoteSync = {
+
+                handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
+                    if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
+                    var model = collections[modelName]._byId[doc.id]
+                    model.save(doc, _.extend(attrs, {
+                        skip_remote: true
+                    }))
+                    model.trigger('remote_update')
+                },
+
                 save: function(method, model, options, error) {
                     c.l('save remote', model.toJSON())
-                    Sync.connect().emit('model/save', model.modelName, model.toJSON(), function(res) {
-                        model.save(res, _.extend(options, {
-                            skip_remote: true
-                        }))
-                        model.trigger('remote_update')
-                    });
+                    Sync.connect().emit('model/save', model.modelName, model.toJSON(), options, RemoteSync.handleRemoteUpdate);
                 }
             }
 
@@ -49,7 +63,7 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
             }
 
             function syncLocalAndRemote(method, model, options, error) {
-                c.l('save local', model.toJSON())
+                c.l(method + ' local', model.toJSON())
                 // save locally
                 backboneLocalStorageSync.apply(this, arguments)
 
@@ -64,6 +78,8 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
             function initialize() {
                 // create socket
                 Sync.connect()
+
+                Sync.socket.on('update_one', RemoteSync.handleRemoteUpdate)
 
                 // overwrite backbone sync
                 Backbone.sync = syncLocalAndRemote

@@ -2,7 +2,7 @@ var db = require('../../db')
 var _ = require('underscore')
 
 var events = {
-    save: function(modelName, model, callback) {
+    save: function(modelName, model, opts, callback) {
         var client = this
 
         db[modelName].findOne({
@@ -18,7 +18,10 @@ var events = {
             doc = _.extend(doc, model)
 
             doc.save(function() {
-                callback(doc)
+                callback(client.id, modelName, opts, doc)
+                opts.roomUpdate = true
+                opts.silent = false
+                client.manager.sockets['in'](client.userId).emit('update_one', client.id, modelName, opts, doc)
             })
         })
     }

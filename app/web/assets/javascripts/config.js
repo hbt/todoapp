@@ -3,6 +3,16 @@ var AppConfig = {
     // prefix used by local storage -- needed to avoid overwriting chrome extensions storage
     prefix: 'tasktree-',
     genkey: function(key) {
-        return AppConfig.prefix + key
+        var val = ''
+        if (AppConfig.inTestMode()) {
+            if (!window.val) window.val = +new Date() * Math.random()
+            val = window.val
+        }
+
+        return AppConfig.prefix + val + key
+    },
+
+    inTestMode: function() {
+        return DEBUG && (_.include(['#devtests', '#tests'], window.location.hash))
     }
 }

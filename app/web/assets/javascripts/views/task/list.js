@@ -1,8 +1,9 @@
-define(['collections/tasks', 'views/task/edit'], function(Tasks, TaskEditView) {
+define(['backbone', 'collections/tasks', 'views/task/edit'], function(Backbone, Tasks, TaskEditView) {
     var TaskListView = Backbone.View.extend({
         initialize: function() {
             Tasks.bind('add', this.addOne, this)
             Tasks.bind('reset', this.addAll, this)
+            Tasks.fetch()
         },
 
         addAll: function() {

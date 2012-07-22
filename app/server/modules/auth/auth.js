@@ -10,6 +10,7 @@ var events = {
      */
     login: function(userId, callback) {
         this.userId = userId
+        var client = this
 
         db.User.findOne({
             id: userId
@@ -20,6 +21,8 @@ var events = {
                 doc.id = userId
                 doc.createdAt = +new Date()
             }
+
+            client.join(client.userId);
 
             doc.updatedAt = +new Date()
             doc.loggedAt.push(+new Date())
