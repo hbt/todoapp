@@ -41,10 +41,22 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
             })
 
             it("model is tied to the view", function() {
-//                 Tasks.at(0).save({title: 'u2'})
+                Tasks.at(0).save({
+                    title: 'u2'
+                })
+                el = $('.all-tasks .task-container .task-input').first()
+
+                Tasks.at(0).save({
+                    title: 'u3'
+                }, {
+                    silent: true
+                })
+                expect(el.val()).toEqual('u2')
             })
 
-            it("editing in window A, displays it in window B", function() {})
+            it("editing in window A, displays it in window B", function() {
+
+            })
 
             it("creating in window A, creates it in window B", function() {})
         })

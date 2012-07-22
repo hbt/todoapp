@@ -23,9 +23,9 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
                 save: function(method, model, options, error) {
                     c.l('save remote', model.toJSON())
                     Sync.connect().emit('model/save', model.modelName, model.toJSON(), function(res) {
-                        model.save(res, {
+                        model.save(res, _.extend(options, {
                             skip_remote: true
-                        })
+                        }))
                         model.trigger('remote_update')
                     });
                 }

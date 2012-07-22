@@ -18,16 +18,17 @@ define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
             if (this.model.get('title') !== e.target.value) {
                 this.model.save({
                     title: e.target.value
+                }, {
+                    silent: true
                 })
             }
         },
 
         initialize: function(model) {
             this.model = model
-//            this.model.bind('sync', this.render, this)
-//            this.model.bind('sync', function() {
-//                c.l('asd')
-//            }, this)
+            this.model.bind('sync', function(model, obj, attrs) {
+                if (!attrs.silent) this.render()
+            }, this)
         },
 
         render: function() {
