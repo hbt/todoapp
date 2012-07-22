@@ -21,10 +21,9 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
 
             var RemoteSync = {
                 save: function(method, model, options, error) {
-                    c.l(model.toJSON())
+                    c.l('save remote', model.toJSON())
                     Sync.connect().emit('model/save', model.modelName, model.toJSON(), function(res) {
                         model.save(res, {
-                            silent: true,
                             skip_remote: true
                         })
                         model.trigger('remote_update')
@@ -50,6 +49,7 @@ define(['socket', 'backbone', 'store'], function(WS, Backbone) {
             }
 
             function syncLocalAndRemote(method, model, options, error) {
+                c.l('save local', model.toJSON())
                 // save locally
                 backboneLocalStorageSync.apply(this, arguments)
 

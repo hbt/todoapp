@@ -1,3 +1,10 @@
-<div>
-    <input type="text" size="40" value="{{ title }}"/>
+<div class="task-container">
+    <a class="task-status">
+        {{#if done }}
+        <img src="assets/images/done.png" class="action-icon task-status-img"/>
+        {{else}}
+        <img src="assets/images/box.png" class="action-icon task-status-img"/>
+        {{/if}}
+    </a>
+    <input type="text" placeholder="What's on your mind? Capture it here ..." autocomplete="off" class="task-input" value="{{ title }}"/>
 </div>

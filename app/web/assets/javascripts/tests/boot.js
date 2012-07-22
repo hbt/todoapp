@@ -3,8 +3,12 @@ var tests = ['deps/jasmine/jasmine-html',
 'tests/checkSpecs',
 // authentication
 'tests/auth/register',
-// tasks
+// new tasks
 'tests/task/new',
+// editing tasks
+'tests/task/edit',
+// loading tasks
+'tests/task/list',
 // take down
 'tests/auth/logout'
 // next here

@@ -3,12 +3,19 @@ define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
         tmpl: HB.compile(tmpltxt),
 
         events: {
-            'keyup': 'save'
+            'keyup': 'save',
+            'click .task-status': 'toggleDone'
+        },
+
+        toggleDone: function(e) {
+            this.model.save({
+                'done': !this.model.get('done')
+            })
+            this.render()
         },
 
         save: function(e) {
             if (this.model.get('title') !== e.target.value) {
-                // TODO: add enter save vs keypress option
                 this.model.save({
                     title: e.target.value
                 })
@@ -17,26 +24,26 @@ define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
 
         initialize: function(model) {
             this.model = model
-            this.model.bind('render', this.render, this)
+//            this.model.bind('sync', this.render, this)
+//            this.model.bind('sync', function() {
+//                c.l('asd')
+//            }, this)
         },
 
         render: function() {
-            var html = this.tmpl({
-                title: this.model.get('title')
-            })
+            var html = this.tmpl(this.model.toFormattedJSON())
 
             // by default, view has model attributes embedded
-            if (this.el.getAttribute('id') == this.model.id)
-            // create
-            this.el = $(html)
-            else
-            // update
-            this.el.innerHTML = html
-
-            // sync events to new this.el
-            // TODO: check if this is needed on update
-            this._ensureElement();
-            this.delegateEvents();
+            if (this.el.getAttribute('id') == this.model.id) {
+                // create
+                this.el = $(html)
+                // sync events to new this.el
+                this._ensureElement();
+                this.delegateEvents();
+            } else {
+                // update
+                this.el.innerHTML = html
+            }
 
             return this
         }

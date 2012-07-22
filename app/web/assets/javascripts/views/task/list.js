@@ -1,14 +1,8 @@
-define(['jquery', 'collections/tasks', 'views/task/edit', 'views/task/new', 'socket', 'utils/utils'], function($, Tasks, TaskEdit, TaskNew, WS, Utils) {
+define(['collections/tasks', 'views/task/edit'], function(Tasks, TaskEditView) {
     var TaskListView = Backbone.View.extend({
         initialize: function() {
-            new TaskNew()
             Tasks.bind('add', this.addOne, this)
             Tasks.bind('reset', this.addAll, this)
-            // TODO: fix
-            Tasks.fetch({
-                'skip_remote': true,
-                'fetch_remote': true
-            })
         },
 
         addAll: function() {
@@ -16,8 +10,8 @@ define(['jquery', 'collections/tasks', 'views/task/edit', 'views/task/new', 'soc
         },
 
         addOne: function(model) {
-            var view = new TaskEdit(model)
-            $('#tasks').prepend(view.render().el)
+            var view = new TaskEditView(model)
+            $('.all-tasks').prepend(view.render().el)
         }
     })
 

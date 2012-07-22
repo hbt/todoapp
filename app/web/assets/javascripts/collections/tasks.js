@@ -2,7 +2,7 @@ define(['store', 'models/task'], function(Store, Task) {
     var TaskCollection = Backbone.Collection.extend({
         model: Task,
         modelName: 'Task',
-        localStorage: new Store("tasks")
+        localStorage: new Store(AppConfig.genkey("tasks"))
     });
 
     //TODO(hbt): abstract and use mixins

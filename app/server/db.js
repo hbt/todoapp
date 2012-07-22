@@ -38,6 +38,7 @@ function initSchema() {
             index: true
         },
         title: String,
+        done: Boolean,
         userId: {
             type: String,
             index: true
