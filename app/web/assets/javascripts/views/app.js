@@ -1,7 +1,7 @@
 /**
  * view for whole app
  */
-define(['jquery', 'backbone', 'views/task/new', 'views/task/list'], function($, Backbone, TaskNewView, TaskListView) {
+define(['jquery', 'config', 'utils/utils', 'backbone', 'views/task/new', 'views/task/list'], function($, AppConfig, Utils, Backbone, TaskNewView, TaskListView) {
     var AppView = Backbone.View.extend({
 
         initialize: function() {

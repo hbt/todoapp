@@ -38,7 +38,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
 
                 waitsFor(function() {
                     return flag
-                }, 1000)
+                }, 2000)
 
                 runs(function() {
                     var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
@@ -52,7 +52,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
             })
 
 
-            it("should be at the top of the view", function() {
+            it("appears at the top of the view", function() {
                 expect($('.all-tasks .task-container .task-input').val()).toEqual(task.get('title'))
             })
 
@@ -69,7 +69,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
                 Utils.keyboard.simulateKey('Enter')
 
                 expect(Tasks.length).toEqual(1)
-
             })
 
             // input is cleared on blur

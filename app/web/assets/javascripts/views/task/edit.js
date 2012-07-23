@@ -1,4 +1,4 @@
-define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
+define(['jquery', 'backbone', 'handlebars', 'text!templates/task/edit.html'], function($, Backbone, HB, tmpltxt) {
     var TaskEditView = Backbone.View.extend({
         tmpl: HB.compile(tmpltxt),
 
@@ -29,10 +29,12 @@ define(['handlebars', 'text!templates/task/edit.html'], function(HB, tmpltxt) {
             this.model.bind('sync', function(model, obj, attrs) {
                 if (!attrs.silent) this.render()
             }, this)
+            this.model.bind('destroy', this.remove, this)
         },
 
         render: function() {
             var html = this.tmpl(this.model.toFormattedJSON())
+
             // by default, view has model attributes embedded
             if (this.el.getAttribute('id') == this.model.id) {
                 // create

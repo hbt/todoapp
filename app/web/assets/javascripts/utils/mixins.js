@@ -1,6 +1,7 @@
 define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
     var Mixins = {
-        Models: {}
+        Models: {},
+        Collections: {}
     }
 
     /**
@@ -24,7 +25,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
     /**
      * adds support for custom formatters
      */
-    Mixins.Models.customGetters = {
+    Mixins.Models.CustomGetters = {
         get: function(attr) {
             if (typeof this[attr] == 'function') {
                 return this[attr].apply(this, arguments)
@@ -46,6 +47,27 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             })
 
             return res
+        }
+    }
+
+    /**
+     * deleted behavior
+     * marks records as deleted instead of actually deleting them
+     */
+    Mixins.Models.DeletedAt = {
+        destroy: function(options) {
+            this.save({
+                'deletedAt': +new Date()
+            }, options)
+            this.trigger('destroy')
+        }
+    }
+
+    Mixins.Collections.DeletedAt = {
+        withoutDeleted: function() {
+            return this.select(function(v) {
+                return !v.get('deletedAt')
+            })
         }
     }
 

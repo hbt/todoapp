@@ -44,7 +44,8 @@ function initSchema() {
             index: true
         },
         createdAt: Number,
-        updatedAt: Number
+        updatedAt: Number,
+        deletedAt: Number
     }));
 
     exports.User = mongoose.model('User', new mongoose.Schema({

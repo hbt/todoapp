@@ -5,7 +5,7 @@ var AppConfig = {
     genkey: function(key) {
         var val = ''
         if (AppConfig.inTestMode()) {
-            if (!window.val) window.val = +new Date() * Math.random()
+            if (!window.val) window.val = Math.floor(Math.random() * 100 + 1);
             val = window.val
         }
 

@@ -2,7 +2,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
     var task
 
     with(jasmine) {
-        describe("New Tasks", function() {
+        describe("Edit Tasks", function() {
 
             it("saves as you type", function() {
                 // create new task
@@ -52,20 +52,17 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
                     silent: true
                 })
                 expect(el.val()).toEqual('u2')
+
+                Tasks.at(0).save({
+                    title: 'u2'
+                }, {
+                    silent: true
+                })
             })
 
-            it("doesn't save empty when using backspace", function() {
 
-            })
+            it("doesn't save empty when using backspace", function() {})
 
-            it("editing in window A, displays it in window B", function() {
-                // create iframe
-                // Note: works on chrome and I don't have to write code to handle recursivity. Could be an issue elsewhere
-                //                var href = window.location.href
-                //                $('<iframe src="' + href + '" id="clone" width="1200" height="800"/>').appendTo('body');
-            })
-
-            it("creating in window A, creates it in window B", function() {})
         })
     }
 })

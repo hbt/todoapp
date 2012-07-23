@@ -7,12 +7,15 @@ define(['backbone', 'collections/tasks', 'views/task/edit'], function(Backbone, 
         },
 
         addAll: function() {
+            $('.all-tasks').children().remove()
             Tasks.each(this.addOne)
         },
 
         addOne: function(model) {
-            var view = new TaskEditView(model)
-            $('.all-tasks').prepend(view.render().el)
+            if (!model.get('deletedAt')) {
+                var view = new TaskEditView(model)
+                $('.all-tasks').prepend(view.render().el)
+            }
         }
     })
 

@@ -1,9 +1,11 @@
-define(['store', 'models/task'], function(Store, Task) {
+define(['store', 'models/task', 'mixins'], function(Store, Task, Mixins) {
     var TaskCollection = Backbone.Collection.extend({
         model: Task,
         modelName: 'Task',
         localStorage: new Store(AppConfig.genkey("tasks"))
     });
+
+    _.extend(TaskCollection.prototype, Mixins.Collections.DeletedAt)
 
     //TODO(hbt): abstract and use mixins
     TaskCollection.instance = null

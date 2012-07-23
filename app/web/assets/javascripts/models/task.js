@@ -20,7 +20,8 @@ define(['mixins', 'store'], function(Mixins, Store) {
     });
 
     _.extend(Task.prototype, Mixins.Models.CreatedUpdatedAt)
-    _.extend(Task.prototype, Mixins.Models.customGetters)
+    _.extend(Task.prototype, Mixins.Models.CustomGetters)
+    _.extend(Task.prototype, Mixins.Models.DeletedAt)
 
     return Task
 })
