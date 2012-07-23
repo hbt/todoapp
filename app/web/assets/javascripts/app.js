@@ -27,6 +27,7 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/a
     Sync.init()
     Auth.login()
 
+    // TODO(hbt) check if this works in min. Otherwise, require it here first and clean up require code in list,app,edit
     new AppView()
 
     if (AppConfig.inTestMode()) {
