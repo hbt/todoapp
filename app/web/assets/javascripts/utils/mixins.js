@@ -10,15 +10,25 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
      */
     Mixins.Models.CreatedUpdatedAt = {
         save: function(key, value, options) {
+            var save = true
+            var date = new Date()
             if (this.isNew()) {
-                this.set('createdAt', new Date().getTime())
+                this.set('createdAt', date.getTime())
             }
 
             if (!(value && value.skip_remote)) {
-                this.set('updatedAt', new Date().getTime())
+                this.set('updatedAt', date.getTime())
             }
 
-            Backbone.Model.prototype.save.apply(this, arguments)
+            // updatedAt must be higher than value in storage in order to save
+            // TODO(hbt): refactor + add comments
+            if (key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt')) {
+                save = false
+            }
+
+            if (save) {
+                Backbone.Model.prototype.save.apply(this, arguments)
+            }
         }
     }
 
@@ -53,13 +63,19 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
     /**
      * deleted behavior
      * marks records as deleted instead of actually deleting them
+     * use options.force = true to force a destroy
      */
     Mixins.Models.DeletedAt = {
         destroy: function(options) {
             this.save({
                 'deletedAt': +new Date()
             }, options)
-            this.trigger('destroy')
+
+            if (options && options.force) {
+                Backbone.Model.prototype.destroy.apply(this, arguments)
+            } else {
+                this.trigger('destroy')
+            }
         }
     }
 

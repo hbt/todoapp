@@ -20,19 +20,22 @@ if (document) {
     require.config(requireConfiguration)
 }
 
-require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication', 'views/app',
+require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication',
 // global stuff
-'utils/extend', 'config'], function($, CUtils, Utils, Sync, Auth, AppView) {
+'utils/extend', 'config'], function($, CUtils, Utils, Sync, Auth) {
     Utils.initDebug()
     Sync.init()
     Auth.login()
 
     // TODO(hbt) check if this works in min. Otherwise, require it here first and clean up require code in list,app,edit
-    new AppView()
+    require(['views/app'], function(AppView) {
+        new AppView()
 
-    if (AppConfig.inTestMode()) {
-        require(['tests/boot'], function(tests) {
-            tests.exec(window.location.hash === "#tests")
-        })
-    }
+        if (AppConfig.inTestMode()) {
+            require(['tests/boot'], function(tests) {
+                tests.exec(window.location.hash === "#tests")
+            })
+        }
+    })
+
 });

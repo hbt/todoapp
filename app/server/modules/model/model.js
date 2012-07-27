@@ -10,7 +10,9 @@ var events = {
         }, function(err, doc) {
             if (err) throw err
 
-            if (!doc) {
+            if (doc && doc.updatedAt > model.updatedAt) {
+                return;
+            } else {
                 doc = new db[modelName]()
                 doc.userId = client.userId
             }

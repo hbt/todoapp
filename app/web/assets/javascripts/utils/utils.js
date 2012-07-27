@@ -80,7 +80,7 @@ define(['jquery'], function($) {
 
                 // TODO(hbt): replace function by jquery events
                 simulateKey: function(keyChar, control, alt, shift, meta) {
-                    if(keyChar === "Enter") {
+                    if (keyChar === "Enter") {
                         var e = jQuery.Event("keypress");
                         e.keyCode = 13
                         $(document.activeElement).trigger(e)
@@ -134,6 +134,9 @@ define(['jquery'], function($) {
 
         return Utils
 });
+
+// TODO: remove
+
 
 function resetStorage() {
     localStorage.clear()

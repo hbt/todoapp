@@ -3,7 +3,7 @@ define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasm
     var flag, value
 
     with(jasmine) {
-        describe("basic remote checks", function() {
+        describe("socket and db are live", function() {
 
             it("socket is alive", function() {
                 runs(function() {

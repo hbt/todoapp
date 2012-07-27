@@ -1,5 +1,5 @@
 var AppConfig = {
-    server: 'http://10.42.43.10:9099',
+    server: 'http://192.168.0.100:9099',
     // prefix used by local storage -- needed to avoid overwriting chrome extensions storage
     prefix: 'tasktree-',
     genkey: function(key) {

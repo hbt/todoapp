@@ -1,18 +1,15 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, Tasks, Auth) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, TestUtils, Tasks, Auth) {
     var task
 
     with(jasmine) {
         describe("Edit Tasks", function() {
 
             it("saves as you type", function() {
-                // create new task
-                var el = $('.first-input .task-input')
-                el.focus()
-                Utils.keyboard.simulateTyping('second task')
-                Utils.keyboard.simulateKey('Enter')
+                TestUtils.createNewTask('first task')
+                TestUtils.createNewTask('second task')
 
                 // focus on edit
-                el = $('.all-tasks .task-container .task-input').first()
+                var el = $('.all-tasks .task-container .task-input').first()
                 el.focus()
 
                 task = Tasks.at(0)
@@ -22,12 +19,20 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
 
                 // saves locally as you type
                 expect(task.get('title')).toEqual(title)
+                expect(el.val()).toEqual(title)
 
                 // saves remotely as you type
-                task.bind('remote_update', function() {
-                    expect(_.include(['second task', 'u', 'up'], this.get('title'))).toBeTruthy()
-                    task.unbind('remote_update')
-                }, task)
+                var sync = function(model, obj, attrs) {
+                        expect(_.include(['second task', 'u', 'up'], this.get('title'))).toBeTruthy()
+                        this.unbind('sync', sync)
+                        JasmineThread.stop()
+                    }
+
+                JasmineThread.fn = function() {
+                    task.bind('sync', sync, task)
+                }
+
+                waitsFor(JasmineThread.run)
             })
 
             it("can toggle done", function() {
@@ -40,29 +45,50 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
                 expect(task.get('done')).toBeFalsy()
             })
 
-            it("model is tied to the view", function() {
-                Tasks.at(0).save({
-                    title: 'u2'
-                })
-                el = $('.all-tasks .task-container .task-input').first()
+            describe("watch for", function() {
+                describe("slow connections", function() {
+                    it("doesn't update local objects when remote objects are too old", function() {
+                        var v = Tasks.at(0).get('updatedAt')
+                        var nv = (new Date().getTime() - 500000)
+                        Tasks.at(0).save({
+                            updatedAt: nv
+                        }, {
+                            skip_remote: true
+                        })
 
-                Tasks.at(0).save({
-                    title: 'u3'
-                }, {
-                    silent: true
+                        expect(Tasks.at(0).get('updatedAt')).toEqual(v)
+                    })
                 })
-                expect(el.val()).toEqual('u2')
 
-                Tasks.at(0).save({
-                    title: 'u2'
-                }, {
-                    silent: true
+                describe("model is tied to the view", function() {
+
+                    it("updating object, updates model", function() {
+                        Tasks.at(0).save({
+                            title: 'up2'
+                        })
+                        el = $('.all-tasks .task-container .task-input').first()
+                        expect(el.val()).toEqual('up2')
+                    })
+
+                    it("updating object silently does not update model", function() {
+                        Tasks.at(0).save({
+                            title: 'u3'
+                        }, {
+                            silent: true
+                        })
+                        //                expect(el.val()).toEqual('up2')
+                    })
+
+                    it("end of test", function() {
+                        // restore it
+                        Tasks.at(0).save({
+                            title: 'up'
+                        })
+                    })
                 })
+
+                it("doesn't save empty when using backspace", function() {})
             })
-
-
-            it("doesn't save empty when using backspace", function() {})
-
         })
     }
 })

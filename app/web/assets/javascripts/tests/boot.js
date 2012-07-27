@@ -1,14 +1,15 @@
 var taskTests = [
 // new tasks
-'tests/task/new',
 // editing tasks
-'tests/task/edit',
-// deleting tasks
-'tests/task/delete',
-// loading tasks
-'tests/task/list']
+'tests/task/new', 'tests/task/edit',
+//// deleting tasks
+//'tests/task/delete',
+//// loading tasks
+//'tests/task/list'
+]
 
-var tests = ['deps/jasmine/jasmine-html',
+
+var tests = [
 // check basics are working
 'tests/checkSpecs',
 // authentication
@@ -19,8 +20,9 @@ var tests = ['deps/jasmine/jasmine-html',
 ]
 
 tests = _.flatten(tests)
+c.l(tests)
 
-define(tests, function(jasmine) {
+define(['deps/jasmine/jasmine-html'], function(jasmine) {
     jasmine = jasmine.jasmine
     var boot = (function() {
         var jasmineEnv = jasmine.getEnv();
@@ -35,7 +37,21 @@ define(tests, function(jasmine) {
         };
 
         function execJasmine(replace) {
-            jasmineEnv.execute();
+
+            function callback(index) {
+                var nd = index + 1
+
+                if (nd === tests.length) {
+                    jasmineEnv.execute();
+                    return;
+                }
+
+                require([tests[nd]], function() {
+                    callback(nd)
+                })
+            }
+
+            callback(-1)
 
             function replaceBodyWithResults() {
                 if (replace) {
