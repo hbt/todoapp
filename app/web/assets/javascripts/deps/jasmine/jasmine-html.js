@@ -35,6 +35,9 @@ define(['jasmine'], function(jasmine){
         if (results.skipped) {
             status = 'skipped';
         }
+       
+        if(results.totalCount === 0)
+            status = "skipped"
 
         return status;
     };
@@ -409,6 +412,7 @@ define(['jasmine'], function(jasmine){
 
         switch (this.status()) {
             case 'skipped':
+                this.appendSummaryToSuiteDiv();
                 break;
 
             case 'passed':
@@ -424,6 +428,7 @@ define(['jasmine'], function(jasmine){
 
     jasmine.HtmlReporter.SpecView.prototype.appendSummaryToSuiteDiv = function() {
         this.summary.className += ' ' + this.status();
+        if(this.status() === 'skipped') this.summary.innerHTML = '(S) ' + this.summary.innerHTML
         this.appendToSummary(this.spec, this.summary);
     };
 

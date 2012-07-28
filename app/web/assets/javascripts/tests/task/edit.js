@@ -46,6 +46,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(task.get('done')).toBeFalsy()
             })
 
+                it("title has a limit of characters", function() {
+                })
+
+                it("doesn't save empty when using backspace", function() {})
+
             describe("watch for", function() {
                 describe("slow connections", function() {
                     it("doesn't update local objects when remote objects are too old", function() {
@@ -90,8 +95,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         expect(el.val()).toEqual('up')
                     })
                 })
-
-                it("doesn't save empty when using backspace", function() {})
             })
         })
     }

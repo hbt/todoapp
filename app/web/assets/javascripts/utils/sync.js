@@ -38,6 +38,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
                     var model = collections[modelName]._byId[doc.id]
 
+                    // do not save if remote model is older than what's currently in storage
                     if (model && doc.updatedAt >= model.get('updatedAt')) {
                         model.save(doc, _.extend(attrs, {
                             skip_remote: true

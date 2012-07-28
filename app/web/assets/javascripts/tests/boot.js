@@ -4,7 +4,7 @@ var taskTests = [
 // editing tasks
 'tests/task/edit',
 //// deleting tasks
-//'tests/task/delete',
+'tests/task/delete',
 //// loading tasks
 //'tests/task/list'
 ]
@@ -39,22 +39,19 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
         function execJasmine(replace) {
 
             // hack to load tests in order 
-
-
             function callback(index) {
-                var nd = index + 1
-
-                if (nd === tests.length) {
+                if (index === tests.length) {
                     jasmineEnv.execute();
+                    setTimeout(replaceBodyWithResults, 1500)
                     return;
                 }
 
-                require([tests[nd]], function() {
-                    callback(nd)
+                require([tests[index]], function() {
+                    callback((index+1))
                 })
             }
 
-            callback(-1)
+            callback(0)
 
             function replaceBodyWithResults() {
                 if (replace) {
@@ -64,7 +61,6 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
                 }
             }
 
-            setTimeout(replaceBodyWithResults, 1500)
         }
 
         return {
