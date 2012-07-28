@@ -21,10 +21,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             }
 
             // updatedAt must be higher than value in storage in order to save
-            // TODO(hbt): refactor + add comments
-            if (key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt')) {
-                save = false
-            }
+            save = !(key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt'))
 
             if (save) {
                 Backbone.Model.prototype.save.apply(this, arguments)

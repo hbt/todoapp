@@ -36,7 +36,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
             it("can toggle done", function() {
-                el = $('.all-tasks .task-container .task-status').first()
+                expect(task.get('done')).toBeFalsy()
+                var el = $('.all-tasks .task-container .task-status').first()
                 el.trigger('click')
                 expect(task.get('done')).toBeTruthy()
 
@@ -66,7 +67,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         Tasks.at(0).save({
                             title: 'up2'
                         })
-                        el = $('.all-tasks .task-container .task-input').first()
+                        var el = $('.all-tasks .task-container .task-input').first()
                         expect(el.val()).toEqual('up2')
                     })
 
@@ -76,7 +77,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         }, {
                             silent: true
                         })
-                        //                expect(el.val()).toEqual('up2')
+                        var el = $('.all-tasks .task-container .task-input').first()
+                        expect(el.val()).toEqual('up2')
                     })
 
                     it("end of test", function() {
@@ -84,6 +86,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         Tasks.at(0).save({
                             title: 'up'
                         })
+                        var el = $('.all-tasks .task-container .task-input').first()
+                        expect(el.val()).toEqual('up')
                     })
                 })
 

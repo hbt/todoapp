@@ -1,7 +1,8 @@
 var taskTests = [
 // new tasks
+'tests/task/new',
 // editing tasks
-'tests/task/new', 'tests/task/edit',
+'tests/task/edit',
 //// deleting tasks
 //'tests/task/delete',
 //// loading tasks
@@ -20,7 +21,6 @@ var tests = [
 ]
 
 tests = _.flatten(tests)
-c.l(tests)
 
 define(['deps/jasmine/jasmine-html'], function(jasmine) {
     jasmine = jasmine.jasmine
@@ -37,6 +37,9 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
         };
 
         function execJasmine(replace) {
+
+            // hack to load tests in order 
+
 
             function callback(index) {
                 var nd = index + 1

@@ -37,14 +37,14 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                 handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
                     var model = collections[modelName]._byId[doc.id]
-                    if (model) {
-                        c.l('comeback', model, attrs, doc)
+
+                    if (model && doc.updatedAt >= model.get('updatedAt')) {
                         model.save(doc, _.extend(attrs, {
                             skip_remote: true
                         }))
 
                         model.trigger('remote_update')
-                    } else {
+                    } else if (!doc.deletedAt) {
                         Tasks.create(doc, _.extend(attrs, {
                             at: 0,
                             skip_remote: true
