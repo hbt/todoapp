@@ -30,27 +30,48 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
 
             var RemoteSync = {
 
+                handleRemoteFetch: function(modelName, attrs, docs) {
+                    attrs.skip_remote = true
+                    if (attrs.force_reset) attrs.silent = false
+
+                    _.each(docs, function(doc) {
+                        RemoteSync.handleRemoteUpdate(Sync.socket.socket.sessionid, modelName, attrs, doc)
+                    })
+                },
+
                 fetch: function(method, model, options, error) {
-                    var ids = _.keys(model._byId)
+                    Sync.socket.emit('model/read', model.modelName, options, RemoteSync.handleRemoteFetch)
                 },
 
                 handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
+                    attrs.skip_remote = true
                     var model = collections[modelName]._byId[doc.id]
 
-                    // do not save if remote model is older than what's currently in storage
-                    if (model && doc.updatedAt >= model.get('updatedAt')) {
-                        model.save(doc, _.extend(attrs, {
-                            skip_remote: true
-                        }))
+                    // TODO(hbt): abstract into collections.findById
+                    if (!model) {
+                        var json = collections[modelName].localStorage.find({
+                            id: doc.id
+                        })
+                        model = json && new collections[modelName].model(json)
+                    }
 
-                        model.trigger('remote_update')
+                    // do not save if remote model is older than what's currently in storage
+                    c.l('comeback', doc.title, doc, doc.updatedAt, model && model.get('updatedAt'))
+                    if (model) {
+                        if (doc.updatedAt >= model.get('updatedAt')) {
+                            model.save(doc, attrs)
+
+                            model.trigger('remote_update')
+                        }
                     } else if (!doc.deletedAt) {
-                        Tasks.create(doc, _.extend(attrs, {
-                            at: 0,
-                            skip_remote: true
+                        c.l('creating from remote')
+                        model = Tasks.create(doc, _.extend(attrs, {
+                            at: 0
                         }))
                     }
+
+                    Tasks.trigger('remote_update', model)
                 },
 
                 save: function(method, model, options, error) {
@@ -80,7 +101,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
             function syncLocalAndRemote(method, model, options, error) {
                 c.l(method + ' local', model.toJSON())
                 // save locally
-                backboneLocalStorageSync.apply(this, arguments)
+                if (!options.skip_local) backboneLocalStorageSync.apply(this, arguments)
 
                 // save remotely
                 if (!options.skip_remote) remoteSync.apply(this, arguments)

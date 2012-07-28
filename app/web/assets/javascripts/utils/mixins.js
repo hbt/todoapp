@@ -68,6 +68,8 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 'deletedAt': +new Date()
             }, options)
 
+            this.collection.remove(this.collection._byId[this.get('id')])
+
             if (options && options.force) {
                 Backbone.Model.prototype.destroy.apply(this, arguments)
             } else {
@@ -77,11 +79,51 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
     }
 
     Mixins.Collections.DeletedAt = {
+        fetch: function(options) {
+            options = options || {}
+
+            if (options && options.include_deleted) {} else {
+                var baksuccess = options && options.success
+
+                // trigger the reset from the callback
+                if (options.silent === undefined) {
+                    options.silent = true
+                    options.force_reset = true
+                }
+
+                options.success = function(collection, objects) {
+                    if (baksuccess) baksuccess(collection, objects)
+                    for (var i = 0; i < collection.length; i++) {
+                        if (collection.at(i).get('deletedAt')) {
+                            collection.remove(collection.at(i), {
+                                silent: true
+                            })
+                        }
+                    }
+
+                    // trigger reset unless user explicitely passed options.silent = true
+                    if (options.force_reset) {
+                        collection.trigger('reset')
+                    }
+                }
+            }
+
+            return Backbone.Collection.prototype.fetch.apply(this, [options])
+        },
+
         withoutDeleted: function() {
             return this.select(function(v) {
                 return !v.get('deletedAt')
             })
+        },
+
+        destroyAll: function(opts) {
+            opts = opts || {}
+            for (var i = 0; i < this.length; i++) {
+                this.at(i).destroy(opts)
+            }
         }
+
     }
 
     return Mixins

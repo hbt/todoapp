@@ -2,10 +2,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
     with(jasmine) {
         describe("Tasks: new", function() {
-            var task, oldtask
-            var originalLength = Tasks.length
+            var task, oldtask, originalLength
 
             it("creates new task and saves locally", function() {
+                Tasks.fetch()
+                originalLength = Tasks.length
                 var title = 'first task '
 
                 TestUtils.createNewTask(title)
@@ -56,17 +57,23 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(Tasks.length).toEqual(originalLength + 1)
             })
 
-            // input is cleared on blur
-            it("clears the input when focus is removed", function() {
-                // TODO(hbt): wait 5000 then clear the input and make sure input has no changed. if clicked, it cancels the timer
-                var el = $('.first-input .task-input')
-                el.focus()
-                Utils.keyboard.simulateTyping('something random')
-                el.blur()
+            describe("focus removed", function() {
+                // input is cleared on blur
+                it("clears the input", function() {
+                    var el = $('.first-input .task-input')
+                    el.focus()
+                    Utils.keyboard.simulateTyping('something random')
+                    el.blur()
 
-                expect(Tasks.length).toEqual(originalLength + 1)
-                expect(el.val()).toEqual('')
+                    expect(Tasks.length).toEqual(originalLength + 1)
+                    expect(el.val()).toEqual('')
+                })
+
+                it("waits a few seconds before clearing the input", function() {
+                    // TODO(hbt): wait 5000 then clear the input and make sure input has no changed. if clicked, it cancels the timer
+                })
             })
+
 
             it("end of test", function() {
                 // clean up

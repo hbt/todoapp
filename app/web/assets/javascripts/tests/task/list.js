@@ -1,43 +1,97 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'modules/authentication', 'views/task/list'], function(jasmine, Utils, Tasks, Auth, TaskListView) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, TestUtils, Tasks, Auth) {
     with(jasmine) {
-        describe("List tasks", function() {
+        describe("Task: list", function() {
 
-            it("hitting fetch doesn't duplicate the views", function() {
-                //                TODO (hbt) add mixin for fetch to retrieve tasks without deleted (option to retrieve all of them) + clean up list view + deletedAt code
-                Tasks.fetch()
-                Tasks.fetch()
-                expect($('.all-tasks').children().length).toEqual(Tasks.withoutDeleted().length)
-            })
+            var data = ['first', 'second', 'third', 'fourth', 'fifth']
+            var max = 3,
+                deletedIndex = 1
 
-            it("should display data from local storage on fetch", function() {
-                $('.all-tasks').children().remove()
-                Tasks.fetch()
+                it("init data", function() {
+                    JasmineThread.fn = function() {
+                        Tasks.bind('remote_update', function(model) {
+                            // that's the exit for this test when all the callbacks are done
+                            if (model && model.get('title') == data[deletedIndex] && model.get('deletedAt')) {
+                                Tasks.unbind('remote_update')
+                                JasmineThread.stop()
+                            }
+                        })
+                    }
 
-                expect(Tasks.at(0).get('title')).toEqual($('.all-tasks .task-container .task-input').first().val())
-                expect(Tasks.withoutDeleted().length).toEqual($('.all-tasks').children().length)
-            })
+                    // create 3 tasks
+                    _.each(data, function(v, k) {
+                        if (k >= max) return;
+                        Tasks.create({
+                            title: v
+                        })
+                    })
 
-            it("should fetch and display data from remote if local storage is empty", function() {
-                //                _.each(_.keys(Tasks._byId), function(v) {
-                //                    Tasks.get(v).destroy()
-                //                })
+                    expect(Tasks.length).toEqual(max)
 
-                // Note: this doesn't work. it messes up with the index when using each and destroy
-                //                Tasks.each(function(v) {
-                //                    c.l(v.get('title'))
-                //                v.destroy()
-                //                })
-                //                expect(Tasks.length).toEqual(0)
-                //
-                //                Tasks.fetch()
-            })
+                    // soft delete one
+                    Tasks.at(deletedIndex).destroy()
+                    max = max - 1
+                    expect(Tasks.length).toEqual(max)
 
-            it("fetching stores the last time a model was fetched", function() {})
+                    // create 2 remote tasks that don't yet exist in local storage
+                    _.each(data, function(v, k) {
+                        if (k <= max) return;
+                        Tasks.create({
+                            title: v,
+                            id: guid()
+                        }, {
+                            skip_local: true,
+                            silent: true,
+                            skip_callback: true
+                        })
+                        Tasks.remove(Tasks.pop())
+                    })
 
-            it("doing a fetch again, fetches nothing when everything is up-to-date", function() {})
+                    expect(Tasks.length).toEqual(max)
 
-            it("record is not updated if fetch results are older", function() {})
+                    waitsFor(JasmineThread.run)
+                })
 
+                it("displays local tasks", function() {
+                    //                Tasks.trigger('reset')
+                    // tasks from local storage are there
+                    expect(Tasks.length).toEqual(max)
+                    expect($('.all-tasks').children().length).toEqual(max)
+                })
+
+                it("fetches remote tasks and displays them", function() {
+                    // trigger fetch (local + remote)
+                    max = data.length - 1
+
+                    JasmineThread.fn = function() {
+                        Tasks.fetch()
+                        Tasks.bind('remote_update', function() {
+                            if (Tasks.length === max) {
+                                expect($('.all-tasks').children().length).toEqual(max)
+                                Tasks.unbind('remote_update')
+                                JasmineThread.stop()
+                            }
+                        })
+                    }
+
+                    waitsFor(JasmineThread.run)
+                })
+
+                describe("remote fetch", function() {
+                    it("updates old local tasks", function() {})
+                    describe("last time fetch", function() {
+                        it("stores the last time a fetch was requested", function() {})
+                        it("only returns data where updatedAt > last time fetched", function() {})
+                        it("remote fetch returns all data if this is the first time", function() {})
+                    })
+                    it("when socket connect/reconnects, remote fetch is triggered", function() {})
+                })
+                it("doing a fetch again, fetches nothing when everything is up-to-date", function() {})
+                it("hitting fetch multiple times doesn't duplicate the views", function() {})
+                it("end of test", function() {
+                    Tasks.destroyAll({
+                        force: true
+                    })
+                })
         })
     }
 })

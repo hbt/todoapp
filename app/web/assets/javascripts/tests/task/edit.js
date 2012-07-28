@@ -2,7 +2,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     var task
 
     with(jasmine) {
-        describe("Edit Tasks", function() {
+        describe("Tasks: edit", function() {
 
             it("saves as you type", function() {
                 TestUtils.createNewTask('first task')
@@ -46,10 +46,9 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(task.get('done')).toBeFalsy()
             })
 
-                it("title has a limit of characters", function() {
-                })
+            it("title has a limit of characters", function() {})
 
-                it("doesn't save empty when using backspace", function() {})
+            it("doesn't save empty when using backspace", function() {})
 
             describe("watch for", function() {
                 describe("slow connections", function() {

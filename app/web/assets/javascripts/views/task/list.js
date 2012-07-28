@@ -12,10 +12,8 @@ define(['backbone', 'collections/tasks', 'views/task/edit'], function(Backbone, 
         },
 
         addOne: function(model) {
-            if (!model.get('deletedAt')) {
-                var view = new TaskEditView(model)
-                $('.all-tasks').prepend(view.render().el)
-            }
+            var view = new TaskEditView(model)
+            $('.all-tasks').prepend(view.render().el)
         }
     })
 
