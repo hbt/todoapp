@@ -51,7 +51,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("updating a record in one window, updates it in the other", function() {
+            it("updating a record in one device, updates it in the other", function() {
                 Tasks.at(0).save({
                     title: 'update'
                 })
@@ -71,7 +71,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 TestUtils.cleanTasks(this)
             })
 
-            it("deleting a record in one window, deletes it in the other", function() {
+            it("deleting a record in one device, deletes it in the other", function() {
                 JasmineThread.fnuntil = function() {
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length == 0) {
@@ -86,6 +86,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             it("end of test", function() {
                 iframe = $(document.getElementById('clone'))
                 iframe.remove()
+                expect(document.getElementById('clone')).toBeNull()
             })
         })
     }

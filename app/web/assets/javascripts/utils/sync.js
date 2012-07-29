@@ -49,14 +49,21 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
                     attrs.skip_remote = true
                     Sync.callbacksCount--;
-                    var model = collections[modelName]._byId[doc.id]
+                    var collection = collections[modelName]
+                    var model = collection._byId[doc.id]
 
                     // TODO(hbt): abstract into collections.findById
+                    // soft deleted model are not in the collection but still are in local storage
                     if (!model) {
-                        var json = collections[modelName].localStorage.find({
+                        var json = collection.localStorage.find({
                             id: doc.id
                         })
-                        model = json && new collections[modelName].model(json)
+                        model = json && new collection.model(json)
+
+                        // add model to the collection if it is not deleted (case of multiple windows but same storage)
+                        if (model && !collection.get(model.get('id')) && !model.get('deletedAt')) {
+                            collection.add(model)
+                        }
                     }
 
                     // do not save if remote model is older than what's currently in storage
@@ -65,17 +72,13 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                         if (doc.updatedAt >= model.get('updatedAt')) {
                             c.l('saving from remote', doc)
                             model.save(doc, attrs)
-
-                            model.trigger('remote_update')
                         }
                     } else if (!doc.deletedAt) {
                         c.l('creating from remote')
-                        model = Tasks.create(doc, _.extend(attrs, {
+                        model = collection.create(doc, _.extend(attrs, {
                             at: 0
                         }))
                     }
-
-                    Tasks.trigger('remote_update', model)
                 },
 
                 save: function(method, model, options, error) {

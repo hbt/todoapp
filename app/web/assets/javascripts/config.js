@@ -4,6 +4,9 @@ var AppConfig = {
     prefix: 'tasktree-',
     genkey: function(key) {
         var val = ''
+        if (window.location.hash.indexOf('#testWindow_') !== -1) {
+            val = window.location.hash.replace('#testWindow_', '')
+        }
         if (AppConfig.inTestMode() || window.location.hash.indexOf('#testInstance_') !== -1) {
             if (!window.val) window.val = Math.floor(Math.random() * 100 + 1);
             val = window.val
