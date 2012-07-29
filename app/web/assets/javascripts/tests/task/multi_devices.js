@@ -82,6 +82,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                 waitsFor(JasmineThread.run)
             })
+
+            it("end of test", function() {
+                iframe = $(document.getElementById('clone'))
+                iframe.remove()
+            })
         })
     }
 })
