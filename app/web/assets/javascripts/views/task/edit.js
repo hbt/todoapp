@@ -47,6 +47,10 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/task/edit.html'], fu
                 this.el.innerHTML = html
             }
 
+            if (this.model.get('deletedAt')) {
+                this.remove()
+            }
+
             return this
         }
     })

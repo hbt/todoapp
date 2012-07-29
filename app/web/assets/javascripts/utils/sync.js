@@ -35,17 +35,20 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     if (attrs.force_reset) attrs.silent = false
 
                     _.each(docs, function(doc) {
+                        Sync.callbacksCount++;
                         RemoteSync.handleRemoteUpdate(Sync.socket.socket.sessionid, modelName, attrs, doc)
                     })
                 },
 
                 fetch: function(method, model, options, error) {
                     Sync.socket.emit('model/read', model.modelName, options, RemoteSync.handleRemoteFetch)
+
                 },
 
                 handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
                     attrs.skip_remote = true
+                    Sync.callbacksCount--;
                     var model = collections[modelName]._byId[doc.id]
 
                     // TODO(hbt): abstract into collections.findById
@@ -57,7 +60,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     }
 
                     // do not save if remote model is older than what's currently in storage
-                    c.l('comeback', doc.title, doc, doc.updatedAt, model && model.get('updatedAt'))
+                    c.l('comeback', doc.title, doc, doc.updatedAt, model && model.get('updatedAt'), attrs)
                     if (model) {
                         if (doc.updatedAt >= model.get('updatedAt')) {
                             c.l('saving from remote', doc)
@@ -77,6 +80,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
 
                 save: function(method, model, options, error) {
                     c.l('save remote', model.toJSON())
+                    if (!options.skip_callback) Sync.callbacksCount++;
                     Sync.connect().emit('model/save', model.modelName, model.toJSON(), options, RemoteSync.handleRemoteUpdate);
                 }
             }
@@ -128,6 +132,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                 disconnect: disconnect
             }
         }()
+        Sync.callbacksCount = 0
 
-        return Sync
+    return Sync
 })

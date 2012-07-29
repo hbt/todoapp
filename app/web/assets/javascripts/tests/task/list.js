@@ -7,16 +7,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 deletedIndex = 1
 
                 it("init data", function() {
-                    JasmineThread.fn = function() {
-                        Tasks.bind('remote_update', function(model) {
-                            // that's the exit for this test when all the callbacks are done
-                            if (model && model.get('title') == data[deletedIndex] && model.get('deletedAt')) {
-                                Tasks.unbind('remote_update')
-                                JasmineThread.stop()
-                            }
-                        })
-                    }
-
                     // create 3 tasks
                     _.each(data, function(v, k) {
                         if (k >= max) return;
@@ -48,11 +38,16 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                     expect(Tasks.length).toEqual(max)
 
+                    JasmineThread.fnuntil = function() {
+                        if (Tasks.length === max) {
+                            JasmineThread.stop()
+                        }
+                    }
+
                     waitsFor(JasmineThread.run)
                 })
 
                 it("displays local tasks", function() {
-                    //                Tasks.trigger('reset')
                     // tasks from local storage are there
                     expect(Tasks.length).toEqual(max)
                     expect($('.all-tasks').children().length).toEqual(max)
@@ -62,15 +57,12 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     // trigger fetch (local + remote)
                     max = data.length - 1
 
-                    JasmineThread.fn = function() {
-                        Tasks.fetch()
-                        Tasks.bind('remote_update', function() {
-                            if (Tasks.length === max) {
-                                expect($('.all-tasks').children().length).toEqual(max)
-                                Tasks.unbind('remote_update')
-                                JasmineThread.stop()
-                            }
-                        })
+                    Tasks.fetch()
+                    JasmineThread.fnuntil = function() {
+                        if (Tasks.length === max) {
+                            expect($('.all-tasks').children().length).toEqual(max)
+                            JasmineThread.stop()
+                        }
                     }
 
                     waitsFor(JasmineThread.run)

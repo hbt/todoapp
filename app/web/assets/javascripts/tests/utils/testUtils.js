@@ -1,4 +1,4 @@
-define(['jquery', 'utils/utils', 'collections/tasks'], function($, Utils, Tasks) {
+define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync'], function($, Utils, Tasks, Sync) {
     var TestUtils = {
         createNewTask: function(title) {
             var el = $('.first-input .task-input')
@@ -11,15 +11,16 @@ define(['jquery', 'utils/utils', 'collections/tasks'], function($, Utils, Tasks)
             Tasks.destroyAll({
                 force: true
             })
-            var valid = (Tasks.length === 0 && $('.all-tasks .task-container').children().length === 0)
 
-            JasmineThread.fn = function() {
-                    if (valid) {
-                        JasmineThread.stop()
-                    }
+            JasmineThread.fnuntil = function() {
+                var valid = (Tasks.length === 0 && $('.all-tasks .task-container').children().length === 0)
+                if (valid && Sync.callbacksCount === 0) {
+                    jasmine.expect(true).toBeTruthy()
+                    JasmineThread.stop()
                 }
+            }
 
-            if (!valid) jasmine.waitsFor(JasmineThread.run)
+            jasmine.waitsFor(JasmineThread.run)
         }
     }
 

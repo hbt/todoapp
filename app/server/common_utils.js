@@ -2,7 +2,6 @@
 
 // Generate a pseudo-GUID by concatenating random hexadecimal.
 
-
 function guid() {
     function S4() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -28,12 +27,21 @@ var JasmineThread = {
     stop: function() {
         JasmineThread._stop = 1;
     },
-    fn: function() {},
+
+    fn: null,
+    fnuntil: null,
+
+    intervalId: null,
+    until: function(fn, delay) {
+        delay = delay || 100
+        JasmineThread.intervalId = window.setInterval(fn, delay)
+    },
 
     run: function() {
         if (!JasmineThread._start) {
             JasmineThread.start()
-            JasmineThread.fn.call('')
+            if (JasmineThread.fn) JasmineThread.fn.call('')
+            if (JasmineThread.fnuntil) JasmineThread.until(JasmineThread.fnuntil)
         }
 
         var res = JasmineThread._stop
@@ -47,6 +55,9 @@ var JasmineThread = {
     reset: function() {
         JasmineThread._start = 0
         JasmineThread._stop = 0
+        JasmineThread.fn = null
+        JasmineThread.fnuntil = null
+        if (JasmineThread.intervalId) window.clearInterval(JasmineThread.intervalId)
     }
 }
 

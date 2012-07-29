@@ -14,6 +14,14 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                 task = Tasks.at(0)
 
+                var count = 0
+                var sync = function(model, obj, attrs) {
+                        if (_.include(['second task', 'u', 'up'], this.get('title'))) {
+                            count++
+                        }
+                    }
+                task.bind('sync', sync, task)
+
                 var title = 'up'
                 Utils.keyboard.simulateTyping(title)
 
@@ -22,14 +30,12 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(el.val()).toEqual(title)
 
                 // saves remotely as you type
-                var sync = function(model, obj, attrs) {
-                        expect(_.include(['second task', 'u', 'up'], this.get('title'))).toBeTruthy()
-                        this.unbind('sync', sync)
+                // will sync every typed key
+                JasmineThread.fnuntil = function() {
+                    if (count === 3) {
+                        task.unbind('sync', sync)
                         JasmineThread.stop()
                     }
-
-                JasmineThread.fn = function() {
-                    task.bind('sync', sync, task)
                 }
 
                 waitsFor(JasmineThread.run)

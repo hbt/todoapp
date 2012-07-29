@@ -1,6 +1,4 @@
-define(['deps/jasmine/jasmine-html', 'modules/authentication'], function(jasmine, Auth) {
-    var flag, value, userInfo
-
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, TestUtils, Tasks, Auth) {
 
     with(jasmine) {
         describe("Account creation", function() {
@@ -9,46 +7,33 @@ define(['deps/jasmine/jasmine-html', 'modules/authentication'], function(jasmine
                 expect(Auth.getUserId()).toBe(null)
                 expect(Auth.getUserInfo()).toBe(null)
 
-                runs(function() {
-                    flag = false
+                JasmineThread.fn = function() {
                     Auth.login(function() {
-                        flag = true
+                        expect(Auth.getUserId()).toNotBe(null)
+                        expect(Auth.getUserInfo()).toNotBe(null)
+                        expect(Auth.getUserId()).toEqual(Auth.getUserInfo().id)
+                        expect(Auth.getUserInfo().loggedAt.length).toEqual(1)
+                        userInfo = Auth.getUserInfo()
+                        JasmineThread.stop()
                     })
-                })
+                }
 
-                waitsFor(function() {
-                    return flag
-                }, 1000)
-
-                runs(function() {
-                    expect(Auth.getUserId()).toNotBe(null)
-                    expect(Auth.getUserInfo()).toNotBe(null)
-                    expect(Auth.getUserId()).toEqual(Auth.getUserInfo().id)
-                    expect(Auth.getUserInfo().loggedAt.length).toEqual(1)
-                    userInfo = Auth.getUserInfo()
-                })
+                waitsFor(JasmineThread.run)
             })
 
 
             it("login time is tracked and account is updated", function() {
-                runs(function() {
-                    flag = false
+                JasmineThread.fn = function() {
                     Auth.login(function() {
-                        flag = true
+                        expect(Auth.getUserInfo().loggedAt.length).toEqual(2)
+                        expect(Auth.getUserInfo().id).toEqual(userInfo.id)
+                        expect(Auth.getUserInfo()._id).toEqual(userInfo._id)
+                        expect(Auth.getUserInfo().updatedAt).toBeGreaterThan(userInfo.updatedAt)
+                        JasmineThread.stop()
                     })
-                })
-
-                waitsFor(function() {
-                    return flag
-                }, 1000)
-
-                runs(function() {
-                    expect(Auth.getUserInfo().loggedAt.length).toEqual(2)
-                    expect(Auth.getUserInfo().id).toEqual(userInfo.id)
-                    expect(Auth.getUserInfo()._id).toEqual(userInfo._id)
-                    expect(Auth.getUserInfo().updatedAt).toBeGreaterThan(userInfo.updatedAt)
-                })
+                }
+                waitsFor(JasmineThread.run)
             })
         })
-        }
+    }
 })

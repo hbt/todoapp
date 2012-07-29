@@ -1,21 +1,16 @@
 var taskTests = [
 // loading tasks
-'tests/task/list',
-// new tasks
-'tests/task/new',
-// editing tasks
-'tests/task/edit',
-// deleting tasks
-'tests/task/delete',
+'tests/task/list', 'tests/task/new', 'tests/task/edit', 'tests/task/delete', ]
+
+var taskExtras = [
 // multi-devices
 'tests/task/multi_devices']
-
 
 var tests = [
 // check basics are working
 'tests/checkSpecs',
 // authentication
-'tests/auth/register', taskTests,
+'tests/auth/register', taskTests, taskExtras,
 // take down
 'tests/auth/logout'
 // next here

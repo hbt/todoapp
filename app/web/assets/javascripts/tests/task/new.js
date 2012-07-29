@@ -26,16 +26,15 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
             it("saves remotely", function() {
-                JasmineThread.fn = function() {
-                    task.bind('remote_update', function() {
-                        var diff = _.difference(_.values(this.toJSON()), _.values(oldtask))
+                JasmineThread.fnuntil = function() {
+                    var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
+                    if (diff.length === 2) {
                         // only difference is the new remote ID + userId
                         expect(diff.length).toEqual(2)
-                        expect(this.get('_id').length).toEqual(24)
-                        expect(this.get('userId')).toEqual(Auth.getUserId())
-                        this.unbind('remote_update')
+                        expect(task.get('_id').length).toEqual(24)
+                        expect(task.get('userId')).toEqual(Auth.getUserId())
                         JasmineThread.stop()
-                    }, task)
+                    }
                 }
 
                 waitsFor(JasmineThread.run)

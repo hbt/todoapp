@@ -4,6 +4,7 @@ define(['deps/jasmine/jasmine-html', 'modules/authentication', 'utils/utils'], f
 
     with(jasmine) {
         describe("logout", function() {
+            // TODO(hbt): remove data after test
 
             //            it("test data is removed", function() {
             //                flag = false

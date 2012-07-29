@@ -15,6 +15,12 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
 
             function getUserId() {
                 var ret = localStorage.getItem(AppConfig.genkey("user-id"));
+
+                // use custom ID for tests to simulate users
+                if (window.location.hash && window.location.hash.indexOf('#testInstance_') !== -1) {
+                    ret = window.location.hash.replace('#testInstance_', '')
+                }
+
                 return ret
             }
 
