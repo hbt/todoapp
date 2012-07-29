@@ -4,6 +4,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
             it("init data", function() {
                 TestUtils.createNewTask('first task')
+                expect(Tasks.length).toEqual(1)
             })
 
             it("when pressing backspace and the title is empty", function() {})
@@ -20,8 +21,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             describe("watch for", function() {
                 describe("soft delete", function() {
                     it("deleting a record, marks it as deleted (deletedAt)", function() {
-                        // TODO(hbt) make this test manipulate its own data
-                        expect(Tasks.length).toEqual(1)
                         var id = Tasks.at(0).get('id')
                         var length = Tasks.length
                         var time = +new Date()

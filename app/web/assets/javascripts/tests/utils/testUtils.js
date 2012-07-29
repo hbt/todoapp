@@ -8,11 +8,11 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync'], function($,
         },
 
         cleanTasks: function(jasmine) {
-            Tasks.destroyAll({
-                force: true
-            })
 
             JasmineThread.fnuntil = function() {
+                Tasks.destroyAll({
+                    force: true
+                })
                 var valid = (Tasks.length === 0 && $('.all-tasks .task-container').children().length === 0)
                 if (valid && Sync.callbacksCount === 0) {
                     jasmine.expect(true).toBeTruthy()

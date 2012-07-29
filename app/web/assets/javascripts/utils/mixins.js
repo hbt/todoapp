@@ -70,7 +70,9 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
             this.collection.remove(this.collection._byId[this.get('id')])
 
+            this.trigger('destroy')
             if (options && options.force) {
+                delete options['force']
                 Backbone.Model.prototype.destroy.apply(this, arguments)
             } else {
                 this.trigger('destroy')
@@ -93,6 +95,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
                 options.success = function(collection, objects) {
                     if (baksuccess) baksuccess(collection, objects)
+                    // TODO(hbt): refactor using where + add
                     for (var i = 0; i < collection.length; i++) {
                         if (collection.at(i).get('deletedAt')) {
                             collection.remove(collection.at(i), {
@@ -111,19 +114,12 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             return Backbone.Collection.prototype.fetch.apply(this, [options])
         },
 
-        withoutDeleted: function() {
-            return this.select(function(v) {
-                return !v.get('deletedAt')
-            })
-        },
-
         destroyAll: function(opts) {
             opts = opts || {}
             while (this.length != 0) {
-                this.at(0).destroy()
+                this.at(0).destroy(opts)
             }
         }
-
     }
 
     return Mixins
