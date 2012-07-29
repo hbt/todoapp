@@ -95,14 +95,9 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
                 options.success = function(collection, objects) {
                     if (baksuccess) baksuccess(collection, objects)
-                    // TODO(hbt): refactor using where + add
-                    for (var i = 0; i < collection.length; i++) {
-                        if (collection.at(i).get('deletedAt')) {
-                            collection.remove(collection.at(i), {
-                                silent: true
-                            })
-                        }
-                    }
+                    var models = collection.where({deletedAt: null})
+                    collection.reset([], {silent: true})
+                    collection.add(models, {silent: true})
 
                     // trigger reset unless user explicitely passed options.silent = true
                     if (options.force_reset) {
