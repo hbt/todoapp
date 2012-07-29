@@ -1,6 +1,10 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], function(jasmine, Utils, Tasks) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks'], function(jasmine, Utils, TestUtils, Tasks) {
     with(jasmine) {
         describe("Tasks: delete", function() {
+
+            it("init data", function() {
+                TestUtils.createNewTask('first task')
+            })
 
             it("when pressing backspace and the title is empty", function() {})
             it("when pressing hotkey", function() {})
@@ -16,13 +20,14 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], functi
             describe("watch for", function() {
                 describe("soft delete", function() {
                     it("deleting a record, marks it as deleted (deletedAt)", function() {
+                        // TODO(hbt) make this test manipulate its own data
+                        expect(Tasks.length).toEqual(1)
                         var id = Tasks.at(0).get('id')
                         var length = Tasks.length
                         var time = +new Date()
                         Tasks.at(0).destroy()
 
-                        expect(Tasks.length).toEqual(length - 1)
-                        expect(Tasks.at(0).get('id')).toNotEqual(id)
+                        expect(Tasks.length).toEqual(0)
                     })
 
                     it("deleting a record, doesn't remove it from local storage", function() {})
@@ -38,7 +43,9 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks'], functi
 
                     it("Collection doesn't contain deleted tasks", function() {})
 
-                    it("end of test", function() {})
+                    it("end of test", function() {
+                        TestUtils.cleanTasks(this)
+                    })
                 })
             })
         })

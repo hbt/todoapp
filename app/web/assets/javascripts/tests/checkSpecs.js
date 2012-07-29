@@ -1,46 +1,29 @@
 define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasmine, WS, Utils) {
     // used by jasmine for asynchronous calls
-    var flag, value
-
     with(jasmine) {
         describe("socket and db are live", function() {
 
             it("socket is alive", function() {
-                runs(function() {
-                    flag = false
+                JasmineThread.fn = function() {
                     WS.connect().emit('tests/isAlive', function(arg) {
-                        value = arg
-                        flag = true
+                        expect(arg).toEqual('alive')
+                        JasmineThread.stop()
                     })
-                })
+                }
 
-                waitsFor(function() {
-                    return flag
-                }, 1000)
-
-                runs(function() {
-                    expect(value).toEqual('alive')
-                })
+                waitsFor(JasmineThread.run)
             })
 
 
             it("database is alive", function() {
-
-                runs(function() {
-                    flag = false
+                JasmineThread.fn = function() {
                     WS.connect().emit('tests/isDatabaseAlive', function(arg) {
-                        value = arg
-                        flag = true
+                        expect(arg).toEqual('alive')
+                        JasmineThread.stop()
                     })
-                })
+                }
 
-                waitsFor(function() {
-                    return flag
-                }, 1000)
-
-                runs(function() {
-                    expect(value).toEqual('alive')
-                })
+                waitsFor(JasmineThread.run)
             })
 
             it("localstorage is reset/empty", function() {

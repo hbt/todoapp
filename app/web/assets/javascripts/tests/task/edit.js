@@ -86,12 +86,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     })
 
                     it("end of test", function() {
-                        // restore it
-                        Tasks.at(0).save({
-                            title: 'up'
-                        })
-                        var el = $('.all-tasks .task-container .task-input').first()
-                        expect(el.val()).toEqual('up')
+                        TestUtils.cleanTasks(this)
                     })
                 })
             })

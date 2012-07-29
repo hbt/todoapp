@@ -119,8 +119,8 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
         destroyAll: function(opts) {
             opts = opts || {}
-            for (var i = 0; i < this.length; i++) {
-                this.at(i).destroy(opts)
+            while (this.length != 0) {
+                this.at(0).destroy()
             }
         }
 

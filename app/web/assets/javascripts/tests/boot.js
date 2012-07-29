@@ -3,10 +3,12 @@ var taskTests = [
 'tests/task/list',
 // new tasks
 'tests/task/new',
-//// editing tasks
+// editing tasks
 'tests/task/edit',
-//// deleting tasks
-'tests/task/delete', ]
+// deleting tasks
+'tests/task/delete',
+// multi-devices
+'tests/task/multi_devices']
 
 
 var tests = [
@@ -38,7 +40,6 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
         function execJasmine(replace) {
 
             // hack to load tests in order 
-
 
             function callback(index) {
                 if (index === tests.length) {

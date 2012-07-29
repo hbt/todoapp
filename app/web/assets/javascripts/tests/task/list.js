@@ -88,9 +88,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 it("doing a fetch again, fetches nothing when everything is up-to-date", function() {})
                 it("hitting fetch multiple times doesn't duplicate the views", function() {})
                 it("end of test", function() {
-                    Tasks.destroyAll({
-                        force: true
-                    })
+                    TestUtils.cleanTasks(this)
                 })
         })
     }

@@ -5,9 +5,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             var task, oldtask, originalLength
 
             it("creates new task and saves locally", function() {
-                Tasks.fetch()
                 originalLength = Tasks.length
-                var title = 'first task '
+                var title = 'new task '
 
                 TestUtils.createNewTask(title)
                 var el = $('.first-input .task-input')
@@ -50,7 +49,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             it("doesn't create a task if title is empty", function() {
                 TestUtils.createNewTask('')
                 var el = $('.first-input .task-input')
-                c.l(originalLength)
                 expect(Tasks.length).toEqual(originalLength + 1)
 
                 TestUtils.createNewTask('   ')
@@ -74,14 +72,10 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 })
             })
 
-
             it("end of test", function() {
-                // clean up
-                task.destroy({
-                    force: true
-                })
-                expect(Tasks.length).toEqual(originalLength)
+                TestUtils.cleanTasks(this)
             })
+
         })
     }
 })

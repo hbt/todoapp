@@ -60,6 +60,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     c.l('comeback', doc.title, doc, doc.updatedAt, model && model.get('updatedAt'))
                     if (model) {
                         if (doc.updatedAt >= model.get('updatedAt')) {
+                            c.l('saving from remote', doc)
                             model.save(doc, attrs)
 
                             model.trigger('remote_update')
