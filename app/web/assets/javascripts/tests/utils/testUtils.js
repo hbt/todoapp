@@ -9,6 +9,10 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync'], function($,
 
         cleanTasks: function(jasmine) {
 
+            Tasks.fetch({
+                include_deleted: true,
+                skip_remote: true
+            })
             JasmineThread.fnuntil = function() {
                 Tasks.destroyAll({
                     force: true

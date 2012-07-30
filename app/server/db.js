@@ -32,16 +32,19 @@ function initDb() {
  */
 
 function initSchema() {
+    // TODO(hbt): updates required fields + indexes
     exports.Task = mongoose.model('Task', new mongoose.Schema({
         id: {
             type: String,
-            index: true
+            index: true,
+            required: true
         },
         title: String,
         done: Boolean,
         userId: {
             type: String,
-            index: true
+            index: true,
+            required: true
         },
         createdAt: Number,
         updatedAt: Number,
@@ -51,7 +54,8 @@ function initSchema() {
     exports.User = mongoose.model('User', new mongoose.Schema({
         id: {
             type: String,
-            index: true
+            index: true,
+            required: true
         },
         email: {
             type: String,

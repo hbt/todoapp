@@ -3,7 +3,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
         describe("Tasks: delete", function() {
 
             it("init data", function() {
-                TestUtils.createNewTask('first task')
+                TestUtils.createNewTask('first task delete')
                 expect(Tasks.length).toEqual(1)
             })
 
@@ -32,12 +32,12 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     it("deleting a record, doesn't remove it from local storage", function() {})
 
                     it("deleting a record, destroys the view associated to it", function() {
-                        expect($('.all-tasks').children().length).toEqual(Tasks.length)
+                        expect($('.all-tasks').children().length).toEqual(0)
                     })
 
                     it("UI ignores deleted records on fetch", function() {
                         Tasks.fetch()
-                        expect($('.all-tasks').children().length).toEqual(Tasks.length)
+                        expect($('.all-tasks').children().length).toEqual(0)
                     })
 
                     it("Collection doesn't contain deleted tasks", function() {})

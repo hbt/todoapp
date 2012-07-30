@@ -63,6 +63,16 @@ var JasmineThread = {
 
 if (typeof exports === "undefined") {
     initUtils()
+    /**
+    c.l = function() {
+        console.log.apply(console, arguments)
+        _.each(arguments, function(v) {
+            var el = document.createElement("div")
+            el.innerHTML = v
+            document.body.appendChild(el)
+        })
+    }
+    */
 } else {
     exports = initUtils()
 }

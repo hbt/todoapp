@@ -1,13 +1,26 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, TestUtils, Tasks, Auth) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication', 'utils/sync'], function(jasmine, Utils, TestUtils, Tasks, Auth, Sync) {
     var task
 
     with(jasmine) {
         describe("Tasks: edit", function() {
 
             it("saves as you type", function() {
-                TestUtils.createNewTask('first task')
-                TestUtils.createNewTask('second task')
+                TestUtils.createNewTask('first edit task')
+                TestUtils.createNewTask('second edit task')
 
+                JasmineThread.fnuntil = function() {
+                    if (Tasks.pluck('_id').length === 2) {
+                        Sync.socket.emit('model/count', Tasks.modelName, function(remoteCount) {
+                            expect(remoteCount).toEqual(Tasks.length)
+                            JasmineThread.stop()
+                        })
+                    }
+                }
+
+                waitsFor(JasmineThread.run)
+            })
+
+            it("saves as you type", function() {
                 // focus on edit
                 var el = $('.all-tasks .task-container .task-input').first()
                 el.focus()
@@ -16,7 +29,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                 var count = 0
                 var sync = function(model, obj, attrs) {
-                        if (_.include(['second task', 'u', 'up'], this.get('title'))) {
+                        if (_.include(['second edit task', 'u', 'up'], this.get('title'))) {
                             count++
                         }
                     }
@@ -90,11 +103,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         var el = $('.all-tasks .task-container .task-input').first()
                         expect(el.val()).toEqual('up2')
                     })
-
-                    it("end of test", function() {
-                        TestUtils.cleanTasks(this)
-                    })
                 })
+            })
+
+            it("end of test", function() {
+                TestUtils.cleanTasks(this)
             })
         })
     }

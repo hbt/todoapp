@@ -72,7 +72,6 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
             this.trigger('destroy')
             if (options && options.force) {
-                delete options['force']
                 Backbone.Model.prototype.destroy.apply(this, arguments)
             } else {
                 this.trigger('destroy')
@@ -95,9 +94,15 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
                 options.success = function(collection, objects) {
                     if (baksuccess) baksuccess(collection, objects)
-                    var models = collection.where({deletedAt: null})
-                    collection.reset([], {silent: true})
-                    collection.add(models, {silent: true})
+                    var models = collection.where({
+                        deletedAt: null
+                    })
+                    collection.reset([], {
+                        silent: true
+                    })
+                    collection.add(models, {
+                        silent: true
+                    })
 
                     // trigger reset unless user explicitely passed options.silent = true
                     if (options.force_reset) {

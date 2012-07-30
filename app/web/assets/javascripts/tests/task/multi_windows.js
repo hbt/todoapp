@@ -6,6 +6,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
             it("has more than one window open", function() {
                 // shares the same local storage
+                expect(Tasks.length).toEqual(0)
                 TestUtils.createNewTask('window AB new task')
 
                 JasmineThread.fnuntil = function() {
@@ -27,6 +28,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
             it("share the same local storage", function() {
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length === 1) {
                         expect(true).toBeTruthy()
@@ -40,6 +42,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 TestUtils.createNewTask('window A new task')
 
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length === 2) {
                         expect(true).toBeTruthy()
@@ -57,6 +60,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 })
 
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks .task-container').children(':first').find('.task-input').val() === newTitle) {
                         expect(true).toBeTruthy()

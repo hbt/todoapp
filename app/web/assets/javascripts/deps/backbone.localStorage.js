@@ -88,8 +88,14 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 return model;
             },
 
+            getRecords: function() {
+                var store = this.localStorage().getItem(this.name);
+                this.records = (store && store.split(",")) || [];
+                return this.records
+            },
+
             localStorage: function() {
-                return localStorage;
+                return localStorage
             }
 
         });

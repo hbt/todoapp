@@ -34,15 +34,17 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     attrs.skip_remote = true
                     if (attrs.force_reset) attrs.silent = false
 
+
+                    Sync.callbacksCount--;
+                    Sync.callbacksCount += docs.length
                     _.each(docs, function(doc) {
-                        Sync.callbacksCount++;
                         RemoteSync.handleRemoteUpdate(Sync.socket.socket.sessionid, modelName, attrs, doc)
                     })
                 },
 
                 fetch: function(method, model, options, error) {
+                    if (!options.skip_callback) Sync.callbacksCount++;
                     Sync.socket.emit('model/read', model.modelName, options, RemoteSync.handleRemoteFetch)
-
                 },
 
                 handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
@@ -67,7 +69,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     }
 
                     // do not save if remote model is older than what's currently in storage
-                    c.l('comeback', doc.title, doc, doc.updatedAt, model && model.get('updatedAt'), attrs)
+                    c.l('comeback', doc.title, doc, attrs.roomUpdate, doc.updatedAt, model && model.get('updatedAt'), attrs)
                     if (model) {
                         if (doc.updatedAt >= model.get('updatedAt')) {
                             c.l('saving from remote', doc)

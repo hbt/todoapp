@@ -14,8 +14,7 @@ var events = {
      * checks if we can connect to the database
      */
     isDatabaseAlive: function(callback) {
-        // TODO(hbt): Change query so it doesn't return too many results.
-        db.Task.find({}, function(err, docs) {
+        db.Task.count({}, function(err, docs) {
             callback('alive')
         })
     }

@@ -5,10 +5,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
         describe("multi devices", function() {
 
             it("has more than one device active", function() {
+                expect(Tasks.length).toEqual(0)
                 TestUtils.createNewTask('first task')
 
                 JasmineThread.fnuntil = function() {
-                    if (Tasks.at(0).get('_id')) {
+                    if (Tasks.at(0) && Tasks.at(0).get('_id')) {
                         // create iframe
                         var href = window.location.href.replace(window.location.hash, '')
                         href += "#testInstance_" + Auth.getUserId()
@@ -41,6 +42,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 TestUtils.createNewTask('new sync task')
 
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length === 2) {
                         expect(true).toBeTruthy()
@@ -57,6 +59,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 })
 
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks .task-container').children(':first').find('.task-input').val() === 'update') {
                         expect(true).toBeTruthy()
@@ -73,6 +76,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
             it("deleting a record in one device, deletes it in the other", function() {
                 JasmineThread.fnuntil = function() {
+                    if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length == 0) {
                         expect(true).toBeTruthy()
