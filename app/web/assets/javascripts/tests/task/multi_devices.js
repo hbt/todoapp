@@ -12,6 +12,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     if (Tasks.at(0) && Tasks.at(0).get('_id')) {
                         // create iframe
                         var href = window.location.href.replace(window.location.hash, '')
+                        href += "?v=" +new Date()
                         href += "#testInstance_" + Auth.getUserId()
                         $('<iframe src="' + href + '" id="clone" width="1200" height="800"/>').appendTo('body');
                         $(document.getElementById('clone').contentDocument).ready(function() {

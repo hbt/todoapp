@@ -1,15 +1,4 @@
 require.config({
-    // https://github.com/jrburke/require-jquery
-    //      shim: {
-    //        'deps/jquery/jquery.send.keys': {
-    //            deps: ['jquery'],
-    //            exports: 'jQuery.fn.sendkeys'
-    //        }
-    ////        'jquery.scroll': {
-    ////            deps: ['jquery'],
-    ////            exports: 'jQuery.fn.scroll'
-    ////        },
-    //    },
     paths: {
         jquery: 'deps/jquery/jq',
         underscore: 'deps/underscore',
@@ -42,9 +31,6 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/a
     require(['views/app'], function(AppView) {
         new AppView()
 
-        //    require(['tests/utils/testUtils'], function(TestUtils) {
-        //                TestUtils.createNewTask('wwe')
-        //    })
         if (AppConfig.inTestMode()) {
             require(['tests/boot'], function(tests) {
                 tests.exec(window.location.hash === "#tests")
