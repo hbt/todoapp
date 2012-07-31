@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'deps/jquery/jquery.send.keys'], function($) {
     var Utils = function() {
             var DEBUG = window.DEBUG
 
@@ -78,46 +78,13 @@ define(['jquery'], function($) {
 
             var KeyboardSimulator = {
 
-                // TODO(hbt): replace function by jquery events
-                simulateKey: function(keyChar, control, alt, shift, meta) {
-                    if (keyChar === "Enter") {
-                        var e = jQuery.Event("keypress");
-                        e.keyCode = 13
-                        $(document.activeElement).trigger(e)
-                        return;
-                    }
+                simulateTyping: function(string, eventType) {
+                    eventType = eventType || "keypress"
+                    $(document.activeElement).sendkeys(string, {
+                        type: eventType
+                    });
 
-                    control = control || false
-                    alt = alt || false
-                    shift = shift || false
-                    meta = meta || false
-
-                    var insertMode = /^INPUT|TEXTAREA|SELECT|HTML$/i.test(document.activeElement.nodeName);
-                    if (insertMode) {
-                        var evt = document.createEvent('TextEvent');
-                        evt.initTextEvent('textInput', true, true, null, keyChar);
-                        document.activeElement.dispatchEvent(evt);
-                    }
-
-                    var k = document.createEvent("KeyboardEvent")
-                    k.initKeyboardEvent("keydown", true, true, null, keyChar, false, control, alt, shift, meta)
-                    document.activeElement.dispatchEvent(k);
-
-                    k = document.createEvent("KeyboardEvent")
-                    k.initKeyboardEvent("keyup", true, true, null, keyChar, false, control, alt, shift, meta)
-                    document.activeElement.dispatchEvent(k);
-
-                    k = document.createEvent("KeyboardEvent")
-                    k.initKeyboardEvent("keypress", true, true, null, keyChar, false, control, alt, shift, meta)
-                    document.activeElement.dispatchEvent(k);
-                },
-
-                simulateTyping: function(string) {
-                    _.each(string.split(''), function(v) {
-                        KeyboardSimulator.simulateKey(v)
-                    })
-
-                }
+            }
             }
 
             return {

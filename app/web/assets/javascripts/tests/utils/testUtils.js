@@ -3,8 +3,8 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync'], function($,
         createNewTask: function(title) {
             var el = $('.first-input .task-input')
             el.focus()
+            title += "\r\n"
             Utils.keyboard.simulateTyping(title)
-            Utils.keyboard.simulateKey('Enter')
         },
 
         cleanTasks: function(jasmine) {
