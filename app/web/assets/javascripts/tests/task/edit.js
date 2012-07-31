@@ -36,7 +36,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 task.bind('sync', sync, task)
 
                 var title = 'up'
-                Utils.keyboard.simulateTyping(title)
+                el.val('')
+                Utils.keyboard.simulateTyping(title, "keyup", true)
 
                 // saves locally as you type
                 expect(task.get('title')).toEqual(title)

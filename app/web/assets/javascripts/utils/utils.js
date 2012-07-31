@@ -78,13 +78,22 @@ define(['jquery', 'deps/jquery/jquery.send.keys'], function($) {
 
             var KeyboardSimulator = {
 
-                simulateTyping: function(string, eventType) {
+                simulateTyping: function(string, eventType, loop) {
                     eventType = eventType || "keypress"
-                    $(document.activeElement).sendkeys(string, {
-                        type: eventType
-                    });
 
-            }
+                    if ( !! loop) {
+                        _.each(string.split(''), function(v) {
+
+                            $(document.activeElement).sendkeys(v, {
+                                type: eventType
+                            });
+                        })
+                    } else {
+                        $(document.activeElement).sendkeys(string, {
+                            type: eventType
+                        });
+                    }
+                }
             }
 
             return {
@@ -103,7 +112,6 @@ define(['jquery', 'deps/jquery/jquery.send.keys'], function($) {
 });
 
 // TODO: remove
-
 
 function resetStorage() {
     localStorage.clear()
