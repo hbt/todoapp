@@ -52,6 +52,8 @@
             if (typeof x === 'undefined') return; // no string, so we just set up the event handlers
             x.replace(/\n/g, '{enter}'). // turn line feeds into explicit break insertions
             replace(/{[^}]*}|[^{]+/g, function(s){
+                opts = opts || {type: 'keypress'}
+                $.fn.sendkeys.defaults.opts = opts;
                 (localkeys[s] || $.fn.sendkeys.defaults[s] || $.fn.sendkeys.defaults.simplechar)(rng, s);
             });
             $(this).trigger({
@@ -70,7 +72,7 @@
                 var x = s.charCodeAt(i);
                 // a bit of cheating: rng._el is the element associated with rng.
                 $(rng._el).trigger({
-                    type: 'keypress',
+                    type: $.fn.sendkeys.defaults.opts.type,
                     keyCode: x,
                     which: x,
                     charCode: x
@@ -86,7 +88,7 @@
             rng.select();
             var x = '\n'.charCodeAt(0);
             $(rng._el).trigger({
-                type: 'keypress',
+                type: $.fn.sendkeys.defaults.opts.type,
                 keyCode: x,
                 which: x,
                 charCode: x
