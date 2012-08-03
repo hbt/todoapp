@@ -3,7 +3,7 @@
 exports.getConfig = function() {
     return {
         "db": {
-            "name": "todo",
+            "name": "tasktree",
             "user": "admin",
             "pwd": "admin",
             "port": "27017",

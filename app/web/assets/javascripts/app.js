@@ -23,6 +23,7 @@ if (document) {
 require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/authentication',
 // global stuff
 'utils/extend', 'config'], function($, CUtils, Utils, Sync, Auth) {
+    AppConfig.init()
     Utils.initDebug()
     Sync.init()
     Auth.login()
