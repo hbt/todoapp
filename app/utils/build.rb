@@ -74,9 +74,9 @@ end
 def start_node
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../server/')
 
-    %x[forever stop app.js]
-    %x[forever --append -l ../logs/forever.txt -o ../logs/ss.txt -e ../logs/sse.txt start app.js]
+    print %x[forever stop app.js]
+    print %x[forever --append -o ../logs/ss.txt -e ../logs/sse.txt start app.js]
 end
 
-update_version
 start_node
+update_version
