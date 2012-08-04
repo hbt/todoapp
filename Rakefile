@@ -8,7 +8,7 @@ task :release do
 
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/app/server/')
 
-    p "install forever as sudo `npm install forever -g`" && exit unless File.exists?(%x[which forever].split("\n")[0])
+    p "install forever as sudo `npm install forever -g`" && exit unless File.exists?(%x[which forever] && %x[which forever].split("\n")[0])
 
     %x[mkdir -p ~/logs/tasktree]
 
