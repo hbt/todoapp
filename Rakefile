@@ -6,6 +6,11 @@ desc "pulls new code + restarts server"
 task :release do
     %x[git pull origin master]
 
+    Rake::Task["start_node"].invoke
+end
+
+desc "pulls new code + restarts server"
+task :start_node do
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/app/server/')
 
     unless !%x[which forever].empty? && File.exists?(%x[which forever].split("\n")[0])
