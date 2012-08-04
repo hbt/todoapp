@@ -74,11 +74,8 @@ end
 def start_node
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../server/')
 
-    %x[killall -v node]
-
-    pid = Process.spawn("node app.js",
-        :out => File.dirname(File.expand_path(__FILE__)) + '/../logs/ss.txt', :err => File.dirname(File.expand_path(__FILE__)) + '/../logs/sse.txt')
-    Process.detach pid
+    %x[forever stop app.js]
+    %x[forever --append -l ../logs/forever.txt -o ../logs/ss.txt -e ../logs/sse.txt start app.js]
 end
 
 update_version

@@ -1,6 +1,21 @@
 require "bundler/setup"
 require 'json'
 
+
+desc "pulls new code + restarts server"
+task :release do
+    %x[git pull origin master]
+
+    Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/app/server/')
+
+    p "install forever as sudo `npm install forever -g`" && exit unless File.exists?(%x[which forever].split("\n")[0])
+
+    %x[mkdir -p ~/logs/tasktree]
+
+    print %x[forever -v stop app.js]
+    print %x[forever --append -d -v -o ~/logs/tasktree/node_out.log -e ~/logs/tasktree/node_err.log start app.js]
+end
+
 desc "Format javascript files\n format one file `rake format_js [filename]` \n format all files in git status `rake format_js`\n format all files `rake format_js all`"
 task :format_js do
     extensions = ['.js', '.json']
