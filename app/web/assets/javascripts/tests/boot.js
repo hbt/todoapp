@@ -21,11 +21,12 @@ var taskExtras = [
 var tests = [
 // check basics are working
 'tests/checkSpecs',
-// authentication
-'tests/auth/register',
+// test google login
+'tests/auth/login',
+// test anonymous usage
 //
 taskTests,
-//
+////
 taskExtras,
 // take down
 'tests/auth/logout'
@@ -48,14 +49,13 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
             return htmlReporter.specFilter(spec);
         };
 
-        function execJasmine(replace) {
+        function execJasmine() {
 
             // hack to load tests in order 
 
             function callback(index) {
                 if (index === tests.length) {
                     jasmineEnv.execute();
-                    setTimeout(replaceBodyWithResults, 1500)
                     return;
                 }
 
@@ -65,15 +65,6 @@ define(['deps/jasmine/jasmine-html'], function(jasmine) {
             }
 
             callback(0)
-
-            function replaceBodyWithResults() {
-                if (replace) {
-                    var html = (document.getElementById('HTMLReporter'))
-                    document.body.innerHTML = ''
-                    document.body.appendChild(html)
-                }
-            }
-
         }
 
         return {

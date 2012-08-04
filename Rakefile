@@ -14,8 +14,7 @@ task :start_node do
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/app/server/')
 
     unless !%x[which forever].empty? && File.exists?(%x[which forever].split("\n")[0])
-        print "install forever as sudo `npm install forever -g`\n"
-        exit
+       abort "install forever as sudo `npm install forever -g`\n"
     end
 
     %x[mkdir -p ~/logs/tasktree]
@@ -45,26 +44,56 @@ task :format_js do
 
     javascript_files.map do |file|
         p "formatting #{file}"
-#        formated_content = `js-beautify --brace-style=expand -s 4 #{file}`
+        #        formated_content = `js-beautify --brace-style=expand -s 4 #{file}`
         formated_content = `js-beautify -s 4 #{file}`
         File.open(file, 'w') {|f| f.write(formated_content) }
     end
-    exit
+    abort
 end
 
 
+desc "switch modes (dev/prod) -- renames __dev__ __prod__ files"
 task :switch_env do
-    # exit if index.html does not exist
-    index_file = File.dirname(File.expand_path(__FILE__)) + '/app/web/index.html'
-    exit unless File.exists?(index_file)
+    abort check_env unless check_env == true
 
-    # default environment are development (dev) and production (prod)
-    # did we pass the right environment name?
+    extensions = ['__dev__', '__prod__']
+
+    env = "__#{ARGV[1]}__"
+
+    files = Dir["**/*#{env}*"].map! { |f| Dir.pwd + File::SEPARATOR + f }
+    files.each do |of|
+        nf = of.gsub(env, '')
+        Dir.chdir(File.dirname(of))
+        File.delete(nf) if File.exists? nf
+        cmd = "ln -s #{File.basename(of)} #{File.basename(nf)}"
+        puts cmd
+        %x[#{cmd}]
+    end
+
+    abort
+end
+
+# default environment are development (dev) and production (prod)
+# did we pass the right environment name?
+def check_env
+    ret = true
     envs = ['dev', 'prod']
     if ARGV.size != 2 || (ARGV & envs).empty?
-        p "invalid environment name.  try #{envs.join(' or ')}"
-        exit
+        ret = "invalid environment name.  try #{envs.join(' or ')}"
     end
+    
+    ret
+end
+
+
+desc "switch modes (dev/prod)"
+task :switch_mode do
+    # exit if index.html does not exist
+    index_file = File.dirname(File.expand_path(__FILE__)) + '/app/web/index.html'
+    abort "index file not present" unless File.exists?(index_file)
+
+    abort check_env unless check_env == true
+
 
     # mode is environment name
     mode = ARGV[1]
@@ -101,5 +130,5 @@ eos
 
     p "switching to #{mode}"
 
-    exit
+    abort
 end

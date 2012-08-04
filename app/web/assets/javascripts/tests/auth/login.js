@@ -36,87 +36,68 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
 
             it("Anonymous is displayed as username", function() {})
-            }
+        }
     }
 
     with(jasmine) {
         describe("First time, Anonymous", runAnonymousSpecs)
 
-    describe("Click google login", function() {
-        it("Fake data is created", function() {
-            // create 2 local tasks for anonymous
+        describe("Click google login", function() {
+            it("Fake data is created", function() {
+                // create 2 local tasks for anonymous
 
-            // create 1 remote
-            var Workspace = Backbone.Router.extend({
+                // create 1 remote
 
-  routes: {
-    "help":                 "help"    // #help
-  },
+                // continue when all fake tasks have been remotely created
+            })
 
-  help: function() {
-    c.l('hhh')
-  }
-});
+            it("User is redirected to google login, accepts and token is returned", function() {
+                // simulate user login
 
+                // create test user
 
-var w = new Workspace()
-Backbone.history.start()
+                // set token parameter
+            })
 
-w.navigate("help", {trigger: true, replace: false})
-w.navigate("devtests", {trigger: true, replace: false})
-c.l(w)
+            it("retrieves + stores user id using token parameter", function() {
+                // back up anonymous user id
 
-            // continue when all fake tasks have been remotely created
+                // call login
+
+                // check user id is now different
+            })
+
+            it("login using google info", function() {
+                // login
+
+                // check user-info matches
+            })
+            it("Anonymous is not displayed, actual name is used", function() {})
+            it("Data from anonymous user is moved to logged in user", function() {
+                // check fake tasks associated to anonymous now belong to test user
+            })
         })
 
-        it("User is redirected to google login, accepts and token is returned", function() {
-            // simulate user login
+        describe("logout", function() {
+            it("clears local storage", function() {
+                // bak user id 
 
-            // create test user
-
-            // set token parameter
+                // clear everything
+            })
         })
 
-        it("retrieves + stores user id using token parameter", function() {
-            // back up anonymous user id
 
-            // call login
+        describe("logs back in", function() {
+            it("Data is fetched", function() {
+                // simulate login
 
-            // check user id is now different
+                // check data is fetched
+            })
+            it("end of test", function() {
+                // clear everything
+            })
         })
 
-        it("login using google info", function() {
-            // login
-
-            // check user-info matches
-
-        })
-        it("Anonymous is not displayed, actual name is used", function() {})
-        it("Data from anonymous user is moved to logged in user", function() {
-            // check fake tasks associated to anonymous now belong to test user
-        })
-    })
-
-    describe("logout", function() {
-        it("clears local storage", function() {
-            // bak user id 
-            
-            // clear everything
-        })
-    })
-
-
-    describe("logs back in", function() {
-        it("Data is fetched", function() {
-            // simulate login
-
-            // check data is fetched
-        })
-        it("end of test", function() {
-            // clear everything
-        })
-    })
-
-//        describe("First time, Anonymous", runAnonymousSpecs)
-        }
+        //        describe("First time, Anonymous", runAnonymousSpecs)
+    }
 })
