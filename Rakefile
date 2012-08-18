@@ -5,6 +5,7 @@ require 'json'
 desc "pulls new code + restarts server"
 task :release do
     %x[git pull origin master]
+    %x[rake switch_env prod]
 
     Rake::Task["start_node"].invoke
 end
