@@ -13,8 +13,8 @@ exports.getConfig = function() {
             "port": 9099
         },
         "google": {
-            "id": "",
-            "secret": "",
+            "id": "590769436396.apps.googleusercontent.com",
+            "secret": "3xyC_j_w4BUFUjzJ3JfsZlF0",
             "callback": "http://tasktree.hbtlabs.com:9099/oauth2callback"
         },
         "app": {
