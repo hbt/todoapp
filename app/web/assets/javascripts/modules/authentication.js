@@ -1,12 +1,30 @@
 define(['utils/utils', 'utils/sync'], function(Utils, WS) {
     var Auth = function() {
             function login(callback) {
-                // is this the first visit?
+
                 if (!getUserId()) {
                     createAnonymousAccount()
                 }
 
                 authenticateAccount(callback)
+            }
+
+            function googleLogin(id, createdAt) {
+                var currentUserId = getUserId()
+                if (currentUserId === id) {
+                    login()
+                } else {
+                    migradateData(currentUserId, id, createdAt)
+                }
+            }
+
+            function migradateData(fromId, toId, toCreatedAt) {
+                logout()
+                // migrate remote data
+                WS.connect().emit('auth/migrateData', fromId, toId, toCreatedAt, function() {
+                    setUserId(toId)
+                    login()
+                })
             }
 
             /**
@@ -30,7 +48,6 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
 
             /**
              * generates user id and stores it locally
-             * TODO(hbt): review this after implement google login
              */
 
             function createAnonymousAccount() {
@@ -42,9 +59,11 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
              */
 
             function authenticateAccount(callback) {
+                // TODO(hbt): trigger callback if there is no socket
                 WS.connect().emit('auth/login', getUserId(), function(info) {
                     // store email + account information
                     localStorage.setItem(AppConfig.genkey("user-info"), JSON.stringify(info))
+                    WS.fetchCollections()
                     if (callback) callback(info)
                 })
             }
@@ -61,24 +80,18 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
             /**
              * logs the user out
              * - clears offline storage
-             * - disconnects socket
-             *
-             * TODO(hbt) review this after google login implementation
              */
 
-            function logout(callback) {
-                WS.connect().emit('auth/logout', AppConfig.inTestMode(), function(info) {
-                    WS.disconnect()
-                    Utils.clearLocalStorage()
-                    if (callback) callback(info)
-                })
+            function logout() {
+                Utils.clearLocalStorage()
             }
 
             return {
                 login: login,
                 logout: logout,
                 getUserId: getUserId,
-                getUserInfo: getUserInfo
+                getUserInfo: getUserInfo,
+                googleLogin: googleLogin
             }
         }()
 

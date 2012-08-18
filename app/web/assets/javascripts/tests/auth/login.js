@@ -1,11 +1,10 @@
-define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication', 'backbone'], function(jasmine, Utils, TestUtils, Tasks, Auth, Backbone) {
+define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication', 'backbone', 'utils/sync'], function(jasmine, Utils, TestUtils, Tasks, Auth, Backbone, WS) {
 
     function runAnonymousSpecs() {
-        with(jasmine) {
-            it("anonymous account is created", function() {
-                expect(Auth.getUserId()).toBe(null)
-                expect(Auth.getUserInfo()).toBe(null)
+        var userInfo
 
+        with(jasmine) {
+            it("we create an anonymous account", function() {
                 JasmineThread.fn = function() {
                     Auth.login(function() {
                         expect(Auth.getUserId()).toNotBe(null)
@@ -21,7 +20,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
 
-            it("login time is tracked and account is updated", function() {
+            it("we track the login time and user account information is stored locally", function() {
                 JasmineThread.fn = function() {
                     Auth.login(function() {
                         expect(Auth.getUserInfo().loggedAt.length).toEqual(2)
@@ -35,69 +34,132 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
 
-            it("Anonymous is displayed as username", function() {})
-        }
+            it("user sees 'Anonymous' as a username", function() {})
+            }
     }
 
     with(jasmine) {
-        describe("First time, Anonymous", runAnonymousSpecs)
+        describe("Authentication", function() {
 
-        describe("Click google login", function() {
-            it("Fake data is created", function() {
-                // create 2 local tasks for anonymous
+            describe("we login user based on information in local storage", function() {
+                it("we do not have any information, we boot the app assuming user wants to use it anonymously", function() {
+                    expect(Auth.getUserId()).toBe(null)
+                    expect(Auth.getUserInfo()).toBe(null)
+                })
 
-                // create 1 remote
-
-                // continue when all fake tasks have been remotely created
+                describe("Anonymous account", runAnonymousSpecs)
             })
 
-            it("User is redirected to google login, accepts and token is returned", function() {
-                // simulate user login
+            describe("User enters data using anonymous account", function() {
+                it("we save the data locally and remotely", function() {
+                    // create 2 local tasks for anonymous
+                    Tasks.create({
+                        title: "ff"
+                    })
+                    Tasks.create({
+                        title: "ss"
+                    })
 
-                // create test user
+                    // continue when all fake tasks have been remotely created
+                    JasmineThread.fnuntil = function() {
+                        if (Tasks.pluck('_id').length === 2) {
+                            JasmineThread.stop()
+                        }
+                    }
 
-                // set token parameter
+                    waitsFor(JasmineThread.run)
+                })
             })
 
-            it("retrieves + stores user id using token parameter", function() {
-                // back up anonymous user id
 
-                // call login
+            describe("User clicks google login icon", function() {
 
-                // check user id is now different
+                var googleUser = null
+                it("we redirect user to google | user accepts App | google redirects to app server | google account info is stored | app server redirects to index.html", function() {
+                    // create google user
+                    var gid = Utils.genUniqId()
+                    var email = 'test_jasmine' + Utils.genUniqId() + '@gmail.com'
+                    var json ={
+                        "scopedUsers":{},
+                        "user":{
+                            "id": gid,
+                            "email": email,
+                            "verified_email":true,
+                            "name":"Test Jasmine",
+                            "given_name":"Test",
+                            "family_name":"Jasmine",
+                            "link":"https://plus.google.com/103018688350089292120",
+                            "gender":"male",
+                            "locale":"en"
+                        }
+                    };
+
+                    JasmineThread.fn = function() {
+                        WS.connect().emit('auth/googleLogin', json, function(user) {
+                            googleUser = user
+                            expect(user.email).toEqual(email)
+                            JasmineThread.stop()
+                        })
+                    }
+
+                    waitsFor(JasmineThread.run)
+                })
+
+                it("we login user based on information in local storage", function() {
+                    // call login routine
+                    Auth.googleLogin(googleUser.id, googleUser.createdAt)
+
+                    JasmineThread.fnuntil = function() {
+                        if(Auth.getUserId() === googleUser.id) {
+                            expect(true).toBeTruthy()
+                            JasmineThread.stop()
+                        }
+                    }
+                    waitsFor(JasmineThread.run)
+                })
+
+                it("user data entered as anonymous now belongs to his google account", function() {
+                    JasmineThread.fnuntil = function() {
+                        // migration completed
+                        if(_.unique(Tasks.pluck('userId'))[0] === googleUser.id) {
+                            expect(true).toBeTruthy()
+                            JasmineThread.stop()
+                        }
+                    }
+                    waitsFor(JasmineThread.run)
+                })
+
+                it("user can see his first name instead of 'Anonymous'", function() {})
             })
 
-            it("login using google info", function() {
-                // login
+            describe("logout", function() {
+                it("clears local storage", function() {
+                    // bak user id
 
-                // check user-info matches
+                    // clear everything
+                    })
             })
-            it("Anonymous is not displayed, actual name is used", function() {})
-            it("Data from anonymous user is moved to logged in user", function() {
-                // check fake tasks associated to anonymous now belong to test user
+
+
+            describe("logs back in", function() {
+                it("Data is fetched", function() {
+                    // simulate login
+
+                    // check data is fetched
+                    })
+                it("(test): end of test", function() {
+                    // clear localstorage
+                    TestUtils.cleanTasks(this)
+                })
+
+                it("(test): clear storage to login as anonymous", function() {
+                    Utils.clearLocalStorage()
+                    expect(Utils.getLocalStorageSize()).toEqual(0)
+                    expect(Tasks.length).toEqual(0)
+                })
             })
+
+            describe("First time, Anonymous", runAnonymousSpecs)
         })
-
-        describe("logout", function() {
-            it("clears local storage", function() {
-                // bak user id 
-
-                // clear everything
-            })
-        })
-
-
-        describe("logs back in", function() {
-            it("Data is fetched", function() {
-                // simulate login
-
-                // check data is fetched
-            })
-            it("end of test", function() {
-                // clear everything
-            })
-        })
-
-        //        describe("First time, Anonymous", runAnonymousSpecs)
-    }
+        }
 })

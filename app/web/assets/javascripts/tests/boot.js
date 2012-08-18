@@ -1,5 +1,5 @@
 var taskTests = [
-// 
+//
 'tests/task/list',
 //
 'tests/task/new',
@@ -24,9 +24,8 @@ var tests = [
 // test google login
 'tests/auth/login',
 // test anonymous usage
-//
 taskTests,
-////
+//
 taskExtras,
 // take down
 'tests/auth/logout'

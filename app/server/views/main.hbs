@@ -1,0 +1,10 @@
+{{#if auth }}
+    <script type="text/javascript">
+        loginUser('{{{url}}}')
+    </script>
+{{else}}
+    <a href="?login_with=google2" class="googleLogin">Google Login</a>
+    <script type="text/javascript">
+        googleLogin()
+    </script>
+{{/if}}

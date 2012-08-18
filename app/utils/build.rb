@@ -74,8 +74,14 @@ end
 def start_node
     Dir.chdir(File.dirname(File.expand_path(__FILE__)) + '/../server/')
 
-    print %x[forever stop app.js]
-    print %x[forever --append -o ../logs/ss.txt -e ../logs/sse.txt start app.js]
+    %x[killall -v node]
+
+    pid = Process.spawn("node app.js",
+        :out => File.dirname(File.expand_path(__FILE__)) + '/../logs/ss.txt', :err => File.dirname(File.expand_path(__FILE__)) + '/../logs/sse.txt')
+    Process.detach pid
+   
+#    print %x[forever stop app.js]
+#    print %x[forever -o ../logs/ss.txt -e ../logs/sse.txt start app.js]
 end
 
 start_node

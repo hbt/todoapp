@@ -61,6 +61,7 @@ function initSchema() {
             type: String,
             index: true
         },
+        googleData: String,
         createdAt: Number,
         updatedAt: Number,
         // logins array of timestamps

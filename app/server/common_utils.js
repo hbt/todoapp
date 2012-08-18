@@ -1,31 +1,33 @@
 // file is used by both backend and frontend
 
-// Generate a pseudo-GUID by concatenating random hexadecimal.
-
 function guid() {
+    // Generate a pseudo-GUID by concatenating random hexadecimal.
+
+
     function S4() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 };
 
-function initUtils() {
-    c = console
-    c.l = console.log
-    c.d = console.dir
-}
-
 // hack to handle asynchronous calls in Jasmine
 var JasmineThread = {
-    _start: 0,
-    _stop: 0,
+    _start: false,
+    _stop: false,
+    count: 0,
 
     start: function() {
-        JasmineThread._start = 1;
-        JasmineThread._stop = 0
+        JasmineThread._start = true;
+        JasmineThread._stop = false
+        JasmineThread.count++
     },
+
     stop: function() {
-        JasmineThread._stop = 1;
+        JasmineThread._stop = true;
+        JasmineThread.count--
+        if(JasmineThread.count < 0) {
+            throw "Error in the Jasmine Runners -- calling stop more than run"
+        }
     },
 
     fn: null,
@@ -33,7 +35,9 @@ var JasmineThread = {
 
     intervalId: null,
     until: function(fn, delay) {
-        delay = delay || 100
+        // should be higher than jasmine.DEFAULT_UPDATE_INTERVAL
+        delay = delay || 275
+        
         JasmineThread.intervalId = window.setInterval(fn, delay)
     },
 
@@ -44,7 +48,7 @@ var JasmineThread = {
             if (JasmineThread.fnuntil) JasmineThread.until(JasmineThread.fnuntil)
         }
 
-        var res = JasmineThread._stop
+        var res = JasmineThread._stop 
         if (JasmineThread._stop) {
             JasmineThread.reset()
         }
@@ -53,17 +57,25 @@ var JasmineThread = {
     },
 
     reset: function() {
-        JasmineThread._start = 0
-        JasmineThread._stop = 0
+        JasmineThread._start = false
+        JasmineThread._stop = false
+
         JasmineThread.fn = null
         JasmineThread.fnuntil = null
         if (JasmineThread.intervalId) window.clearInterval(JasmineThread.intervalId)
     }
 }
 
+function initUtils() {
+    c = console
+    c.l = console.log
+    c.d = console.dir
+    uniqueID = guid
+}
+
 if (typeof exports === "undefined") {
     initUtils()
-    /**
+/**
     c.l = function() {
         console.log.apply(console, arguments)
         _.each(arguments, function(v) {

@@ -10,10 +10,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                 JasmineThread.fnuntil = function() {
                     if (Tasks.pluck('_id').length === 2) {
-                        Sync.socket.emit('model/count', Tasks.modelName, function(remoteCount) {
-                            expect(remoteCount).toEqual(Tasks.length)
-                            JasmineThread.stop()
-                        })
+                        JasmineThread.stop()
                     }
                 }
 

@@ -26,13 +26,14 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/a
     AppConfig.init()
     Utils.initDebug()
     Sync.init()
-    Auth.login()
-
-    // TODO(hbt) check if this works in min. Otherwise, require it here first and clean up require code in list,app,edit
-    require(['views/app', 'routing'], function(AppView, Routing) {
-        new AppView()
-        var routing = new Routing()
-        Backbone.history.start()
+    Auth.login(function() {
+        // move this block as a login callback
+        require(['views/app', 'routing'], function(AppView, Routing) {
+            new AppView()
+            var routing = new Routing()
+            Backbone.history.start()
+        })
     })
+
 
 });

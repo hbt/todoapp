@@ -117,6 +117,12 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                 if (!options.skip_remote) remoteSync.apply(this, arguments)
             }
 
+            function fetchCollections() {
+                _.each(collections, function(collection) {
+                    collection.fetch()
+                })
+            }
+
             /**
              * initialize backbone localstorage + remote syncing
              */
@@ -134,7 +140,8 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
             return {
                 init: initialize,
                 connect: connect,
-                disconnect: disconnect
+                disconnect: disconnect,
+                fetchCollections: fetchCollections
             }
         }()
         Sync.callbacksCount = 0
