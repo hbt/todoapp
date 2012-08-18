@@ -1,6 +1,8 @@
 define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication', 'utils/sync'], function(jasmine, Utils, TestUtils, Tasks, Auth, Sync) {
-    var task
 
+    TestUtils.beginTests()
+
+    var task
     with(jasmine) {
         describe("Tasks: edit", function() {
 
@@ -104,9 +106,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 })
             })
 
-            it("end of test", function() {
-                TestUtils.cleanTasks(this)
-            })
+            TestUtils.endTests()
         })
     }
 })

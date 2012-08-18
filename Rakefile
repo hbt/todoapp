@@ -5,6 +5,7 @@ require 'json'
 desc "pulls new code + restarts server"
 task :release do
     %x[git pull origin master]
+    # // TODO(hbt): add npm install
     %x[rake switch_env prod]
 
     Rake::Task["start_node"].invoke
@@ -47,6 +48,7 @@ task :format_js do
         p "formatting #{file}"
         #        formated_content = `js-beautify --brace-style=expand -s 4 #{file}`
         formated_content = `js-beautify -s 4 #{file}`
+        # // TODO(hbt): add sha1 check and only write when content is different
         File.open(file, 'w') {|f| f.write(formated_content) }
     end
     abort

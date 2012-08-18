@@ -3,6 +3,15 @@ define(['deps/jasmine/jasmine-html', 'modules/authentication', 'utils/utils'], f
 
 
     with(jasmine) {
+        describe("User clicks logout", function() {
+            it("we display confirmation message", function() {})
+            describe("if user confirms", function() {
+                it("we clear all data in local storage", function() {})
+                it("we disconnect the web socket", function() {})
+                it("we clear everything and display a message that the user is logged out and must reload the page", function() {})
+            })
+        })
+
         describe("logout", function() {
             // TODO(hbt): remove data after test
 

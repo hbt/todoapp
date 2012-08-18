@@ -1,4 +1,6 @@
 define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks', 'modules/authentication'], function(jasmine, Utils, TestUtils, Tasks, Auth) {
+
+    TestUtils.beginTests()
     var iframe
 
     with(jasmine) {
@@ -93,6 +95,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 iframe.remove()
                 expect(document.getElementById('clone')).toBeNull()
             })
+
+            TestUtils.endTests()
         })
     }
 })

@@ -1,4 +1,5 @@
 define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'collections/tasks'], function(jasmine, Utils, TestUtils, Tasks) {
+    TestUtils.beginTests()
     with(jasmine) {
         describe("Tasks: delete", function() {
 
@@ -42,9 +43,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
                     it("Collection doesn't contain deleted tasks", function() {})
 
-                    it("end of test", function() {
-                        TestUtils.cleanTasks(this)
-                    })
+                    TestUtils.endTests()
                 })
             })
         })
