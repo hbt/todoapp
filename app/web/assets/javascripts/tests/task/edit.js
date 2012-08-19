@@ -4,14 +4,15 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
     var task
     with(jasmine) {
-        describe("Tasks: edit", function() {
+        describe("User edits a task", function() {
 
-            it("saves as you type", function() {
+            it("(test) init data", function() {
                 TestUtils.createNewTask('first edit task')
                 TestUtils.createNewTask('second edit task')
 
                 JasmineThread.fnuntil = function() {
                     if (Tasks.pluck('_id').length === 2) {
+                        expect(true).toBeTruthy()
                         JasmineThread.stop()
                     }
                 }
@@ -19,7 +20,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("saves as you type", function() {
+            it("we save as the user types", function() {
                 // focus on edit
                 var el = $('.all-tasks .task-container .task-input').first()
                 el.focus()
@@ -54,7 +55,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("can toggle done", function() {
+            it("user can toggle between done and undone", function() {
                 expect(task.get('done')).toBeFalsy()
                 var el = $('.all-tasks .task-container .task-status').first()
                 el.trigger('click')
@@ -65,13 +66,14 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(task.get('done')).toBeFalsy()
             })
 
-            it("title has a limit of characters", function() {})
 
-            it("doesn't save empty when using backspace", function() {})
 
             describe("watch for", function() {
-                describe("slow connections", function() {
-                    it("doesn't update local objects when remote objects are too old", function() {
+                it("title has a limit of characters", function() {})
+                it("we don't save empty task when using backspace", function() {})
+
+                describe("user has a slow connection", function() {
+                    it("we don't update local data when remote data is too old", function() {
                         var v = Tasks.at(0).get('updatedAt')
                         var nv = (new Date().getTime() - 500000)
                         Tasks.at(0).save({
@@ -84,9 +86,9 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     })
                 })
 
-                describe("model is tied to the view", function() {
+                describe("data in the collection is tied to the data in the UI", function() {
 
-                    it("updating object, updates model", function() {
+                    it("if we update an object in the collection, view associated to the object is updated", function() {
                         Tasks.at(0).save({
                             title: 'up2'
                         })
@@ -94,7 +96,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         expect(el.val()).toEqual('up2')
                     })
 
-                    it("updating object silently does not update model", function() {
+                    it("if we silently update an object in the collection, view associated to the object is not updated", function() {
                         Tasks.at(0).save({
                             title: 'u3'
                         }, {

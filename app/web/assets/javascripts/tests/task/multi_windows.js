@@ -3,10 +3,10 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     TestUtils.beginTests()
 
     with(jasmine) {
-        describe("multi windows", function() {
+        describe("User wants to see his changes synced across all open tabs/windows", function() {
             var iframe
 
-            it("has more than one window open", function() {
+            it("User has more than one window open", function() {
                 // shares the same local storage
                 expect(Tasks.length).toEqual(0)
                 TestUtils.createNewTask('window AB new task')
@@ -29,7 +29,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("share the same local storage", function() {
+            it("Both windows share the same local storage", function() {
                 JasmineThread.fnuntil = function() {
                     if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
@@ -41,7 +41,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("a task is created when another window is open", function() {
+            it("User creates a task, task appears in second window", function() {
                 TestUtils.createNewTask('window A new task')
 
                 JasmineThread.fnuntil = function() {
@@ -56,7 +56,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("task is updated from another window", function() {
+            it("User edits a task, task is updated in second window", function() {
                 var newTitle = 'update window A'
                 Tasks.at(0).save({
                     title: newTitle
@@ -74,11 +74,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("delete data in window A", function() {
+            it("(test): delete data in window A", function() {
                 TestUtils.cleanTasks(this)
             })
 
-            it("deleting a record in one window, deletes it in the other", function() {
+            it("User deletes a task, task disappears in second window", function() {
                 JasmineThread.fnuntil = function() {
                     iframe = $(document.getElementById('clone').contentDocument)
                     if (iframe.find('.all-tasks').children().length == 0) {
@@ -90,7 +90,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("end of test", function() {
+            it("(test): end of test", function() {
                 iframe = $(document.getElementById('clone'))
                 iframe.remove()
                 expect(document.getElementById('clone')).toBeNull()

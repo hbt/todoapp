@@ -24,5 +24,17 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
 
             it("syning dirty records empties the dirty list", function() {})
         })
+
+        describe("remote fetch", function() {
+            it("updates old local tasks", function() {})
+            describe("last time fetch", function() {
+                it("stores the last time a fetch was requested", function() {})
+                it("only returns data where updatedAt > last time fetched", function() {})
+                it("remote fetch returns all data if this is the first time", function() {})
+            })
+            it("when socket connect/reconnects, remote fetch is triggered", function() {})
+        })
+        it("doing a fetch again, fetches nothing when everything is up-to-date", function() {})
+        it("hitting fetch multiple times doesn't duplicate the views", function() {})
     }
 })

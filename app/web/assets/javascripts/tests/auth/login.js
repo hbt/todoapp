@@ -37,20 +37,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
 
 
             it("user sees 'Anonymous' as a username", function() {})
-        }
-    }
-
-    with(jasmine) {
-        describe("Authentication", function() {
-
-            describe("we login user based on information in local storage", function() {
-                it("if we do not have any information, we boot the app assuming user wants to use it anonymously", function() {
-                    expect(Auth.getUserId()).toBe(null)
-                    expect(Auth.getUserInfo()).toBe(null)
-                })
-
-                describe("Anonymous account", runAnonymousSpecs)
-            })
 
             describe("User enters data using anonymous account", function() {
                 it("we save the data locally and remotely", function() {
@@ -72,68 +58,85 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     waitsFor(JasmineThread.run)
                 })
             })
+        }
+    }
 
+    function runGoogleSpecs() {
+        with(jasmine) {
 
-            describe("User clicks google login icon", function() {
-
-                var googleUser = null
-                it("we redirect user to google | user accepts App | google redirects to app server | google account info is stored | app server redirects to index.html", function() {
-                    // create google user
-                    var gid = Utils.genUniqId()
-                    var email = 'test_jasmine' + Utils.genUniqId() + '@gmail.com'
-                    var json = {
-                        "scopedUsers": {},
-                        "user": {
-                            "id": gid,
-                            "email": email,
-                            "verified_email": true,
-                            "name": "Test Jasmine",
-                            "given_name": "Test",
-                            "family_name": "Jasmine",
-                            "link": "https://plus.google.com/103018688350089292120",
-                            "gender": "male",
-                            "locale": "en"
-                        }
-                    };
-
-                    JasmineThread.fn = function() {
-                        WS.connect().emit('auth/googleLogin', json, function(user) {
-                            googleUser = user
-                            expect(user.email).toEqual(email)
-                            JasmineThread.stop()
-                        })
+            var googleUser = null
+            it("we redirect user to google | user accepts App | google redirects to app server | google account info is stored | app server redirects to index.html", function() {
+                // create google user
+                var gid = Utils.genUniqId()
+                var email = 'test_jasmine' + Utils.genUniqId() + '@gmail.com'
+                var json = {
+                    "scopedUsers": {},
+                    "user": {
+                        "id": gid,
+                        "email": email,
+                        "verified_email": true,
+                        "name": "Test Jasmine",
+                        "given_name": "Test",
+                        "family_name": "Jasmine",
+                        "link": "https://plus.google.com/103018688350089292120",
+                        "gender": "male",
+                        "locale": "en"
                     }
+                };
 
-                    waitsFor(JasmineThread.run)
-                })
+                JasmineThread.fn = function() {
+                    WS.connect().emit('auth/googleLogin', json, function(user) {
+                        googleUser = user
+                        expect(user.email).toEqual(email)
+                        JasmineThread.stop()
+                    })
+                }
 
-                it("we login user based on information (google data) in parameters -- routing", function() {
-                    // call login routine
-                    Auth.googleLogin(googleUser.id, googleUser.createdAt)
-
-                    JasmineThread.fnuntil = function() {
-                        if (Auth.getUserId() === googleUser.id) {
-                            expect(true).toBeTruthy()
-                            JasmineThread.stop()
-                        }
-                    }
-                    waitsFor(JasmineThread.run)
-                })
-
-                it("we migrate user data entered as anonymous to his google account", function() {
-                    JasmineThread.fnuntil = function() {
-                        // migration completed
-                        if (_.unique(Tasks.pluck('userId'))[0] === googleUser.id) {
-                            expect(true).toBeTruthy()
-                            JasmineThread.stop()
-                        }
-                    }
-                    waitsFor(JasmineThread.run)
-                })
-
-                it("user sees his first name instead of 'Anonymous'", function() {})
+                waitsFor(JasmineThread.run)
             })
 
+            it("we login user based on information (google data) in parameters -- routing", function() {
+                // call login routine
+                Auth.googleLogin(googleUser.id, googleUser.createdAt)
+
+                JasmineThread.fnuntil = function() {
+                    if (Auth.getUserId() === googleUser.id) {
+                        expect(true).toBeTruthy()
+                        JasmineThread.stop()
+                    }
+                }
+                waitsFor(JasmineThread.run)
+            })
+
+            it("we migrate user data entered as anonymous to his google account", function() {
+                JasmineThread.fnuntil = function() {
+                    // migration completed
+                    if (_.unique(Tasks.pluck('userId'))[0] === googleUser.id) {
+                        expect(true).toBeTruthy()
+                        JasmineThread.stop()
+                    }
+                }
+                waitsFor(JasmineThread.run)
+            })
+
+            it("user sees his first name instead of 'Anonymous'", function() {})
+        }
+    }
+
+    with(jasmine) {
+        describe("Authentication", function() {
+
+            describe("we login user based on information in local storage", function() {
+                describe("if we do not have any information", function() {
+                    it("we boot the app assuming user wants to use it anonymously", function() {
+                        expect(Auth.getUserId()).toBe(null)
+                        expect(Auth.getUserInfo()).toBe(null)
+                    })
+                    describe("Anonymous account", runAnonymousSpecs)
+                })
+            })
+
+            describe("User clicks google login icon", runGoogleSpecs)
 
             TestUtils.endTests()
         })

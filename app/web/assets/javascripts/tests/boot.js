@@ -1,8 +1,8 @@
 var taskTests = [
 //
-'tests/task/list',
-//
 'tests/task/new',
+//
+'tests/task/list',
 //
 'tests/task/edit',
 //
@@ -21,9 +21,9 @@ var taskExtras = [
 var tests = [
 // check basics are working
 'tests/checkSpecs',
-// test google login
+// test google login + anonymous usage
 'tests/auth/login',
-// test anonymous usage
+// 
 taskTests,
 //
 taskExtras,

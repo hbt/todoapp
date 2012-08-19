@@ -31,7 +31,7 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
 
         beginTests: function() {
             TestUtils.endTests()
-            jasmine.describe("(test begin): set up", function() {
+            jasmine.describe("------- (test begin): set up", function() {
                 jasmine.it("login as anonymous", function() {
                     JasmineThread.fn = function() {
                         Auth.login(function() {
@@ -45,8 +45,12 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
             })
         },
 
+        hasAnyData: function() {
+            return Utils.getLocalStorageSize() !== 0 || Tasks.length > 0
+        },
+
         endTests: function() {
-            jasmine.describe("(test end): clean data", function() {
+            jasmine.describe("------- (test end): clean data", function() {
                 jasmine.it("we remove all tasks", function() {
                     TestUtils.cleanTasks(jasmine)
                 })

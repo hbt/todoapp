@@ -3,10 +3,10 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     TestUtils.beginTests()
 
     with(jasmine) {
-        describe("Tasks: new", function() {
+        describe("User creates new task", function() {
             var task, oldtask, originalLength
 
-            it("creates new task and saves locally", function() {
+            it("we save the task locally", function() {
                 originalLength = Tasks.length
                 var title = 'new task '
 
@@ -27,7 +27,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(el.val().length).toEqual(0)
             })
 
-            it("saves remotely", function() {
+            it("we save the task remotely", function() {
                 JasmineThread.fnuntil = function() {
                     var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
                     if (diff.length === 2) {
@@ -43,22 +43,24 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
 
-            it("appears at the top of the view", function() {
+            it("user sees task at the top of the view", function() {
                 expect($('.all-tasks .task-container .task-input').val()).toEqual(task.get('title'))
             })
 
-            it("doesn't create a task if title is empty", function() {
-                TestUtils.createNewTask('')
-                var el = $('.first-input .task-input')
-                expect(Tasks.length).toEqual(originalLength + 1)
+            describe("watch out for", function() {
+                it("we don't create a task if title is empty", function() {
+                    TestUtils.createNewTask('')
+                    var el = $('.first-input .task-input')
+                    expect(Tasks.length).toEqual(originalLength + 1)
 
-                TestUtils.createNewTask('   ')
-                expect(Tasks.length).toEqual(originalLength + 1)
+                    TestUtils.createNewTask('   ')
+                    expect(Tasks.length).toEqual(originalLength + 1)
+                })
             })
 
-            describe("focus removed", function() {
+            describe("User removes focus from input", function() {
                 // input is cleared on blur
-                it("clears the input", function() {
+                it("we clear the input", function() {
                     var el = $('.first-input .task-input')
                     el.focus()
                     Utils.keyboard.simulateTyping('something random')
@@ -68,7 +70,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     expect(el.val()).toEqual('')
                 })
 
-                it("waits a few seconds before clearing the input", function() {
+                it("we wait a few seconds before clearing the input", function() {
                     // TODO(hbt): wait 5000 then clear the input and make sure input has no changed. if clicked, it cancels the timer
                 })
             })

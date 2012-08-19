@@ -8,7 +8,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             var max = 3,
                 deletedIndex = 1
 
-                it("init data", function() {
+                it("user has data in local and remote storage. not all data is stored locally", function() {
                     // create 3 tasks
                     _.each(data, function(v, k) {
                         if (k >= max) return;
@@ -49,38 +49,36 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     waitsFor(JasmineThread.run)
                 })
 
-                it("displays local tasks", function() {
+                it("user sees data stored locally and can edit it", function() {
                     // tasks from local storage are there
                     expect(Tasks.length).toEqual(max)
                     expect($('.all-tasks').children().length).toEqual(max)
                 })
 
-                it("fetches remote tasks and displays them", function() {
-                    // trigger fetch (local + remote)
-                    max = data.length - 1
+                describe("when app boots", function() {
+                    it("we trigger a fetch and retrieve remote data and store it locally. user can now edit new data", function() {
+                        // trigger fetch (local + remote)
+                        max = data.length - 1
 
-                    Tasks.fetch()
-                    JasmineThread.fnuntil = function() {
-                        if (Tasks.length === max) {
-                            expect($('.all-tasks').children().length).toEqual(max)
-                            JasmineThread.stop()
+                        Tasks.fetch()
+                        JasmineThread.fnuntil = function() {
+                            if (Tasks.length === max) {
+                                expect($('.all-tasks').children().length).toEqual(max)
+                                JasmineThread.stop()
+                            }
                         }
-                    }
 
-                    waitsFor(JasmineThread.run)
-                })
-
-                describe("remote fetch", function() {
-                    it("updates old local tasks", function() {})
-                    describe("last time fetch", function() {
-                        it("stores the last time a fetch was requested", function() {})
-                        it("only returns data where updatedAt > last time fetched", function() {})
-                        it("remote fetch returns all data if this is the first time", function() {})
+                        waitsFor(JasmineThread.run)
                     })
-                    it("when socket connect/reconnects, remote fetch is triggered", function() {})
                 })
-                it("doing a fetch again, fetches nothing when everything is up-to-date", function() {})
-                it("hitting fetch multiple times doesn't duplicate the views", function() {})
+
+                describe("watch out for fetch consuming too many resources", function() {
+                    describe("fetch should retrieve most recent records. not all records", function() {
+                        it("we store the last time a successful fetch was made", function() {})
+                        it("if we fetch the data again, no data is returned because there is nothing new", function() {})
+                    })
+                })
+
 
                 TestUtils.endTests()
         })

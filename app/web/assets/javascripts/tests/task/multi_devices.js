@@ -4,9 +4,9 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     var iframe
 
     with(jasmine) {
-        describe("multi devices", function() {
+        describe("User wants UI + data synchronized through all devices", function() {
 
-            it("has more than one device active", function() {
+            it("User has more than one device active", function() {
                 expect(Tasks.length).toEqual(0)
                 TestUtils.createNewTask('first task')
 
@@ -14,7 +14,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     if (Tasks.at(0) && Tasks.at(0).get('_id')) {
                         // create iframe
                         var href = window.location.href.replace(window.location.hash, '')
-                        href += "?v=" +new Date()
+                        href += "?v=" + new Date()
                         href += "#testInstance_" + Auth.getUserId()
                         $('<iframe src="' + href + '" id="clone" width="1200" height="800"/>').appendTo('body');
                         $(document.getElementById('clone').contentDocument).ready(function() {
@@ -27,7 +27,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("multiple devices share the same data", function() {
+            it("User sees the same data on all devices", function() {
 
                 JasmineThread.until(function() {
                     if (!document.getElementById('clone')) return;
@@ -41,7 +41,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("creating a record in one window, adds it to the other", function() {
+            it("User creates a task on one device, task appears on the other", function() {
                 TestUtils.createNewTask('new sync task')
 
                 JasmineThread.fnuntil = function() {
@@ -56,7 +56,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("updating a record in one device, updates it in the other", function() {
+            it("User edits a task on one device, changes appear on the other as he types", function() {
                 Tasks.at(0).save({
                     title: 'update'
                 })
@@ -73,11 +73,11 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("delete all data for test", function() {
+            it("(test): delete all data for test", function() {
                 TestUtils.cleanTasks(this)
             })
 
-            it("deleting a record in one device, deletes it in the other", function() {
+            it("User deletes a record on one device, record disappears in the other", function() {
                 JasmineThread.fnuntil = function() {
                     if (!document.getElementById('clone')) return;
                     iframe = $(document.getElementById('clone').contentDocument)
@@ -90,7 +90,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 waitsFor(JasmineThread.run)
             })
 
-            it("end of test", function() {
+            it("(test): remove second device", function() {
                 iframe = $(document.getElementById('clone'))
                 iframe.remove()
                 expect(document.getElementById('clone')).toBeNull()
