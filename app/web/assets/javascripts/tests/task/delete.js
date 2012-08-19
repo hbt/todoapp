@@ -47,8 +47,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     })
 
                     it("we don't store deleted tasks in the collection", function() {})
-
-                    TestUtils.endTests()
                 })
             })
         })

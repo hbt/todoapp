@@ -78,9 +78,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                         it("if we fetch the data again, no data is returned because there is nothing new", function() {})
                     })
                 })
-
-
-                TestUtils.endTests()
         })
     }
 })

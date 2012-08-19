@@ -66,8 +66,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 expect(task.get('done')).toBeFalsy()
             })
 
-
-
             describe("watch for", function() {
                 it("title has a limit of characters", function() {})
                 it("we don't save empty task when using backspace", function() {})
@@ -107,8 +105,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     })
                 })
             })
-
-            TestUtils.endTests()
         })
     }
 })

@@ -137,8 +137,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             })
 
             describe("User clicks google login icon", runGoogleSpecs)
-
-            TestUtils.endTests()
         })
     }
 })

@@ -95,8 +95,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                 iframe.remove()
                 expect(document.getElementById('clone')).toBeNull()
             })
-
-            TestUtils.endTests()
         })
     }
 })
