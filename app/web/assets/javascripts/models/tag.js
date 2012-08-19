@@ -1,7 +1,7 @@
-define(['mixins', 'store', 'models/tag', 'collections/tags'], function(Mixins, Store, Tag, Tags) {
+define(['mixins', 'store'], function(Mixins, Store) {
     var Model = Backbone.Model.extend({
-        modelName: "Task",
-        localStorage: new Store(AppConfig.genkey("tasks")),
+        modelName: "Tag",
+        localStorage: new Store(AppConfig.genkey("tags")),
         defaults: {
             done: false
         },
@@ -13,8 +13,6 @@ define(['mixins', 'store', 'models/tag', 'collections/tags'], function(Mixins, S
 
             return false;
         },
-
-        save: function() {},
 
         title: function(attr) {
             return this.getRaw(attr).trim()
@@ -28,7 +26,7 @@ define(['mixins', 'store', 'models/tag', 'collections/tags'], function(Mixins, S
     _.extend(Model.prototype, Mixins.Models.DeletedAt)
 
     AppConfig.models = AppConfig.models || {}
-    AppConfig.models['Task'] = Model
+    AppConfig.models['Tag'] = Model
 
     return Model
 })

@@ -2,7 +2,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     TestUtils.beginTests()
 
     with(jasmine) {
-        describe("Task: list", function() {
+        describe("User sees a list of tasks", function() {
 
             var data = ['first', 'second', 'third', 'fourth', 'fifth']
             var max = 3,

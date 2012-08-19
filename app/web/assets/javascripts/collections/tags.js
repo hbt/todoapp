@@ -1,8 +1,8 @@
-define(['store', 'models/task', 'mixins'], function(Store, Task, Mixins) {
+define(['store', 'models/tag', 'mixins'], function(Store, Tag, Mixins) {
     var Collection = Backbone.Collection.extend({
-        model: Task,
-        modelName: 'Task',
-        localStorage: new Store(AppConfig.genkey("tasks"))
+        model: Tag,
+        modelName: 'Tag',
+        localStorage: new Store(AppConfig.genkey("tags"))
     });
 
     _.extend(Collection.prototype, Mixins.Collections.DeletedAt)
@@ -10,7 +10,7 @@ define(['store', 'models/task', 'mixins'], function(Store, Task, Mixins) {
     Mixins.patterns.applySingletonPattern(Collection)
 
     AppConfig.collections = AppConfig.collections || {}
-    AppConfig.collections['Task'] = Collection.getInstance()
+    AppConfig.collections['Tag'] = Collection.getInstance()
 
     return Collection.getInstance()
 })

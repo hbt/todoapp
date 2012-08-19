@@ -30,9 +30,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
             it("we save the task remotely", function() {
                 JasmineThread.fnuntil = function() {
                     var diff = _.difference(_.values(task.toJSON()), _.values(oldtask))
-                    if (diff.length === 2) {
+                    if (diff.length === 3) {
                         // only difference is the new remote ID + userId
-                        expect(diff.length).toEqual(2)
                         expect(task.get('_id').length).toEqual(24)
                         expect(task.get('userId')).toEqual(Auth.getUserId())
                         JasmineThread.stop()
@@ -74,8 +73,6 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     // TODO(hbt): wait 5000 then clear the input and make sure input has no changed. if clicked, it cancels the timer
                 })
             })
-
-            TestUtils.endTests()
         })
     }
 })

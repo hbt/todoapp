@@ -10,6 +10,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
      */
     Mixins.Models.CreatedUpdatedAt = {
         save: function(key, value, options) {
+            if (this.getSuper) this.getSuper().save.apply(this, arguments)
             var save = true
             var date = new Date()
             if (this.isNew()) {
@@ -120,6 +121,23 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 this.at(0).destroy(opts)
             }
         }
+    }
+
+
+    Mixins.patterns = {}
+    Mixins.patterns.applySingletonPattern = function(objClass) {
+        objClass.instance = null
+        objClass.getInstance = function() {
+            if (objClass.instance == null) objClass.instance = new objClass()
+            return objClass.instance
+        }
+    }
+
+    Mixins.patterns.applyParentClassPattern = function(objClass) {
+        var parent = _.clone(objClass.prototype)
+        objClass.prototype.getSuper = function() {
+                return parent
+            }
     }
 
     return Mixins
