@@ -1,12 +1,4 @@
-define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbone, Tasks) {
-
-    // TODO(hbt): consider using namespace when defining collections for easy referencing
-    var collections = {}
-    _.each(arguments, function(v) {
-        if (v.modelName) {
-            collections[v.modelName] = v
-        }
-    })
+define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'], function(WS, Backbone, Tasks, Tags) {
 
     var Sync = function() {
             var backboneLocalStorageSync = Backbone.localSync
@@ -51,7 +43,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
                     if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
                     attrs.skip_remote = true
                     Sync.callbacksCount--;
-                    var collection = collections[modelName]
+                    var collection = AppConfig.collections[modelName]
                     var model = collection._byId[doc.id]
 
                     // TODO(hbt): abstract into collections.findById
@@ -118,7 +110,7 @@ define(['socket', 'backbone', 'collections/tasks', 'store'], function(WS, Backbo
             }
 
             function fetchCollections() {
-                _.each(collections, function(collection) {
+                _.each(AppConfig.collections, function(collection) {
                     collection.fetch()
                 })
             }

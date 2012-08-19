@@ -10,7 +10,6 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
      */
     Mixins.Models.CreatedUpdatedAt = {
         save: function(key, value, options) {
-            if (this.getSuper) this.getSuper().save.apply(this, arguments)
             var save = true
             var date = new Date()
             if (this.isNew()) {
@@ -25,6 +24,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             save = !(key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt'))
 
             if (save) {
+//                if (this.getSuper && this.getSuper().save) this.getSuper().save.apply(this, arguments)
                 Backbone.Model.prototype.save.apply(this, arguments)
             }
         }

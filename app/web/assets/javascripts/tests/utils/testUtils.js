@@ -29,6 +29,30 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
             jasmine.waitsFor(JasmineThread.run)
         },
 
+        cleanCollections: function(callback) {
+            _.each(AppConfig.collections, function(collection) {
+                jasmine.it("we remove all " + collection.modelName, function() {
+                    collection.fetch({
+                        include_deleted: true,
+                        skip_remote: true
+                    })
+                    JasmineThread.fnuntil = function() {
+                        collection.destroyAll({
+                            force: true
+                        })
+                        var valid = (collection.length === 0 && $('.all-tasks .task-container').children().length === 0)
+                        if (valid && Sync.callbacksCount === 0) {
+                            jasmine.expect(true).toBeTruthy()
+                            if (callback) callback()
+                            JasmineThread.stop()
+                        }
+                    }
+
+                    jasmine.waitsFor(JasmineThread.run)
+                })
+            })
+        },
+
         beginTests: function() {
             TestUtils.endTests()
             jasmine.describe("------- (test begin): set up", function() {
@@ -54,6 +78,8 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
                 jasmine.it("we remove all tasks", function() {
                     TestUtils.cleanTasks(jasmine)
                 })
+
+                TestUtils.cleanCollections()
 
                 jasmine.it("we clean the local storage", function() {
                     Utils.clearLocalStorage()

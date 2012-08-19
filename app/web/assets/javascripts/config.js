@@ -23,5 +23,8 @@ var AppConfig = {
     init: function() {
         var location = window.location
         AppConfig.server = location.protocol + "//" + location.hostname + ":" + AppConfig.port
-    }
+    },
+    
+    models: {},
+    collections: {}
 }

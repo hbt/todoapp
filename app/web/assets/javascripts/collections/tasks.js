@@ -9,7 +9,6 @@ define(['store', 'models/task', 'mixins'], function(Store, Task, Mixins) {
 
     Mixins.patterns.applySingletonPattern(Collection)
 
-    AppConfig.collections = AppConfig.collections || {}
     AppConfig.collections['Task'] = Collection.getInstance()
 
     return Collection.getInstance()

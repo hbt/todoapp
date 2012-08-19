@@ -55,6 +55,8 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
                     TestUtils.createNewTask('   ')
                     expect(Tasks.length).toEqual(originalLength + 1)
                 })
+
+                it("user sees error message when pressing enter and title is empty", function() {})
             })
 
             describe("User removes focus from input", function() {

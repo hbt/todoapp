@@ -25,7 +25,6 @@ define(['mixins', 'store'], function(Mixins, Store) {
     _.extend(Model.prototype, Mixins.Models.CustomGetters)
     _.extend(Model.prototype, Mixins.Models.DeletedAt)
 
-    AppConfig.models = AppConfig.models || {}
     AppConfig.models['Tag'] = Model
 
     return Model

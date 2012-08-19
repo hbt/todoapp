@@ -9,7 +9,6 @@ define(['store', 'models/tag', 'mixins'], function(Store, Tag, Mixins) {
 
     Mixins.patterns.applySingletonPattern(Collection)
 
-    AppConfig.collections = AppConfig.collections || {}
     AppConfig.collections['Tag'] = Collection.getInstance()
 
     return Collection.getInstance()

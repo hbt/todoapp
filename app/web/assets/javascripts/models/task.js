@@ -14,8 +14,6 @@ define(['mixins', 'store', 'models/tag', 'collections/tags'], function(Mixins, S
             return false;
         },
 
-        save: function() {},
-
         title: function(attr) {
             return this.getRaw(attr).trim()
         }
@@ -27,7 +25,6 @@ define(['mixins', 'store', 'models/tag', 'collections/tags'], function(Mixins, S
     _.extend(Model.prototype, Mixins.Models.CustomGetters)
     _.extend(Model.prototype, Mixins.Models.DeletedAt)
 
-    AppConfig.models = AppConfig.models || {}
     AppConfig.models['Task'] = Model
 
     return Model
