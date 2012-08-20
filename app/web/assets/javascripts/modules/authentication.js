@@ -59,7 +59,7 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
              */
 
             function authenticateAccount(callback) {
-                // TODO(hbt): trigger callback if there is no socket
+                // TODO(hbt): trigger callback if there is no socket. check WS.connect().connected boolean
                 WS.connect().emit('auth/login', getUserId(), function(info) {
                     // store email + account information
                     localStorage.setItem(AppConfig.genkey("user-info"), JSON.stringify(info))

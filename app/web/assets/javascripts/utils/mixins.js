@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             save = !(key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt'))
 
             if (save) {
-//                if (this.getSuper && this.getSuper().save) this.getSuper().save.apply(this, arguments)
+                //                if (this.getSuper && this.getSuper().save) this.getSuper().save.apply(this, arguments)
                 Backbone.Model.prototype.save.apply(this, arguments)
             }
         }
@@ -104,6 +104,10 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                     collection.add(models, {
                         silent: true
                     })
+                    // TODO(hbt): in offline mode, this seems to be necessary. inv why
+                    //                    collection.add(objects, {
+                    //                        silent: true
+                    //                    })
 
                     // trigger reset unless user explicitely passed options.silent = true
                     if (options.force_reset) {

@@ -8,8 +8,13 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
              * */
 
             function connect() {
-                // TODO(hbt) initialize socket events
-                return Sync.socket = WS.connect(AppConfig.server)
+                // TODO(hbt) initialize socket events. in case of a disconnect, it should set all the "on" events again on the new socket (check initialize)
+                // Note(hbt): setting the "on" events more than one time will trigger duplicated actions
+                Sync.socket = WS.connect(AppConfig.server, {
+                    'try multiple transports': false
+                })
+
+                return Sync.socket
             }
 
             /**

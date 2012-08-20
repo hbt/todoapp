@@ -44,6 +44,13 @@ exports.init = function(app) {
             // boot socket
             socket = io.listen(app)
 
+            // TODO(hbt): add production environment support. check https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO Advised production settings
+            // set env using NODE_ENV=XXX
+            socket.configure('development', function() {
+                socket.set('transports', ['websocket']);
+                socket.set('log level', 2);
+            });
+
             // loop through modules and add listeners
             _.each(socketHandlers, function(v) {
                 socket.on('connection', v.handleConnection)
