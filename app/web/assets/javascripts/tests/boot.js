@@ -34,6 +34,10 @@ taskExtras,
 
 tests = _.flatten(tests)
 
+if (window.testFilename) {
+    tests = [window.testFilename]
+}
+
 define(['deps/jasmine/jasmine-html'], function(jasmine) {
     jasmine = jasmine.jasmine
     var boot = (function() {

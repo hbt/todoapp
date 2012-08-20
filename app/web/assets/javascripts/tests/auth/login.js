@@ -124,19 +124,21 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'tests/utils/testUtils', 'co
     }
 
     with(jasmine) {
-        describe("Authentication", function() {
+        describe("file: auth/login", function() {
+            describe("Authentication", function() {
 
-            describe("we login user based on information in local storage", function() {
-                describe("if we do not have any information", function() {
-                    it("we boot the app assuming user wants to use it anonymously", function() {
-                        expect(Auth.getUserId()).toBe(null)
-                        expect(Auth.getUserInfo()).toBe(null)
+                describe("we login user based on information in local storage", function() {
+                    describe("if we do not have any information", function() {
+                        it("we boot the app assuming user wants to use it anonymously", function() {
+                            expect(Auth.getUserId()).toBe(null)
+                            expect(Auth.getUserInfo()).toBe(null)
+                        })
+                        describe("Anonymous account", runAnonymousSpecs)
                     })
-                    describe("Anonymous account", runAnonymousSpecs)
                 })
-            })
 
-            describe("User clicks google login icon", runGoogleSpecs)
+                describe("User clicks google login icon", runGoogleSpecs)
+            })
         })
     }
 })

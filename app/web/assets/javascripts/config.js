@@ -16,7 +16,13 @@ var AppConfig = {
     },
 
     inTestMode: function() {
-        return DEBUG && (_.include(['#devtests', '#tests'], window.location.hash))
+        var strs = ['#devtests', '#tests']
+        var ret = false
+        _.each(strs, function(str) {
+            if (ret) return;
+            ret = DEBUG && window.location.hash.indexOf(str) !== -1
+        })
+        return ret
     },
 
     // determine server/socket path
@@ -24,7 +30,7 @@ var AppConfig = {
         var location = window.location
         AppConfig.server = location.protocol + "//" + location.hostname + ":" + AppConfig.port
     },
-    
+
     models: {},
     collections: {}
 }
