@@ -83,7 +83,7 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                 save: function(method, model, options, error) {
                     c.l('save remote', model.toJSON())
                     if (!options.skip_callback) Sync.callbacksCount++;
-                    Sync.connect().emit('model/save', model.modelName, model.toJSON(), options, RemoteSync.handleRemoteUpdate);
+                    Sync.connect().emit('model/save', method, model.modelName, model.toJSON(), options, RemoteSync.handleRemoteUpdate);
                 }
             }
 

@@ -22,7 +22,7 @@ var events = {
         })
     },
 
-    save: function(modelName, model, opts, callback) {
+    save: function(method, modelName, model, opts, callback) {
         var client = this
 
         db[modelName].findOne({
@@ -38,47 +38,22 @@ var events = {
 
             doc = _.extend(doc, model)
 
-            doc.save(function() {
+            function resumeCallbacks() {
+                if (!opts.skip_callback) callback(client.id, modelName, opts, doc)
+                opts.roomUpdate = true
+                opts.silent = false
+                client.manager.sockets['in'](client.userId).emit('update_one', client.id, modelName, opts, doc)
+            }
 
-                function resumeCallbacks() {
-                    if (!opts.skip_callback) callback(client.id, modelName, opts, doc)
-                    opts.roomUpdate = true
-                    opts.silent = false
-                    client.manager.sockets['in'](client.userId).emit('update_one', client.id, modelName, opts, doc)
+            // TODO(hbt): move this to db.js as a postSave mixin
+            if (modelName === 'Tag') {
+                if (doc.tasks.length === 0) {
+                    doc.remove()
+                    return;
                 }
+            }
 
-                // risk of duplicates when dealing with slow machines
-                // (callback takes too long to reach and more than one object is created with same id but different _id)
-                db[modelName].count({
-                    id: model.id
-                }, function(err, count) {
-                    // do we have duplicates?
-                    if (count > 1) {
-                        // get all of them
-                        db[modelName].find({
-                            id: model.id
-                        }, function(err, dupDocs) {
-                            // get most recent doc
-                            var recentDoc = dupDocs.shift()
-
-                            _.each(dupDocs, function(dupDoc) {
-                                if (dupDoc.updatedAt > recentDoc.updatedAt) {
-                                    recentDoc = dupDoc
-                                } else {
-                                    // delete if not recent
-                                    dupDoc.remove()
-                                }
-                            })
-
-                            doc._id = recentDoc._id
-                            events.save(modelName, model, opts, callback)
-                            doc.save(resumeCallbacks)
-                        })
-                    } else {
-                        resumeCallbacks()
-                    }
-                })
-            })
+            doc.save(resumeCallbacks)
         })
     }
 }

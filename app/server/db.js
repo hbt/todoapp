@@ -49,7 +49,7 @@ function initSchema() {
             index: true,
             required: true
         },
-        tags: [exports.Tag],
+        tags: Array,
         createdAt: Number,
         updatedAt: Number,
         deletedAt: Number

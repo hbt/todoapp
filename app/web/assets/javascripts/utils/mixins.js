@@ -24,8 +24,9 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             save = !(key && key['updatedAt'] && this.get('updatedAt') && key['updatedAt'] < this.get('updatedAt'))
 
             if (save) {
-                //                if (this.getSuper && this.getSuper().save) this.getSuper().save.apply(this, arguments)
+                if (this.preSave) this.preSave.apply(this, arguments)
                 Backbone.Model.prototype.save.apply(this, arguments)
+                if (this.postSave) this.postSave.apply(this, arguments)
             }
         }
     }
@@ -74,8 +75,6 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             this.trigger('destroy')
             if (options && options.force) {
                 Backbone.Model.prototype.destroy.apply(this, arguments)
-            } else {
-                this.trigger('destroy')
             }
         }
     }

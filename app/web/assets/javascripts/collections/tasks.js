@@ -5,9 +5,8 @@ define(['store', 'models/task', 'mixins'], function(Store, Task, Mixins) {
         localStorage: new Store(AppConfig.genkey("tasks"))
     });
 
-    _.extend(Collection.prototype, Mixins.Collections.DeletedAt)
-
     Mixins.patterns.applySingletonPattern(Collection)
+    _.extend(Collection.prototype, Mixins.Collections.DeletedAt)
 
     AppConfig.collections['Task'] = Collection.getInstance()
 
