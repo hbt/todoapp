@@ -33,6 +33,10 @@ define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasm
                     waitsFor(JasmineThread.run)
                 })
             })
+
+            describe("boot app (sanity checks)", function() {
+                it("we can reconnect in case of a disconnect", function() {})
+            })
         })
     }
 })

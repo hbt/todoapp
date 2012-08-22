@@ -14,7 +14,11 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                     'try multiple transports': false
                 })
 
-                //                Sync.socket.on('connection', Sync.addListeners)
+                // if we trigger a disconnect, reconnect
+                if(!Sync.socket.socket.open && !Sync.socket.socket.connected && !Sync.socket.socket.connecting && !Sync.socket.socket.reconnecting) {
+                    Sync.socket.socket.reconnect()
+                }
+                
                 return Sync.socket
             }
 

@@ -8,6 +8,7 @@ define(['deps/jasmine/jasmine-html', 'utils/utils', 'collections/tasks', 'module
 
             it("checks if we are in offline mode", function() {})
 
+            it("User sees his data when in offline mode when the app boots (login callback)", function() {})
             it("dirty list is empty", function() {})
 
             it("updating a task, marks the record as dirty", function() {})
