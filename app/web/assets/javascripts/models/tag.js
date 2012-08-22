@@ -4,6 +4,7 @@ define(['mixins', 'store'], function(Mixins, Store) {
         localStorage: new Store(AppConfig.genkey("tags")),
 
         initialize: function() {
+            // TODO(hbt): review this. I think it resets every time the object is created -- check defaults when not using save
             this.set('tasks', [])
         },
 

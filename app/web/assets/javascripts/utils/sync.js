@@ -14,6 +14,7 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                     'try multiple transports': false
                 })
 
+                //                Sync.socket.on('connection', Sync.addListeners)
                 return Sync.socket
             }
 
@@ -22,7 +23,7 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
              * */
 
             function disconnect() {
-                return Sync.socket.disconnect()
+                return Sync.connect().disconnect()
             }
 
             var RemoteSync = {
@@ -35,17 +36,18 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                     Sync.callbacksCount--;
                     Sync.callbacksCount += docs.length
                     _.each(docs, function(doc) {
-                        RemoteSync.handleRemoteUpdate(Sync.socket.socket.sessionid, modelName, attrs, doc)
+                        RemoteSync.handleRemoteUpdate(Sync.connect().socket.sessionid, modelName, attrs, doc)
                     })
                 },
 
                 fetch: function(method, model, options, error) {
+                    c.l('read remote', model)
                     if (!options.skip_callback) Sync.callbacksCount++;
-                    Sync.socket.emit('model/read', model.modelName, options, RemoteSync.handleRemoteFetch)
+                    Sync.connect().emit('model/read', model.modelName, options, RemoteSync.handleRemoteFetch)
                 },
 
                 handleRemoteUpdate: function(clientId, modelName, attrs, doc) {
-                    if (clientId === Sync.socket.socket.sessionid && attrs.roomUpdate) return;
+                    if (clientId === Sync.connect().socket.sessionid && attrs.roomUpdate) return;
                     attrs.skip_remote = true
                     Sync.callbacksCount--;
                     var collection = AppConfig.collections[modelName]
@@ -69,11 +71,9 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                     c.l('comeback', doc.title, doc, attrs.roomUpdate, doc.updatedAt, model && model.get('updatedAt'), attrs)
                     if (model) {
                         if (doc.updatedAt >= model.get('updatedAt')) {
-                            c.l('saving from remote', doc)
                             model.save(doc, attrs)
                         }
                     } else if (!doc.deletedAt) {
-                        c.l('creating from remote')
                         model = collection.create(doc, _.extend(attrs, {
                             at: 0
                         }))
@@ -128,7 +128,7 @@ define(['socket', 'backbone', 'collections/tasks', 'collections/tags', 'store'],
                 // create socket
                 Sync.connect()
 
-                Sync.socket.on('update_one', RemoteSync.handleRemoteUpdate)
+                Sync.connect().on('update_one', RemoteSync.handleRemoteUpdate)
 
                 // overwrite backbone sync
                 Backbone.sync = syncLocalAndRemote

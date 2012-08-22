@@ -29,9 +29,13 @@ require(['jquery', 'utils/common_utils', 'utils/utils', 'utils/sync', 'modules/a
     Auth.login(function() {
         // move this block as a login callback
         require(['views/app', 'routing'], function(AppView, Routing) {
-            new AppView()
             var routing = new Routing()
-            Backbone.history.start()
+
+            // don't execute this twice.
+            if (Backbone.history.options === undefined) {
+                new AppView()
+                Backbone.history.start()
+            }
         })
     })
 

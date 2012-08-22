@@ -3,7 +3,8 @@ define(['mixins', 'store', 'models/tag', 'collections/tags', 'helpers/tags'], fu
         modelName: "Task",
         localStorage: new Store(AppConfig.genkey("tasks")),
         defaults: {
-            done: false
+            done: false,
+            deletedAt: null
         },
 
         validate: function(attrs, opts) {

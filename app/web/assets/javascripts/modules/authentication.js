@@ -25,6 +25,7 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
                     setUserId(toId)
                     login()
                 })
+
             }
 
             /**
@@ -59,13 +60,24 @@ define(['utils/utils', 'utils/sync'], function(Utils, WS) {
              */
 
             function authenticateAccount(callback) {
-                // TODO(hbt): trigger callback if there is no socket. check WS.connect().connected boolean
+                function postAuthCallback() {
+                    WS.fetchCollections()
+                }
                 WS.connect().emit('auth/login', getUserId(), function(info) {
                     // store email + account information
                     localStorage.setItem(AppConfig.genkey("user-info"), JSON.stringify(info))
-                    WS.fetchCollections()
+                    postAuthCallback()
                     if (callback) callback(info)
                 })
+
+                setTimeout(function() {
+                    // execute callback if we are in offline mode. Wait 500 (maybe more?) because WS.connect().socket.connected will report false and connecting boolean is not reliable
+                    if (!WS.connect().socket.connected) {
+                        postAuthCallback()
+                        if (callback) callback()
+                    }
+                }, 500)
+
             }
 
             /**
