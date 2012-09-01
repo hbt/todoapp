@@ -8,35 +8,38 @@ define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasm
                     expect(Utils.getLocalStorageSize()).toEqual(0)
                 })
 
-                it("we can establish a socket connection", function() {
-                    JasmineThread.fn = function() {
-                        WS.connect().emit('tests/isAlive', function(arg) {
-                            expect(arg).toEqual('alive')
-                            JasmineThread.stop()
-                        })
-                    }
+                describe("User browser supports web sockets", function() {
+                    it("we can establish a socket connection", function() {
+                        JasmineThread.fn = function() {
+                            WS.connect().emit('tests/isAlive', function(arg) {
+                                expect(arg).toEqual('alive')
+                                JasmineThread.stop()
+                            })
+                        }
 
-                    waitsFor(JasmineThread.run)
+                        waitsFor(JasmineThread.run)
+                    })
+
+                    it("user browser supports web sockets", function() {})
+                    it("user sees error message if web sockets are not supported", function() {})
+                    it("we can reconnect via web socket in case of a disconnect", function() {})
                 })
 
-                it("user browser supports web sockets", function() {})
-                it("user sees error message if web sockets are not supported", function() {})
+                describe("Remote mongodb", function() {
 
-                it("we can connect to the remote mongodb", function() {
-                    JasmineThread.fn = function() {
-                        WS.connect().emit('tests/isDatabaseAlive', function(arg) {
-                            expect(arg).toEqual('alive')
-                            JasmineThread.stop()
-                        })
-                    }
+                    it("we can connect to the remote mongodb", function() {
+                        JasmineThread.fn = function() {
+                            WS.connect().emit('tests/isDatabaseAlive', function(arg) {
+                                expect(arg).toEqual('alive')
+                                JasmineThread.stop()
+                            })
+                        }
 
-                    waitsFor(JasmineThread.run)
+                        waitsFor(JasmineThread.run)
+                    })
+                    it("we use the remote test mongodb not production", function() {})
                 })
-            })
-
-            describe("boot app (sanity checks)", function() {
-                it("we can reconnect in case of a disconnect", function() {})
             })
         })
-    }
+        }
 })

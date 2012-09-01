@@ -55,7 +55,7 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
 
         beginTests: function() {
             TestUtils.endTests()
-            jasmine.describe("------- (test begin): set up", function() {
+            jasmine.describe("------- SET_UP", function() {
                 jasmine.it("login as anonymous", function() {
                     JasmineThread.fn = function() {
                         Auth.login(function() {
@@ -74,7 +74,7 @@ define(['jquery', 'utils/utils', 'collections/tasks', 'utils/sync', 'deps/jasmin
         },
 
         endTests: function() {
-            jasmine.describe("------- (test end): clean data", function() {
+            jasmine.describe("---------- TEAR_DOWN", function() {
                 jasmine.it("we remove all tasks", function() {
                     TestUtils.cleanTasks(jasmine)
                 })
