@@ -40,6 +40,44 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
                     })
                 })
             }
+        },
+        
+        Graphiz: {
+            server: '',
+            create: function(json) {
+                var self = this
+                // TODO(hbt): abstract this
+                self.server = self.server || (AppConfig && AppConfig.server)
+
+               var strGraph =
+                   "digraph G {\n\
+bgcolor=black;\n\
+node [shape=box, color=lightblue2, style=filled];\n\
+edge [arrowsize=1, color=gold];\n\
+login -> asd \n\
+asd -> asdw \n\
+}" ;
+
+                var filename = (json['_summary']._file + json['_summary']._title).replace(' ', '_')
+
+                $.ajax(
+                {
+                    // TODO(hbt): abstract this
+                    url: self.server + "/jasmine/graphiz",
+                    type: 'post',
+                    context: document.body,
+                    data: {
+                        'graphiz': strGraph,
+                        'filename': filename
+                    },
+                    success: function(data)
+                    {
+                        document.body.innerHTML += '<img src="' + data + '"/>'
+                    }
+                });
+
+                return strGraph
+            }
         }
     }
 

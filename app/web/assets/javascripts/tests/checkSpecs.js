@@ -50,5 +50,6 @@ define(['deps/jasmine/jasmine-html', 'deps/jasmine/jasmine-flowcharts', 'utils/s
         }
 
         JF.createSpecs(specs)
+        JF.Graphiz.create(specs)
     }
 })

@@ -31,6 +31,33 @@ app.configure(function() {
 
 app.get('/', cauth.handleLoginPage)
 
+// TODO(hbt): move get/post handler as a separate file -- like how we handle sockets with modules
+app.post('/jasmine/graphiz', function(req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    var graphiz = req.body['graphiz']
+    var filename = req.body['filename']
+    filename = filename.replace(/[^\w\s]/gi, '') 
+
+    var path = __dirname + '/../web/assets/images/tests/'
+    var filepath = path + filename + '.dot'
+    var imgpath = path + filename + '.png'
+    
+    var fs = require('fs');
+    fs.writeFile(filepath, graphiz, function(err) {
+        if(err) throw err;
+
+        var exec = require('child_process').exec
+        var ret = ''
+        var cmd = 'dot -Tpng ' + filepath + ' > ' + imgpath
+        exec(cmd, function(err, stdout, stderr) {
+            if(err) throw err
+
+            res.send('/assets/images/tests/' + filename + '.png')
+        })
+    });
+})
+
 app.listen(config.server.port);
 
 // web sockets
