@@ -1,45 +1,54 @@
-define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasmine, WS, Utils) {
-    // used by jasmine for asynchronous calls
+//define(['deps/jasmine/jasmine-html', 'utils/sync', 'utils/utils'], function(jasmine, WS, Utils) {
+define(['deps/jasmine/jasmine-html', 'deps/jasmine/jasmine-flowcharts', 'utils/sync', 'utils/utils'], function(jasmine, JF, WS, Utils) {
+
     with(jasmine) {
-        describe("file: checkSpecs", function() {
-            describe("boot app (sanity checks)", function() {
-                it("we have an empty localstorage (clean tests)", function() {
-                    Utils.clearLocalStorage()
-                    expect(Utils.getLocalStorageSize()).toEqual(0)
-                })
 
-                describe("User browser supports web sockets", function() {
-                    it("we can establish a socket connection", function() {
-                        JasmineThread.fn = function() {
-                            WS.connect().emit('tests/isAlive', function(arg) {
-                                expect(arg).toEqual('alive')
-                                JasmineThread.stop()
-                            })
-                        }
+        var specs = {
+            '_summary': {
+                _file: 'checkSpecs',
+                _title: 'boot',
+                _desc: 'Boot the app and run basic checks'
+            },
+            '// clear localstorage': function() {
+                Utils.clearLocalStorage()
+                expect(Utils.getLocalStorageSize()).toEqual(0)
+            },
+            'browser supports web sockets?': {
+                n: 1,
+                _f: {
+                    'display error message': function() {
 
-                        waitsFor(JasmineThread.run)
+                    }
+                }
+            },
+            'create socket connection': function() {
+                JasmineThread.fn = function() {
+                    WS.connect().emit('tests/isAlive', function(arg) {
+                        expect(arg).toEqual('alive')
+                        JasmineThread.stop()
                     })
+                }
 
-                    it("user browser supports web sockets", function() {})
-                    it("user sees error message if web sockets are not supported", function() {})
-                    it("we can reconnect via web socket in case of a disconnect", function() {})
-                })
+                waitsFor(JasmineThread.run)
+            },
+            '// mongodb checks': {
+                'connect to mongo db': function() {
+                    JasmineThread.fn = function() {
+                        WS.connect().emit('tests/isDatabaseAlive', function(arg) {
+                            expect(arg).toEqual('alive')
+                            JasmineThread.stop()
+                        })
+                    }
 
-                describe("Remote mongodb", function() {
+                    waitsFor(JasmineThread.run)
+                },
+                'using test db -- not prod': function() {
 
-                    it("we can connect to the remote mongodb", function() {
-                        JasmineThread.fn = function() {
-                            WS.connect().emit('tests/isDatabaseAlive', function(arg) {
-                                expect(arg).toEqual('alive')
-                                JasmineThread.stop()
-                            })
-                        }
+                }
 
-                        waitsFor(JasmineThread.run)
-                    })
-                    it("we use the remote test mongodb not production", function() {})
-                })
-            })
-        })
+            }
         }
+
+        JF.createSpecs(specs)
+    }
 })
