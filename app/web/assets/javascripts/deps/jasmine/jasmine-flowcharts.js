@@ -33,7 +33,7 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
 
         createOneSpec: function(title, json) {
             if(json == null) {
-                jasmine.it('--' + title, function() {
+                jasmine.it(title, function() {
                     jasmine.expect(true).toBeTruthy()
                 })
                 return;
@@ -64,7 +64,7 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                 // TODO(hbt): abstract this
                 self.server = (AppConfig && AppConfig.server)
 
-                var strGraph = self.createGraph(json)
+                var strGraph = self.createGraph(json, jdata.suite)
 
                 var filename = (json['_summary']._file + json['_summary']._title).replace(' ', '_')
 
@@ -89,7 +89,7 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                 return strGraph
             },
 
-            createGraph: function(json) {
+            createGraph: function(json, suite) {
                 var ret = "digraph G {\n\
   bgcolor=black;\n\
   node [shape=box, color=lightblue2, style=filled fontsize=14];\n\
@@ -108,7 +108,8 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                     ret += "\n"
                     ret += self.createOneNode(k, v, prev)
                     prev = {
-                        title: k
+                        title: k,
+                        suite: suite
                     }
                 })
 
@@ -117,9 +118,58 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                 return ret
             },
 
+            findSpec: function(suite, k) {
+                var ret = null
+                var self = this
+
+                for (var index in suite.specs_) {
+                    var spec = suite.specs_[index]
+                    if(spec.description === k)  {
+                        ret = spec
+                        break;
+                    }
+                }
+
+                if(!ret) {
+                    for(index in suite.suites_) {
+                        var nsuite = suite.suites_[index]
+                        spec = self.findSpec(nsuite, k)
+                        if(spec) {
+                            ret = spec
+                            break;
+                        }
+                    }
+                }
+
+
+                return ret
+            },
+
             createOneNode: function(k, v, prev) {
                 var ret = "  "
                 var self = this
+
+                var colorMap = {
+                    'skipped': 'azure4',
+                    'failed': 'firebrick',
+                    'passed': 'palegreen4'
+                }
+
+                var suite = prev && prev.suite
+                var color = colorMap['skipped']
+
+                if(suite) {
+                    var spec = this.findSpec(suite, k)
+                    if(spec) {
+                        if(spec.results_.totalCount === 0) {
+                            color = colorMap.skipped
+                        } else if(spec.results_.failedCount > 0) {
+                            color = colorMap.failed
+                        } else if(spec.results_.passedCount > 0) {
+                            color = colorMap.passed
+                        }
+                    }
+                }
 
                 // skip any magic keys
                 if (_.include(JF.magicKeys, k)) {
@@ -134,7 +184,7 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                 if (isCondition) {
                     ret = this.genNodeHash(k) + ' [label="' + k + '" style="rounded,filled", shape="diamond"]'
                 } else {
-                    ret = this.genNodeHash(k) + ' [label="' + k + '"]'
+                    ret = this.genNodeHash(k) + ' [label="' + k + '" color="' + color + '"]'
                 }
 
                 // link the current node to the previous one or its parent
@@ -154,9 +204,12 @@ define(['jasmine', 'underscore'], function(jasmine, _) {
                         data.desc = 'No'
                     }
                     _.each(arr, function(cv, ck) {
-                        if (ck.startsWith('//')) return "";
+                        if (ck.startsWith('//')) return;
                         ret += "\n" + self.createOneNode(ck, cv, data)
-                        data = {title: ck}
+                        data = {
+                            title: ck,
+                            suite: suite
+                        }
 
                     })
                 }
