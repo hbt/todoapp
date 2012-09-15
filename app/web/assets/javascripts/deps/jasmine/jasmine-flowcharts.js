@@ -29,6 +29,13 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
         },
 
         createOneSpec: function(title, json) {
+            if(json == null) {
+                jasmine.it('--' + title, function() {
+                    jasmine.expect(true).toBeTruthy()
+                })
+                return;
+            }
+
             var self = this
 
             if (typeof json === 'function') {
@@ -130,7 +137,7 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
                 }
 
                 // check if the node has children and loop recursively
-                if (typeof v === 'object' || typeof v._f === 'object') {
+                if (v && (typeof v === 'object' || typeof v._f === 'object')) {
                     var arr = v._f || v
                     var data = {
                         title: k
@@ -139,7 +146,10 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
                         data.desc = 'No'
                     }
                     _.each(arr, function(cv, ck) {
+                        if (ck.startsWith('//')) return "";
                         ret += "\n" + self.createOneNode(ck, cv, data)
+                        data = {title: ck}
+
                     })
                 }
 
