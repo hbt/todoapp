@@ -117,7 +117,7 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
 
                 // print a box or a diamond if it is a condition
                 if (isCondition) {
-                    ret = this.genNodeHash(k) + ' [label="' + k + ' style="rounded,filled", shape="diamond"]'
+                    ret = this.genNodeHash(k) + ' [label="' + k + '" style="rounded,filled", shape="diamond"]'
                 } else {
                     ret = this.genNodeHash(k) + ' [label="' + k + '"]'
                 }
