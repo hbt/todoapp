@@ -6,9 +6,9 @@ String.prototype.startsWith = function(str) {
     return (this.match("^" + RegExp.escape(str)) == str);
 }
 
-String.prototype.endsWith = function(str) {
-    return (this.match(str + "$") == str)
-}
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 
 String.prototype.escapeRegExp = function() {
     // From MooTools core 1.2.4
@@ -70,4 +70,15 @@ RegExp.escape = function(text) {
         arguments.callee.sRE = new RegExp('(\\' + specials.join('|\\') + ')', 'g');
     }
     return text.replace(arguments.callee.sRE, '\\$1');
+}
+
+String.prototype.hashCode = function() {
+    var hash = 0;
+    if (this.length == 0) return hash;
+    for (var i = 0; i < this.length; i++) {
+        var c = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + c;
+        hash = hash & hash;
+    }
+    return hash;
 }

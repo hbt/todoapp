@@ -14,12 +14,7 @@ define(['deps/jasmine/jasmine-html', 'deps/jasmine/jasmine-flowcharts', 'utils/s
                 expect(Utils.getLocalStorageSize()).toEqual(0)
             },
             'browser supports web sockets?': {
-                n: 1,
-                _f: {
-                    'display error message': function() {
-
-                    }
-                }
+                'display error message': function() {}
             },
             'create socket connection': function() {
                 JasmineThread.fn = function() {
@@ -42,9 +37,7 @@ define(['deps/jasmine/jasmine-html', 'deps/jasmine/jasmine-flowcharts', 'utils/s
 
                     waitsFor(JasmineThread.run)
                 },
-                'using test db -- not prod': function() {
-
-                }
+                'using test db -- not prod': function() {}
 
             }
         }
