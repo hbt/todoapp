@@ -1,4 +1,4 @@
-define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
+define(['jasmine', 'underscore'], function(jasmine, _) {
     // TODO(hbt): add JasmineThread  to this toolbox
     var JF = {
         magicKeys: ['_summary', '_file', '_title', '_desc', '_f'],
@@ -11,6 +11,9 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
         createSpecs: function(json) {
             var self = this
             var mk = self.magicKeys
+
+            jasmine.jasmine.jspecs = jasmine.jasmine.jspecs || []
+            jasmine.jasmine.jspecs.push(json)
 
             jasmine.describe('file: ' + json['_summary']._file, function() {
                 jasmine.it(json['_summary']._desc, function() {
@@ -56,7 +59,7 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
             /**
              * create graph from JSON by calling a remote method to generate the graph using dot
              */
-            create: function(json) {
+            create: function(json, jdata) {
                 var self = this
                 // TODO(hbt): abstract this
                 self.server = (AppConfig && AppConfig.server)
@@ -75,7 +78,11 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
                         'filename': filename
                     },
                     success: function(data) {
-                        document.body.innerHTML += '<img src="' + data + '"/>'
+                        if(jdata) {
+                            var img = document.createElement('img')
+                            img.setAttribute('src', data)
+                            jdata.el.appendChild(img)
+                        }
                     }
                 });
 
@@ -86,6 +93,7 @@ define(['deps/jasmine/jasmine-html', 'underscore'], function(jasmine, _) {
                 var ret = "digraph G {\n\
   bgcolor=black;\n\
   node [shape=box, color=lightblue2, style=filled fontsize=14];\n\
+  splines=\"polyline\";\n\
   edge [arrowsize=1, color=gold];\n\
 "
                 var self = this
