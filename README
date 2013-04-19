@@ -1,3 +1,11 @@
+## Experiment
+
+Generate graphs based on jasmine tests 
+
+![example](https://raw.github.com/hbt/todoapp/master/doc/testing.png)
+
+[More on model based testing](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&ie=UTF-8#output=search&sclient=psy-ab&q=model%20based%20testing&oq=&gs_l=&pbx=1&fp=9a76560dc64857fb&ion=1&bav=on.2,or.r_cp.r_qf.&bvm=bv.45512109,d.b2I&biw=972&bih=514)
+
 ## Install
 
 * place app/web under apache public directory
